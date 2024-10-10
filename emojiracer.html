@@ -1,894 +1,412 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <!-- Primary Meta Tags -->
-    <title>Level Up Showdown | EchoXEra</title>
-    <meta name="title" content="Level Up Showdown | EchoXEra" />
+    <!-- Basic Meta Tags -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Join the ultimate game show experience with Level Up Showdown! Pull cards to advance, gain lives, or stay in the game. Who will reach level 4 first? Play now on EchoXEra!"
+      content="Play the Emoji Race Game! Pick your favorite emoji and race to victory in this fun, fast-paced online game. Who will cross the finish line first? Join the excitement now!"
     />
-
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://www.echoxera.com" />
-    <meta property="og:title" content="Level Up Showdown | EchoXEra" />
-    <meta
-      property="og:description"
-      content="Experience the excitement of Level Up Showdown. Pull cards and face thrilling decisions in this interactive game show app. Who will win?"
-    />
-    <meta
-      property="og:image"
-      content="https://plugins.whatsonchain.com/api/plugin/main/5787a9dd6508a606d28e2d0d7df646083f712aa916a7f3970267f61a45bcf799"
-    />
-
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://www.echoxera.com" />
-    <meta property="twitter:title" content="Level Up Showdown | EchoXEra" />
-    <meta
-      property="twitter:description"
-      content="Test your luck in Level Up Showdown! Gain or lose lives, advance, or stay the same, and race to level 4. Play now on EchoXEra."
-    />
-    <meta
-      property="twitter:image"
-      content="https://plugins.whatsonchain.com/api/plugin/main/5787a9dd6508a606d28e2d0d7df646083f712aa916a7f3970267f61a45bcf799"
-    />
-
-    <!-- Additional Meta Tags -->
-    <meta name="robots" content="index, follow" />
     <meta
       name="keywords"
-      content="game show, card game, interactive game, online game, Level Up Showdown, EchoXEra, multiplayer game"
+      content="Emoji race, online game, race game, emoji game, casino theme, fun games, interactive games, multiplayer race"
     />
-    <meta name="author" content="EchoXEra Team" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#0bb28a" />
+    <meta name="author" content="Your Name" />
+
+    <!-- SEO Meta Tags -->
+    <meta name="robots" content="index, follow" />
+    <meta name="googlebot" content="index, follow" />
+    <link rel="canonical" href="https://web3winner.com" />
+
+    <!-- Open Graph Meta Tags for Social Media (Facebook, LinkedIn, etc.) -->
+    <meta property="og:title" content="Emoji Race Game - Join the Fun!" />
+    <meta
+      property="og:description"
+      content="Get ready for a thrilling race! Choose your emoji and compete with others in this fast-paced, casino-themed race game. Perfect for friends and family."
+    />
+    <meta property="og:image" content="./logoracer.webp" />
+    <meta property="og:url" content="https://web3winner.com" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Emoji Race Game - Who Will Win?" />
+    <meta
+      name="twitter:description"
+      content="Race your favorite emoji and beat your friends in this exciting online game! Perfect for quick, fun competition."
+    />
+    <meta
+      name="twitter:image"
+      content="https://plugins.whatsonchain.com/api/plugin/main/915b1510ef9ae326212a83871949279df504e7dc66fc19c6f608feef2ca64eb4"
+    />
+    <meta name="twitter:site" content="@yourTwitterHandle" />
+
+    <!-- Favicon -->
     <link
       rel="icon"
-      href="https://plugins.whatsonchain.com/api/plugin/main/5787a9dd6508a606d28e2d0d7df646083f712aa916a7f3970267f61a45bcf799"
+      href="https://plugins.whatsonchain.com/api/plugin/main/915b1510ef9ae326212a83871949279df504e7dc66fc19c6f608feef2ca64eb4"
       type="image/x-icon"
     />
-  </head>
-  <style>
-    body {
-      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f0f8f8;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
 
-    #game-container {
-      width: 60%;
-      background-color: #ffffff;
-      border-radius: 10px;
-      padding: 20px;
-      box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
-      border-top: 10px solid #0bb28a;
-      border-bottom: 5px solid #0bb28a;
-    }
-
-    h1 {
-      text-align: center;
-      color: #0bb28a;
-      font-size: 2.5rem;
-      margin-bottom: 10px;
-      text-transform: uppercase;
-    }
-
-    h2 {
-      text-align: center;
-      color: #333;
-      font-size: 1.8rem;
-      margin-bottom: 15px;
-    }
-
-    #player-list,
-    #game-area,
-    #game-status {
-      margin-top: 20px;
-    }
-
-    #host-input {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 20px;
-    }
-
-    #host-input input {
-      padding: 10px;
-      font-size: 1rem;
-      border: 2px solid #0bb28a;
-      border-radius: 5px;
-      margin-right: 10px;
-      width: 250px;
-      outline: none;
-    }
-
-    #host-input input:focus {
-      border-color: #0bb28a;
-    }
-
-    #host-input button {
-      padding: 10px 20px;
-      font-size: 1rem;
-      background-color: #0bb28a;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-
-    #host-input button:hover {
-      background-color: #088a6f;
-    }
-
-    #cards {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      margin-top: 20px;
-    }
-
-    button {
-      padding: 15px 25px;
-      font-size: 1.1rem;
-      color: #fff;
-      background-color: #0bb28a;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-      /* 1/5 width of #cards */
-      width: calc(20% - 15px);
-    }
-
-    button:hover {
-      background-color: #088a6f;
-    }
-
-    button:disabled {
-      background-color: #ccc;
-      cursor: not-allowed;
-    }
-
-    ul {
-      list-style-type: none;
-      padding: 0;
-    }
-
-    li {
-      padding: 10px 0;
-      font-size: 1.2rem;
-      color: #444;
-      border-bottom: 1px solid #eee;
-    }
-
-    #players li {
-      color: #0bb28a;
-      font-weight: bold;
-    }
-
-    #game-status ul {
-      max-height: 200px;
-      overflow-y: auto;
-      border: 1px solid #eee;
-      padding: 10px;
-      border-radius: 5px;
-    }
-
-    #game-status ul li {
-      color: #555;
-    }
-    #logo {
-      display: block;
-      margin: 0 auto;
-      width: 100px;
-      height: 100px;
-      border-radius: 12%;
-    }
-    /* Existing CSS */
-
-    #positive-effect {
-      display: none;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 3rem;
-      font-weight: bold;
-      color: #0bb28a;
-      text-shadow: 0 0 10px #0bb28a, 0 0 20px #0bb28a;
-      animation: fadeInOut 2s ease-in-out;
-    }
-
-    #negative-effect {
-      display: none;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 3rem;
-      font-weight: bold;
-      color: #ff6b6b;
-      text-shadow: 0 0 10px #ff6b6b, 0 0 20px #ff6b6b;
-      animation: fadeInOut 2s ease-in-out;
-    }
-
-    #audioDiv {
-      display: none;
-    }
-    /* volume */
-    #volumeAdjust {
-      display: flex;
-      align-items: left;
-      margin-top: 20px;
-      margin-bottom: 12px;
-    }
-    @keyframes fadeInOut {
-      0% {
-        opacity: 0;
-        transform: scale(0.8) translate(-50%, -50%);
-      }
-      50% {
-        opacity: 1;
-        transform: scale(1.2) translate(-50%, -50%);
-      }
-      100% {
-        opacity: 0;
-        transform: scale(0.8) translate(-50%, -50%);
-      }
-    }
-    /* CSS for the flip animation */
-    .card {
-      perspective: 1000px; /* Creates 3D space for the card */
-      width: 150px;
-      height: 200px;
-      margin: 0 10px;
-    }
-
-    .card-inner {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      transition: transform 0.6s;
-      transform-style: preserve-3d;
-    }
-
-    .card.flip .card-inner {
-      transform: rotateY(180deg); /* Flip the card */
-    }
-
-    .card-front,
-    .card-back {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      backface-visibility: hidden; /* Prevent seeing the backside when not flipped */
-    }
-
-    .card-back {
-      transform: rotateY(180deg); /* Back starts flipped */
-    }
-    /* keep to left */
-    #resetButton {
-      width: 100%;
-      max-width: 150px;
-      padding: 15px 25px;
-      font-size: 1.1rem;
-      color: #fff;
-      background-color: #0bb28a;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-      margin-top: 20px;
-    }
-
-    .confetti {
-      position: absolute;
-      width: 10px;
-      height: 10px;
-      background-color: #ffdd57;
-      animation: confetti-fall 3s linear;
-      opacity: 0.9;
-    }
-
-    @keyframes confetti-fall {
-      0% {
-        transform: translateY(-100vh) rotate(0deg); /* Start from top */
-        opacity: 1;
-      }
-    }
-
-    /* media */
-    @media (max-width: 768px) {
-      #game-container {
-        width: 90%;
+    <!-- Mobile App Capabilities (PWA-like Experience) -->
+    <meta name="theme-color" content="#0bb28a" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <style>
+      body {
+        font-family: "Poppins", Arial, sans-serif;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+        background-color: #1b1b1b; /* Dark theme background */
+        color: #f9f9f9;
+        background-image: radial-gradient(circle, #0bb28a, #1b1b1b);
+        background-size: cover;
+        overflow: hidden;
       }
 
       h1 {
-        font-size: 2rem;
+        color: #0bb28a; /* Main color */
+        font-size: 3rem;
+        margin-top: 20px;
+        text-shadow: 0 0 10px #0bb28a, 0 0 20px #ff00ff;
+        letter-spacing: 3px;
+        text-transform: uppercase;
       }
 
-      h2 {
+      .track {
+        display: flex;
+        justify-content: space-between;
+        margin: 20px auto;
+        width: 90%;
+        max-width: 500px;
+        border: 2px solid #333;
+        padding: 10px;
+        background-color: #333; /* Dark track background */
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(11, 178, 138, 0.6); /* Glowing track effect */
+      }
+
+      .player {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+
+      .emoji {
+        font-size: 3rem;
+        margin-right: 15px;
+        transition: transform 0.3s ease;
+      }
+
+      .emoji:hover {
+        transform: scale(1.3);
+        animation: glow 1.5s infinite alternate;
+      }
+
+      @keyframes glow {
+        0% {
+          text-shadow: 0 0 10px #0bb28a, 0 0 20px #ff00ff;
+        }
+        100% {
+          text-shadow: 0 0 20px #0bb28a, 0 0 40px #ff00ff;
+        }
+      }
+
+      .track-line {
+        display: block;
+        width: 100%;
+        height: 8px;
+        background-color: #666; /* Darker gray for the track */
+        position: relative;
+        margin-left: 15px;
+        border-radius: 4px;
+        overflow: hidden;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+      }
+
+      .progress {
+        background-color: #0bb28a; /* Main color for progress */
+        height: 100%;
+        position: absolute;
+        transition: width 0.3s ease;
+        box-shadow: 0 0 15px rgba(11, 178, 138, 0.6);
+      }
+
+      button {
+        padding: 15px 30px;
         font-size: 1.5rem;
+        margin-top: 30px;
+        border: none;
+        border-radius: 10px;
+        background-color: #0bb28a; /* Main color */
+        color: white;
+        cursor: pointer;
+        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        text-transform: uppercase;
+        box-shadow: 0 0 15px rgba(11, 178, 138, 0.7);
       }
 
-      #host-input input {
-        width: 200px;
+      button:disabled {
+        background-color: #555;
+        cursor: not-allowed;
+        box-shadow: none;
+      }
+
+      button:hover:not(:disabled) {
+        background-color: #089c7a; /* Darker shade of main color */
+        box-shadow: 0 0 25px rgba(8, 156, 122, 0.8);
+        transform: scale(1.05);
+      }
+
+      #playerForm {
+        margin-bottom: 25px;
+      }
+
+      #playerForm input {
+        padding: 12px;
+        font-size: 18px;
+        margin-right: 15px;
+        border-radius: 5px;
+        border: 1px solid #0bb28a;
+        background-color: #333;
+        color: #fff;
+        box-shadow: 0 0 10px rgba(11, 178, 138, 0.6);
+        outline: none;
+        transition: box-shadow 0.3s ease;
+      }
+
+      #playerForm input:focus {
+        box-shadow: 0 0 20px rgba(11, 178, 138, 0.8);
+      }
+
+      /* Leaderboard Styles */
+      .leaderboard {
+        margin-top: 30px;
+      }
+
+      .leaderboard h2 {
+        font-size: 2rem;
+        color: #0bb28a; /* Main color */
+        text-shadow: 0 0 15px rgba(11, 178, 138, 0.7);
+        text-transform: uppercase;
+      }
+
+      .leaderboard ul {
+        list-style-type: none;
+        padding: 0;
+      }
+
+      .leaderboard li {
+        font-size: 1.5rem;
+        margin: 10px 0;
+        color: #fff;
+        text-shadow: 0 0 10px #0bb28a;
+      }
+
+      #logo {
+        display: block;
+        margin: 20px auto;
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        box-shadow: 0 0 15px rgba(11, 178, 138, 0.6);
+        animation: spin 4s linear infinite;
+      }
+
+      @keyframes spin {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      @media (max-width: 768px) {
+        h1 {
+          font-size: 2.5rem;
+        }
+
+        button {
+          padding: 12px 24px;
+          font-size: 1.2rem;
+        }
+
+        .emoji {
+          font-size: 2.5rem;
+        }
+
+        .track {
+          width: 100%;
+        }
+      }
+    </style>
+
+    <!-- 
+    <style>
+      body {
+        font-family: "Poppins", Arial, sans-serif;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+        background-color: #1b1b1b; /* Dark theme background */
+        color: #f9f9f9;
+      }
+
+      h1 {
+        color: #0bb28a; /* Main color */
+        font-size: 3rem;
+        margin-top: 20px;
+        text-shadow: 2px 2px 8px rgba(11, 178, 138, 0.7); /* Glowing effect using main color */
+      }
+
+      .track {
+        display: flex;
+        justify-content: space-between;
+        margin: 20px auto;
+        width: 90%;
+        max-width: 500px;
+        border: 2px solid #333;
+        padding: 10px;
+        background-color: #333; /* Dark track background */
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(11, 178, 138, 0.6); /* Glowing track effect using main color */
+      }
+
+      .player {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+
+      .emoji {
+        font-size: 2.5rem;
+        margin-right: 15px;
+      }
+
+      .track-line {
+        display: block;
+        width: 100%;
+        height: 8px;
+        background-color: #666; /* Darker gray for the track */
+        position: relative;
+        margin-left: 15px;
+        border-radius: 4px;
+        overflow: hidden;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+      }
+
+      .progress {
+        background-color: #0bb28a; /* Main color for progress */
+        height: 100%;
+        position: absolute;
+        transition: width 0.3s ease;
       }
 
       button {
-        padding: 10px 20px;
-        font-size: 1rem;
+        padding: 12px 24px;
+        font-size: 18px;
+        margin-top: 20px;
+        border: none;
+        border-radius: 5px;
+        background-color: #0bb28a; /* Main color */
+        color: white;
+        cursor: pointer;
+        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        box-shadow: 0 4px 10px rgba(11, 178, 138, 0.6);
       }
 
-      #cards {
-        flex-wrap: wrap;
-        gap: 10px;
+      button:disabled {
+        background-color: #555;
+        cursor: not-allowed;
+        box-shadow: none;
       }
 
-      button {
-        width: calc(33.33% - 10px);
+      button:hover:not(:disabled) {
+        background-color: #089c7a; /* Darker shade of main color */
+        box-shadow: 0 6px 12px rgba(8, 156, 122, 0.8);
       }
-    }
-  </style>
+
+      #playerForm {
+        margin-bottom: 25px;
+      }
+
+      #playerForm input {
+        padding: 10px;
+        font-size: 16px;
+        margin-right: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        background-color: #333;
+        color: #fff;
+      }
+
+      /* Leaderboard Styles */
+      .leaderboard {
+        margin-top: 30px;
+      }
+
+      .leaderboard h2 {
+        font-size: 2rem;
+        color: #0bb28a; /* Main color */
+        text-shadow: 1px 1px 5px rgba(11, 178, 138, 0.7);
+      }
+
+      .leaderboard ul {
+        list-style-type: none;
+        padding: 0;
+      }
+
+      .leaderboard li {
+        font-size: 1.4rem;
+        margin: 10px 0;
+        color: #fff;
+      }
+      #logo {
+        display: block;
+        margin: 0 auto;
+        margin-top: 20px;
+        border-radius: 50%;
+        box-shadow: 0 0 15px rgba(11, 178, 138, 0.6);
+      }
+    </style> -->
+  </head>
   <body>
-    <div id="game-container">
-      <img
-        src="https://plugins.whatsonchain.com/api/plugin/main/5787a9dd6508a606d28e2d0d7df646083f712aa916a7f3970267f61a45bcf799"
-        alt=""
-        id="logo"
-        class="standalone"
-      />
-      <h1 class="standalone">Level Up Showdown</h1>
+    <!-- logo -->
+    <img
+      id="logo"
+      src="https://plugins.whatsonchain.com/api/plugin/main/915b1510ef9ae326212a83871949279df504e7dc66fc19c6f608feef2ca64eb4"
+      alt="logo"
+      width="100px"
+      height="100px"
+    />
+    <h1>Emoji Race Game</h1>
 
-      <div id="game-area">
-        <h1 style="display: none" id="playerUp">Player Up:</h1>
-        <h2>CHOOSE A CARD</h2>
-        <div id="cards">
-          <div class="card" onclick="revealCard(0)">
-            <div class="card-inner">
-              <div class="card-front">
-                <img
-                  src="${cardBackImage}"
-                  alt="Card 1"
-                  style="width: 100%; height: auto"
-                />
-              </div>
-              <div class="card-back">
-                <img
-                  src="${selectedCards[0].image}"
-                  alt="Card 1"
-                  style="width: 100%; height: auto"
-                />
-              </div>
-            </div>
-          </div>
-
-          <div class="card" onclick="revealCard(1)">
-            <div class="card-inner">
-              <div class="card-front">
-                <img
-                  src="${cardBackImage}"
-                  alt="Card 2"
-                  style="width: 100%; height: auto"
-                />
-              </div>
-              <div class="card-back">
-                <img
-                  src="${selectedCards[1].image}"
-                  alt="Card 2"
-                  style="width: 100%; height: auto"
-                />
-              </div>
-            </div>
-          </div>
-
-          <div class="card" onclick="revealCard(2)">
-            <div class="card-inner">
-              <div class="card-front">
-                <img
-                  src="${cardBackImage}"
-                  alt="Card 3"
-                  style="width: 100%; height: auto"
-                />
-              </div>
-              <div class="card-back">
-                <img
-                  src="${selectedCards[2].image}"
-                  alt="Card 3"
-                  style="width: 100%; height: auto"
-                />
-              </div>
-            </div>
-          </div>
-
-          <div class="card" onclick="revealCard(3)">
-            <div class="card-inner">
-              <div class="card-front">
-                <img
-                  src="${cardBackImage}"
-                  alt="Card 4"
-                  style="width: 100%; height: auto"
-                />
-              </div>
-              <div class="card-back">
-                <img
-                  src="${selectedCards[3].image}"
-                  alt="Card 4"
-                  style="width: 100%; height: auto"
-                />
-              </div>
-            </div>
-          </div>
-
-          <div class="card" onclick="revealCard(4)">
-            <div class="card-inner">
-              <div class="card-front">
-                <img
-                  src="${cardBackImage}"
-                  alt="Card 5"
-                  style="width: 100%; height: auto"
-                />
-              </div>
-              <div class="card-back">
-                <img
-                  src="${selectedCards[4].image}"
-                  alt="Card 5"
-                  style="width: 100%; height: auto"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div id="positive-effect">Good Move!</div>
-      <div id="negative-effect">Bad Move!</div>
-      <div id="confetti-container"></div>
-      <!-- hidden audio  div for https://plugins.whatsonchain.com/api/plugin/main/82f1805b9b8439e5c20c21ea1cc14ecccf8603aa982512c23685205aaa5eccc0-->
-      <div id="audioDiv">
-        <audio id="audio" controls autoplay>
-          <source
-            src="https://plugins.whatsonchain.com/api/plugin/main/82f1805b9b8439e5c20c21ea1cc14ecccf8603aa982512c23685205aaa5eccc0"
-            type="audio/mpeg"
-          />
-          Your browser does not support the audio element.
-        </audio>
-      </div>
-
-      <div id="game-status">
-        <h2>Game Status</h2>
-        <ul id="status"></ul>
-      </div>
-      <div id="player-list">
-        <ul id="players"></ul>
-      </div>
-      <!-- Game Mode Selection -->
-
-      <div id="host-input" class="standalone">
-        <input type="text" id="player-name" placeholder="Enter player name" />
-        <button onclick="addPlayer()">Add Player</button>
-      </div>
-      <div id="volumeAdjust">
-        <input
-          type="range"
-          min="0"
-          max="100"
-          value="50"
-          class="slider"
-          id="volumeRange"
-          oninput="adjustVolume()"
-        />
-      </div>
-      <div id="game-mode" class="standalone">
-        <label>
-          <input
-            type="radio"
-            name="mode"
-            id="multiplayer"
-            value="multiplayer"
-            onclick="setGameMode('multiplayer')"
-            checked
-          />
-          Multiplayer
-        </label>
-        <label>
-          <input
-            type="radio"
-            name="mode"
-            id="singleplayer"
-            value="singleplayer"
-            onclick="setGameMode('singleplayer')"
-          />
-          Single Player
-        </label>
-      </div>
-      <!--reset button -->
-      <button id="resetButton" onclick="resetAll()">Reset</button>
+    <div id="playerForm">
+      <input type="text" id="playerName" placeholder="Enter player name" />
+      <button id="addPlayer">Add Player</button>
     </div>
 
-    <script>
-      let players = [];
-      let currentPlayerIndex = 0;
-      let gameOver = false;
-      let cardsRevealed = false;
-      let selectedCards = [];
-      let isPlaying = false;
-      let gameMode = "multiplayer";
-      //automatically select game mode
-      document.getElementById("multiplayer").checked = true;
-      const cardBackImage =
-        "https://plugins.whatsonchain.com/api/plugin/main/c224b20df69b972059ed31f53e2514982279f16f1d046ffd7bbc4f0978a51956";
+    <div id="trackContainer"></div>
 
-      const actions = [
-        {
-          action: "addLife",
-          label: "Add Life",
-          image:
-            "https://plugins.whatsonchain.com/api/plugin/main/eb94893186fe85fbf465b60bfa165ea89026800557a0e3018beb366dcb2638bd",
-        },
-        {
-          action: "loseLife",
-          label: "Lose Life",
-          image:
-            "https://plugins.whatsonchain.com/api/plugin/main/ccbe7edeff422d3f4c690343087ad94326e011d20fc292c9ae7e8d89caad6382",
-        },
-        {
-          action: "advanceLevel",
-          label: "Advance Level",
-          image:
-            "https://plugins.whatsonchain.com/api/plugin/main/094e9fadddc4b7f25fb997fcd4bf3f004adc0a4a40b2fe580f3d7f8810c063b2",
-        },
-        {
-          action: "remain",
-          label: "Remain Same Place",
-          image:
-            "https://plugins.whatsonchain.com/api/plugin/main/7ed2e0404b51082a967c37b7dd67e5c2708c31210b0522f2454683d19f8b6349",
-        },
-        {
-          action: "goBack",
-          label: "Go Back a Level",
-          image:
-            "https://plugins.whatsonchain.com/api/plugin/main/3299035049e4cfdaafb96c9e5793a6528e76de1a3158f2c04ad70ba66133ff6b",
-        },
-      ];
-      const musicPlayer = document.getElementById("audio");
-      const volumeRange = document.getElementById("volumeRange");
+    <button id="startRace" disabled>Start Race</button>
 
-      //start music when volume is adjusted
-      volumeRange.addEventListener("input", function () {
-        if (!isPlaying) {
-          musicPlayer.play();
-          isPlaying = true;
-        }
-      });
-      // Function to shuffle the deck of cards
-      function shuffleDeck(array) {
-        for (let i = array.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [array[i], array[j]] = [array[j], array[i]];
-        }
-        return array;
-      }
-
-      // Function to set a new random deck of cards
-      function setRandomCards() {
-        selectedCards = shuffleDeck([...actions]).slice(0, 5); // Pick 5 shuffled cards
-        displayCards(); // Display these new cards
-        cardsRevealed = false;
-      }
-      // Function to set game mode
-      function setGameMode(mode) {
-        gameMode = mode;
-        if (mode === "singleplayer") {
-          // Hide the player name input for single player
-          document.getElementById("host-input").style.display = "none";
-          // Initialize the game with a single anonymous player
-          players = [{ name: "Player 1", lives: 1, level: 0 }];
-          updatePlayerList();
-          displayCurrentPlayer(players[0].name);
-        } else {
-          // Show player input for multiplayer
-          document.getElementById("host-input").style.display = "flex";
-          players = [];
-          document.getElementById("players").innerHTML = ""; // Clear player list
-        }
-      }
-      // Function to add players in multiplayer mode
-      function addPlayer() {
-        if (gameMode === "multiplayer") {
-          const playerName = document.getElementById("player-name").value;
-          if (playerName) {
-            players.push({ name: playerName, lives: 1, level: 0 });
-            if (players.length === 1) {
-              displayCurrentPlayer(playerName);
-            }
-            updatePlayerList();
-            document.getElementById("player-name").value = "";
-          }
-        }
-      }
-
-      // Function to update the player list
-      function updatePlayerList() {
-        const playerList = document.getElementById("players");
-        playerList.innerHTML = "";
-        players.forEach((player, index) => {
-          const playerItem = document.createElement("li");
-          playerItem.textContent = `${player.name} - Lives: ${player.lives}, Level: ${player.level}`;
-          playerList.appendChild(playerItem);
-        });
-        if (players.length > 0) {
-          displayCurrentPlayer(players[currentPlayerIndex].name);
-        }
-      }
-      // Function to display the current player up
-      function displayCurrentPlayer(playerName) {
-        const playerUp = document.getElementById("playerUp");
-        playerUp.textContent = `Player Up: ${playerName}`;
-        playerUp.style.display = "block";
-      }
-
-      function updateStatus(message) {
-        const statusList = document.getElementById("status");
-        const statusItem = document.createElement("li");
-        statusItem.textContent = message;
-        statusList.appendChild(statusItem);
-      }
-
-      // Function to show the positive effect message
-      function showPositiveEffect(message) {
-        const positiveEffect = document.getElementById("positive-effect");
-        positiveEffect.textContent = message;
-        positiveEffect.style.display = "block";
-
-        setTimeout(() => {
-          positiveEffect.style.display = "none";
-        }, 2000);
-      }
-
-      function showNegativeEffect(message) {
-        const negativeEffect = document.getElementById("negative-effect");
-        negativeEffect.textContent = message;
-        negativeEffect.style.display = "block";
-
-        setTimeout(() => {
-          negativeEffect.style.display = "none";
-        }, 2000);
-      }
-
-      // Function to trigger confetti effect
-      function triggerConfetti() {
-        const confettiContainer = document.getElementById("confetti-container");
-        confettiContainer.innerHTML = ""; // Clear existing confetti
-
-        for (let i = 0; i < 50; i++) {
-          const confetti = document.createElement("div");
-          confetti.classList.add("confetti");
-          confetti.style.left = `${Math.random() * 100}vw`;
-          confetti.style.backgroundColor = getRandomColor();
-          confettiContainer.appendChild(confetti);
-        }
-
-        setTimeout(() => {
-          confettiContainer.innerHTML = ""; // Clear confetti after 3 seconds
-        }, 3000);
-      }
-
-      // Function to get a random confetti color
-      function getRandomColor() {
-        const colors = ["#ffdd57", "#ff6b6b", "#51cf66", "#1c7ed6", "#ff922b"];
-        return colors[Math.floor(Math.random() * colors.length)];
-      }
-      //   flash black background for 2 seconds
-      function flashBackground() {
-        document.body.style.backgroundColor = "black";
-        setTimeout(() => {
-          document.body.style.backgroundColor = "#f0f8f8";
-        }, 2000);
-      }
-
-      function revealCard(cardIndex) {
-        if (gameOver || players.length === 0 || cardsRevealed) return;
-
-        let player = players[currentPlayerIndex];
-        const selectedAction = selectedCards[cardIndex].action;
-
-        handleAction(selectedAction, player);
-        flipAllCards(cardIndex); // Show all cards, revealing the chosen one
-        cardsRevealed = true;
-
-        currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
-        updatePlayerList();
-
-        setTimeout(() => {
-          setRandomCards(); // Reset and shuffle cards for the next player
-        }, 3000);
-      }
-
-      function handleAction(action, player) {
-        switch (action) {
-          case "addLife":
-            player.lives += 1;
-            updateStatus(`${player.name} drew 'Add Life' and gained a life!`);
-            showPositiveEffect("Good Move!");
-            triggerConfetti();
-            break;
-          case "loseLife":
-            player.lives -= 1;
-            updateStatus(`${player.name} drew 'Lose Life' and lost a life.`);
-            if (player.lives === 0) {
-              players.splice(currentPlayerIndex, 1);
-              flashBackground();
-              showNegativeEffect(`${player.name} has died.`);
-              if (players.length === 0) {
-                gameOver = true;
-                flashBackground();
-                showNegativeEffect("All players are dead. Game over.");
-                return;
-              }
-            }
-            break;
-          case "advanceLevel":
-            player.level += 1;
-            updateStatus(
-              `${player.name} drew 'Advance Level' and advanced to level ${player.level}.`
-            );
-            showPositiveEffect(
-              `Great Job! ${player.name} Advanced to Level ${player.level}! Quit now while you are ahead or continue to test your luck?`
-            );
-            triggerConfetti();
-            if (player.level === 4) {
-              updateStatus(
-                `${player.name} has reached level 4 and won the game!`
-              );
-              gameOver = true;
-              showPositiveEffect(`${player.name} Wins!`);
-              triggerConfetti();
-              //   trigger audio
-              musicPlayer.play();
-              isPlaying = true;
-            }
-            break;
-          case "remain":
-            updateStatus(
-              `${player.name} drew 'Remain Same Place' and stays at level ${player.level}`
-            );
-            flashBackground();
-            break;
-          case "goBack":
-            if (player.level > 0) {
-              player.level -= 1;
-              updateStatus(
-                `${player.name} drew 'Go Back' and went back to level ${player.level}`
-              );
-              flashBackground();
-            } else {
-              updateStatus(
-                `${player.name} drew 'Go Back' but cannot go back any further.`
-              );
-              flashBackground();
-            }
-            break;
-        }
-      }
-
-      function displayCards() {
-        const cardContainer = document.getElementById("cards");
-        cardContainer.innerHTML = "";
-
-        selectedCards.forEach((card, index) => {
-          const cardDiv = document.createElement("div");
-          cardDiv.classList.add("card"); // Add card container
-          cardDiv.onclick = () => revealCard(index);
-
-          const cardInner = document.createElement("div");
-          cardInner.classList.add("card-inner");
-
-          const cardFront = document.createElement("div");
-          cardFront.classList.add("card-front");
-          cardFront.innerHTML = `<img src="${cardBackImage}" alt="Card ${
-            index + 1
-          }" style="width:100%; height:auto;">`;
-
-          const cardBack = document.createElement("div");
-          cardBack.classList.add("card-back");
-          cardBack.innerHTML = `<img src="${card.image}" alt="Card ${
-            index + 1
-          }" style="width:100%; height:auto;">`;
-
-          cardInner.appendChild(cardFront);
-          cardInner.appendChild(cardBack);
-          cardDiv.appendChild(cardInner);
-
-          cardContainer.appendChild(cardDiv);
-        });
-      }
-      function flipAllCards(chosenIndex) {
-        const cards = document.querySelectorAll(".card");
-        cards.forEach((card, index) => {
-          card.classList.add("flip"); // Apply flip to all cards
-          if (index === chosenIndex) {
-            card.style.backgroundColor = "#fff";
-            // make the border stand out
-            card.style.border = "4px solid yellow";
-            card.style.boxShadow = "0 0 10px yellow";
-            card.style.transform = "scale(1.1)";
-            //glow effect
-            card.style.padding = "10px";
-            card.style.animation = "glow 1s infinite alternate";
-          }
-        });
-      }
-      // Initialize with a shuffled set of cards
-      setRandomCards();
-
-      function adjustVolume() {
-        const volumeRange = document.getElementById("volumeRange");
-        const audio = document.getElementById("audio");
-        audio.volume = volumeRange.value / 100;
-      }
-
-      //add event listener to game mode selection
-      document.querySelectorAll('input[name="mode"]').forEach((input) =>
-        input.addEventListener("change", function () {
-          setGameMode(this.value);
-          //add player name as player 1
-          if (this.value === "singleplayer") {
-            players = [{ name: "Player 1", lives: 1, level: 0 }];
-            updatePlayerList();
-            displayCurrentPlayer(players[0].name);
-          }
-        })
-      );
-
-      function resetAll() {
-        players = [];
-        currentPlayerIndex = 0;
-        gameOver = false;
-        cardsRevealed = false;
-        selectedCards = [];
-        isPlaying = false;
-        gameMode = "multiplayer";
-        document.getElementById("multiplayer").checked = true;
-        document.getElementById("player-name").value = "";
-        document.getElementById("players").innerHTML = "";
-        document.getElementById("status").innerHTML = "";
-        document.getElementById("playerUp").style.display = "none";
-        document.getElementById("host-input").style.display = "flex";
-        setRandomCards();
-      }
-
-      document
-        .getElementById("resetButton")
-        .addEventListener("click", resetAll);
-
-      //listen for keyboard letter 's' to trigger the standalone class to disappear
-      document.addEventListener("keydown", function (event) {
-        if (event.key === "s") {
-          const elements = document.getElementsByClassName("standalone");
-          //   console.log(elements);
-          for (let i = 0; i < elements.length; i++) {
-            if (elements[i].style.display === "none") {
-              elements[i].style.display = "block";
-            } else {
-              elements[i].style.display = "none";
-            }
-          }
-        }
-      });
-      //set to single player mode
-      //check the single player radio button
-      document.getElementById("singleplayer").checked = true;
-      setGameMode("singleplayer");
-      document.addEventListener("DOMContentLoaded", adjustVolume);
-    </script>
+    <div class="leaderboard" id="leaderboard"></div>
+    <div id="hashes"></div>
+    <script
+      id="sl"
+      src="https://plugins.whatsonchain.com/api/plugin/main/168d796a870dec5cc241dacf140fdbbc2212c9e1ca83614e82914fc42c6d1052"
+    ></script>
+    <script
+      id="gamelogic"
+      src="https://plugins.whatsonchain.com/api/plugin/main/de113965208e0a4a1ff7313c4f108884748021756d73a3a3d5e5f4d2dfa42e01"
+    ></script>
+    <script src="https://plugins.whatsonchain.com/api/plugin/main/d9353da42470bf0888079f3452e70387a0cd55e93a627d86fa3a3db38bfbef92"></script>
   </body>
 </html>
