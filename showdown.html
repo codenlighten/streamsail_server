@@ -818,30 +818,35 @@
       const actions = [
         {
           action: "addLife",
+          alt: "Add Life",
           label: "Add Life",
           image:
             "https://plugins.whatsonchain.com/api/plugin/main/eb94893186fe85fbf465b60bfa165ea89026800557a0e3018beb366dcb2638bd",
         },
         {
           action: "loseLife",
+          alt: "Lose Life",
           label: "Lose Life",
           image:
             "https://plugins.whatsonchain.com/api/plugin/main/ccbe7edeff422d3f4c690343087ad94326e011d20fc292c9ae7e8d89caad6382",
         },
         {
           action: "advanceLevel",
+          alt: "Advance Level",
           label: "Advance Level",
           image:
             "https://plugins.whatsonchain.com/api/plugin/main/094e9fadddc4b7f25fb997fcd4bf3f004adc0a4a40b2fe580f3d7f8810c063b2",
         },
         {
           action: "remain",
+          alt: "Remain Same Place",
           label: "Remain Same Place",
           image:
             "https://plugins.whatsonchain.com/api/plugin/main/7ed2e0404b51082a967c37b7dd67e5c2708c31210b0522f2454683d19f8b6349",
         },
         {
           action: "goBack",
+          alt: "Go Back a Level",
           label: "Go Back a Level",
           image:
             "https://plugins.whatsonchain.com/api/plugin/main/3299035049e4cfdaafb96c9e5793a6528e76de1a3158f2c04ad70ba66133ff6b",
@@ -893,8 +898,8 @@
         revealedOrder.textContent = ``;
         // Shuffle and pick the correct number of cards
         selectedCards = shuffleDeck([...actions]).slice(0, numCards);
-        console.log(selectedCards);
-        hash = await smartledger.hash(JSON.stringify(selectedCards));
+        const altText = selectedCards.map((card) => card.alt).join(", ");
+        hash = await smartledger.hash(JSON.stringify(altText));
         orderHash.textContent = `Web3 ✅ Verified!: ${hash}`;
         displayCards();
         cardsRevealed = false;
