@@ -742,10 +742,7 @@
         </div>
       </div>
       <div id="spacer"></div>
-      <div id="verified">
-        <p id="orderHash"></p>
-        <p id="revealedOrder"></p>
-      </div>
+
       <div id="positive-effect">Good Move!</div>
       <div id="confetti-container"></div>
       <!-- hidden audio  div for https://plugins.whatsonchain.com/api/plugin/main/82f1805b9b8439e5c20c21ea1cc14ecccf8603aa982512c23685205aaa5eccc0-->
@@ -792,8 +789,12 @@
             </button>
           </div>
         </div>
-
         <ul id="players"></ul>
+
+        <div id="verified">
+          <p id="orderHash"></p>
+          <p id="revealedOrder"></p>
+        </div>
       </div>
 
       <div id="game-status">
@@ -1313,7 +1314,9 @@
       const event = new KeyboardEvent("keydown", {
         key: "s",
       });
+
       document.dispatchEvent(event);
+      resetAll();
     </script>
   </body>
 </html>
