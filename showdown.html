@@ -1028,7 +1028,7 @@
         //order of cards revealed in p tag
         const revealedOrder = document.getElementById("revealedOrder");
         revealedOrder.textContent = `Revealed Order: ${selectedCards
-          .map((card) => card.action)
+          .map((card) => card.alt)
           .join(", ")}`;
         setTimeout(() => {
           setRandomCards(player.level);
