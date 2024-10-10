@@ -220,6 +220,13 @@
       word-break: break-all;
     }
 
+    #game-status {
+      max-height: 200px;
+      overflow-y: auto;
+      border: 1px solid #eee;
+      padding: 10px;
+      border-radius: 5px;
+    }
     @keyframes fadeInOut {
       0% {
         opacity: 0;
@@ -992,12 +999,16 @@
         const statusItem = document.createElement("li");
         statusItem.textContent = message;
         statusItem.style.color = "#0bb28a";
+        statusItem.style.fontWeight = "bold";
         statusList.prepend(statusItem);
         // turn the other status list items to grey
         const statusItems = document.querySelectorAll("#status li");
         if (statusItems.length > 1) {
           statusItems.forEach((item, i) => {
-            if (i !== 0) item.style.color = "#ccc";
+            if (i !== 0) {
+              item.style.color = "#ccc";
+              item.style.fontWeight = "normal";
+            }
           });
         }
       }
