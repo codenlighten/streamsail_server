@@ -52,7 +52,7 @@
     <!-- smartledger tools -->
     <script src="https://plugins.whatsonchain.com/api/plugin/main/168d796a870dec5cc241dacf140fdbbc2212c9e1ca83614e82914fc42c6d1052"></script>
   </head>
-  <style>
+  <!-- <style>
     body {
       font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
       background-color: #0b2a44;
@@ -302,9 +302,9 @@
         font-size: 1rem;
       }
     }
-  </style>
+  </style> -->
 
-  <!-- <style>
+  <style>
     body {
       font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
       background-color: #f0f8f8;
@@ -583,6 +583,10 @@
       margin-top: 20px;
     }
 
+    #spacer {
+      margin-bottom: 20px;
+    }
+
     @keyframes confetti-fall {
       0% {
         transform: translateY(-100vh) rotate(0deg); /* Start from top */
@@ -626,7 +630,7 @@
         width: calc(33.33% - 10px);
       }
     }
-  </style> -->
+  </style>
   <body>
     <div id="game-container">
       <img
@@ -737,6 +741,7 @@
           </div>
         </div>
       </div>
+      <div id="spacer"></div>
       <div id="verified">
         <p id="orderHash"></p>
         <p id="revealedOrder"></p>
@@ -936,7 +941,7 @@
         selectedCards = shuffleDeck([...actions]).slice(0, numCards);
         const altText = selectedCards.map((card) => card.alt).join(", ");
         hash = await smartledger.hash(JSON.stringify(altText));
-        orderHash.textContent = `Web3 ✅ Verified!: ${hash}`;
+        orderHash.textContent = `Source: ${hash}`;
         displayCards();
         cardsRevealed = false;
       }
@@ -978,7 +983,11 @@
         playerList.innerHTML = "";
         players.forEach((player, index) => {
           const playerItem = document.createElement("li");
-          playerItem.textContent = `${player.name} - Lives: ${player.lives}, Level: ${player.level}`;
+          const heartEmoji = "❤️";
+          const lives = heartEmoji.repeat(player.lives); // Show lives as hearts
+          const levelEmoji = "🏆";
+          const level = levelEmoji.repeat(player.level + 1); // Show level as trophies
+          playerItem.textContent = `${player.name} - Lives: ${lives}, Level: ${level}`;
           playerList.appendChild(playerItem);
         });
         if (players.length > 0) {
@@ -988,7 +997,7 @@
       // Function to display the current player up
       function displayCurrentPlayer(playerName) {
         const playerUp = document.getElementById("playerUp");
-        playerUp.textContent = `Player Up: ${playerName}`;
+        playerUp.textContent = `Step into the Spotlight: ${playerName}`;
         playerUp.style.display = "block";
       }
 
@@ -1247,14 +1256,19 @@
         cardsRevealed = false;
         selectedCards = [];
         isPlaying = false;
-        gameMode = "multiplayer";
-        document.getElementById("multiplayer").checked = true;
-        document.getElementById("player-name").value = "";
-        document.getElementById("players").innerHTML = "";
+        gameMode = "singleplayer";
+        setGameMode("singleplayer");
+        setRandomCards();
+        updatePlayerList();
         document.getElementById("status").innerHTML = "";
         document.getElementById("playerUp").style.display = "none";
-        document.getElementById("host-input").style.display = "flex";
-        setRandomCards();
+        document.getElementById("walkAwayUI").style.display = "none";
+        document.getElementById("orderHash").textContent = "";
+        document.getElementById("revealedOrder").textContent = "";
+        document.getElementById("confetti-container").innerHTML = "";
+        document.getElementById("positive-effect").style.display = "none";
+        document.getElementById("audioDiv").style.display = "none";
+        document.body.style.backgroundColor = "#f0f8f8";
       }
 
       document
@@ -1280,6 +1294,26 @@
       document.getElementById("singleplayer").checked = true;
       setGameMode("singleplayer");
       document.addEventListener("DOMContentLoaded", adjustVolume);
+      let spaceAmount = 20;
+      // listen to i to increase spacing
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "i") {
+          const spacer = document.getElementById("spacer");
+          spacer.style.marginBottom = `${(spaceAmount += 20)}px`;
+        }
+      });
+      // listen to d to decrease spacing
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "d") {
+          const spacer = document.getElementById("spacer");
+          spacer.style.marginBottom = `${(spaceAmount -= 20)}px`;
+        }
+      });
+      //click keyboard letter s on dom load
+      const event = new KeyboardEvent("keydown", {
+        key: "s",
+      });
+      document.dispatchEvent(event);
     </script>
   </body>
 </html>
