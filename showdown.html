@@ -218,14 +218,12 @@
     }
     #verified {
       word-break: break-all;
+      margin-top: 20px;
     }
 
     #game-status {
       max-height: 200px;
       overflow-y: auto;
-      border: 1px solid #eee;
-      padding: 10px;
-      border-radius: 5px;
     }
     @keyframes fadeInOut {
       0% {
@@ -1000,6 +998,7 @@
         statusItem.textContent = message;
         statusItem.style.color = "#0bb28a";
         statusItem.style.fontWeight = "bold";
+        statusItem.style.fontSize = "2rem";
         statusList.prepend(statusItem);
         // turn the other status list items to grey
         const statusItems = document.querySelectorAll("#status li");
@@ -1008,6 +1007,7 @@
             if (i !== 0) {
               item.style.color = "#ccc";
               item.style.fontWeight = "normal";
+              item.style.fontSize = "1.8rem";
             }
           });
         }
