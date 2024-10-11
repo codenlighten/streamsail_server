@@ -422,18 +422,27 @@
       color: #444;
       border-bottom: 1px solid #eee;
     }
-
+    #players {
+      max-height: 200px;
+      overflow-y: auto;
+      /* border: 1px solid #eee; */
+      padding: 10px;
+      /* border-radius: 5px; */
+    }
     #players li {
       color: #0bb28a;
       font-weight: bold;
+      width: 80%;
+      font-size: 1.5rem;
+      margin: 0 auto;
     }
 
     #game-status ul {
       max-height: 200px;
       overflow-y: auto;
-      border: 1px solid #eee;
+      /* border: 1px solid #eee; */
       padding: 10px;
-      border-radius: 5px;
+      /* border-radius: 5px; */
     }
 
     #game-status ul li {
@@ -445,6 +454,12 @@
       width: 100px;
       height: 100px;
       border-radius: 12%;
+    }
+    #verified {
+      width: 80%;
+      margin: 0 auto;
+      word-break: break-all;
+      margin-top: 20px;
     }
     /* Existing CSS */
 
@@ -542,13 +557,13 @@
     #status {
       max-height: 200px;
       overflow-y: auto;
-      border: 1px solid #eee;
       padding: 10px;
-      border-radius: 5px;
+      width: 80%;
+      margin: 0 auto;
     }
     #status li {
       color: #555;
-      font-size: 2rem;
+      font-size: 1.5rem;
       font-weight: bold;
     }
 
@@ -790,15 +805,14 @@
           </div>
         </div>
         <ul id="players"></ul>
-
-        <div id="verified">
-          <p id="orderHash"></p>
-          <p id="revealedOrder"></p>
-        </div>
       </div>
 
       <div id="game-status">
         <ul id="status"></ul>
+      </div>
+      <div id="verified">
+        <p id="orderHash"></p>
+        <p id="revealedOrder"></p>
       </div>
       <!-- Game Mode Selection -->
 
@@ -988,7 +1002,7 @@
           const lives = heartEmoji.repeat(player.lives); // Show lives as hearts
           const levelEmoji = "🏆";
           const level = levelEmoji.repeat(player.level + 1); // Show level as trophies
-          playerItem.textContent = `${player.name} - Lives: ${lives}, Level: ${level}`;
+          playerItem.textContent = `${player.name} - Lives: ${lives} |  Level: ${level}`;
           playerList.appendChild(playerItem);
         });
         if (players.length > 0) {
@@ -1005,6 +1019,7 @@
       function updateStatus(message) {
         const statusList = document.getElementById("status");
         const statusItem = document.createElement("li");
+        statusList.innerHTML = ""; // Clear existing status
         statusItem.textContent = message;
         statusItem.style.color = "#0bb28a";
         statusItem.style.fontWeight = "bold";
