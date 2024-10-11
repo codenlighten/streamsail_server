@@ -890,7 +890,7 @@
           action: "default",
           alt: "Back",
           label: "Back",
-          image: "0-back.png",
+          image: "0-back.gif",
           // cardBackImage for level 0
         },
         {
@@ -956,7 +956,7 @@
           action: "default",
           alt: "Back",
           label: "Back",
-          image: "1-back.png",
+          image: "1-back.gif",
         },
         {
           level: "1",
@@ -1000,7 +1000,7 @@
           action: "default",
           alt: "Back",
           label: "Back",
-          image: "2-back.png",
+          image: "2-back.gif",
         },
         {
           level: "2",
@@ -1044,7 +1044,7 @@
           action: "default",
           alt: "Back",
           label: "Back",
-          image: "4-back.png",
+          image: "4-back.gif",
         },
         {
           level: "3",
@@ -1301,8 +1301,9 @@
         revealedOrder.textContent = `Revealed Order: ${selectedCards
           .map((card) => card.alt)
           .join(", ")}`;
+        const currentLevel = players[currentPlayerIndex].level;
         setTimeout(() => {
-          setRandomCards(player.level);
+          setRandomCards(currentLevel);
         }, 3000);
       }
       function offerWalkAwayUI(level) {
@@ -1334,7 +1335,7 @@
           case "addLife":
             player.lives += 1;
             updateStatus(`${player.name} drew '${alt}'!`);
-            showPositiveEffect("Good Move!");
+            // showPositiveEffect("Good Move!");
             triggerConfetti();
             break;
           case "loseLife":
@@ -1359,9 +1360,9 @@
             updateStatus(
               `${player.name} advanced to level ${player.level} with '${alt}'.`
             );
-            showPositiveEffect(
-              `Great Job! ${player.name} advanced to Level ${player.level} with '${alt}'!`
-            );
+            // showPositiveEffect(
+            //   `Great Job! ${player.name} advanced to Level ${player.level} with '${alt}'!`
+            // );
             triggerConfetti();
 
             if (player.level === 3) {
@@ -1371,7 +1372,7 @@
                 `${player.name} has reached level 4 with '${alt}' and won the game!`
               );
               gameOver = true;
-              showPositiveEffect(`${player.name} Wins!`);
+              // showPositiveEffect(`${player.name} Wins!`);
               triggerConfetti();
               musicPlayer.play();
               isPlaying = true;
