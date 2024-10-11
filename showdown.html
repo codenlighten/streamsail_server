@@ -946,6 +946,7 @@
           min="0"
           max="100"
           value="33"
+          step="1"
           oninput="updateOdds('level0', 'advance')"
         />
         <label>Remain: <span id="level0-remain-display">33%</span></label>
@@ -955,6 +956,7 @@
           min="0"
           max="100"
           value="33"
+          step="1"
           oninput="updateOdds('level0', 'remain')"
         />
         <label>Game Over: <span id="level0-gameover-display">33%</span></label>
@@ -964,6 +966,7 @@
           min="0"
           max="100"
           value="33"
+          step="1"
           oninput="updateOdds('level0', 'gameover')"
         />
       </div>
@@ -980,6 +983,7 @@
           min="0"
           max="100"
           value="25"
+          step="1"
           oninput="updateOdds('level1', 'advance')"
         />
         <label>Remain: <span id="level1-remain-display">25%</span></label>
@@ -989,6 +993,7 @@
           min="0"
           max="100"
           value="25"
+          step="1"
           oninput="updateOdds('level1', 'remain')"
         />
         <label>Go Back: <span id="level1-goback-display">25%</span></label>
@@ -998,6 +1003,7 @@
           min="0"
           max="100"
           value="25"
+          step="1"
           oninput="updateOdds('level1', 'goback')"
         />
         <label>Game Over: <span id="level1-gameover-display">25%</span></label>
@@ -1007,6 +1013,7 @@
           min="0"
           max="100"
           value="25"
+          step="1"
           oninput="updateOdds('level1', 'gameover')"
         />
       </div>
@@ -1023,6 +1030,7 @@
           min="0"
           max="100"
           value="33"
+          step="1"
           oninput="updateOdds('level2', 'advance')"
         />
         <label>Remain: <span id="level2-remain-display">33%</span></label>
@@ -1032,6 +1040,7 @@
           min="0"
           max="100"
           value="33"
+          step="1"
           oninput="updateOdds('level2', 'remain')"
         />
         <label>Go Back: <span id="level2-goback-display">33%</span></label>
@@ -1041,6 +1050,7 @@
           min="0"
           max="100"
           value="33"
+          step="1"
           oninput="updateOdds('level2', 'goback')"
         />
       </div>
@@ -1055,6 +1065,7 @@
           min="0"
           max="100"
           value="50"
+          step="1"
           oninput="updateOdds('level3', 'win')"
         />
         <label>Game Over: <span id="level3-gameover-display">50%</span></label>
@@ -1064,6 +1075,7 @@
           min="0"
           max="100"
           value="50"
+          step="1"
           oninput="updateOdds('level3', 'gameover')"
         />
       </div>
@@ -1314,14 +1326,28 @@
       function adjustOddsForLevel(level, excess) {
         const levelOdds = odds[level];
         const actions = Object.keys(levelOdds);
+        const actionsCount = actions.length;
+        let distributedExcess = Math.round(excess / actionsCount); // Distribute excess evenly
 
-        // Adjust all the odds proportionally to ensure the sum is 100%
         actions.forEach((action) => {
           if (levelOdds[action] > 0) {
-            const reduction = (excess / actions.length).toFixed(2);
-            odds[level][action] = Math.max(0, levelOdds[action] - reduction);
+            odds[level][action] = Math.max(
+              0,
+              levelOdds[action] - distributedExcess
+            );
           }
         });
+
+        // Recalculate the total and adjust if needed
+        let newTotal = actions.reduce(
+          (acc, action) => acc + odds[level][action],
+          0
+        );
+
+        if (newTotal !== 100) {
+          const difference = 100 - newTotal;
+          odds[level][actions[0]] += difference; // Adjust first action by the difference
+        }
       }
 
       // Example: Modify getRandomCardForLevel to use updated odds
@@ -1374,6 +1400,7 @@
         }
         return levelActions[0]; // fallback in case of error
       }
+
       const musicPlayer = document.getElementById("audio");
       const volumeRange = document.getElementById("volumeRange");
 
