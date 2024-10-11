@@ -609,6 +609,48 @@
       border-radius: 12px;
     }
 
+    #odds-control-panel {
+      /* fixed to  bottom */
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background-color: #fff;
+      padding: 20px;
+      border-top: 5px solid #0bb28a;
+      border-bottom: 5px solid #0bb28a;
+      display: flex;
+      height: 75px;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .level-controls {
+      margin-bottom: 20px;
+      display: flex;
+    }
+
+    .level-controls h3 {
+      margin-bottom: 10px;
+      margin-right: 20px;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    #odds-control-panel h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
     @keyframes confetti-fall {
       0% {
         transform: translateY(-100vh) rotate(0deg); /* Start from top */
@@ -889,7 +931,143 @@
       <!--reset button -->
       <button id="resetButton" onclick="resetAll()">Reset</button>
     </div>
+    <div id="odds-control-panel">
+      <h2>Adjust Game Odds</h2>
 
+      <!-- Level 0 -->
+      <div class="level-controls">
+        <h3>Level 0</h3>
+        <label
+          >Advance Level: <span id="level0-advance-display">33%</span></label
+        >
+        <input
+          type="range"
+          id="level0-advance"
+          min="0"
+          max="100"
+          value="33"
+          oninput="updateOdds('level0', 'advance')"
+        />
+        <label>Remain: <span id="level0-remain-display">33%</span></label>
+        <input
+          type="range"
+          id="level0-remain"
+          min="0"
+          max="100"
+          value="33"
+          oninput="updateOdds('level0', 'remain')"
+        />
+        <label>Game Over: <span id="level0-gameover-display">33%</span></label>
+        <input
+          type="range"
+          id="level0-gameover"
+          min="0"
+          max="100"
+          value="33"
+          oninput="updateOdds('level0', 'gameover')"
+        />
+      </div>
+
+      <!-- Level 1 -->
+      <div class="level-controls">
+        <h3>Level 1</h3>
+        <label
+          >Advance Level: <span id="level1-advance-display">25%</span></label
+        >
+        <input
+          type="range"
+          id="level1-advance"
+          min="0"
+          max="100"
+          value="25"
+          oninput="updateOdds('level1', 'advance')"
+        />
+        <label>Remain: <span id="level1-remain-display">25%</span></label>
+        <input
+          type="range"
+          id="level1-remain"
+          min="0"
+          max="100"
+          value="25"
+          oninput="updateOdds('level1', 'remain')"
+        />
+        <label>Go Back: <span id="level1-goback-display">25%</span></label>
+        <input
+          type="range"
+          id="level1-goback"
+          min="0"
+          max="100"
+          value="25"
+          oninput="updateOdds('level1', 'goback')"
+        />
+        <label>Game Over: <span id="level1-gameover-display">25%</span></label>
+        <input
+          type="range"
+          id="level1-gameover"
+          min="0"
+          max="100"
+          value="25"
+          oninput="updateOdds('level1', 'gameover')"
+        />
+      </div>
+
+      <!-- Level 2 -->
+      <div class="level-controls">
+        <h3>Level 2</h3>
+        <label
+          >Advance Level: <span id="level2-advance-display">33%</span></label
+        >
+        <input
+          type="range"
+          id="level2-advance"
+          min="0"
+          max="100"
+          value="33"
+          oninput="updateOdds('level2', 'advance')"
+        />
+        <label>Remain: <span id="level2-remain-display">33%</span></label>
+        <input
+          type="range"
+          id="level2-remain"
+          min="0"
+          max="100"
+          value="33"
+          oninput="updateOdds('level2', 'remain')"
+        />
+        <label>Go Back: <span id="level2-goback-display">33%</span></label>
+        <input
+          type="range"
+          id="level2-goback"
+          min="0"
+          max="100"
+          value="33"
+          oninput="updateOdds('level2', 'goback')"
+        />
+      </div>
+
+      <!-- Level 3 -->
+      <div class="level-controls">
+        <h3>Level 3</h3>
+        <label>Win All Prizes: <span id="level3-win-display">50%</span></label>
+        <input
+          type="range"
+          id="level3-win"
+          min="0"
+          max="100"
+          value="50"
+          oninput="updateOdds('level3', 'win')"
+        />
+        <label>Game Over: <span id="level3-gameover-display">50%</span></label>
+        <input
+          type="range"
+          id="level3-gameover"
+          min="0"
+          max="100"
+          value="50"
+          oninput="updateOdds('level3', 'gameover')"
+        />
+      </div>
+    </div>
     <script>
       let players = [];
       let currentPlayerIndex = 0;
@@ -1089,37 +1267,94 @@
           outcome === "win" ? victoryGif : defeatGif;
       }
       showFinalOutcome("win");
+      let odds = {
+        level0: { advance: 33, remain: 33, gameover: 33 },
+        level1: { advance: 25, remain: 25, goback: 25, gameover: 25 },
+        level2: { advance: 33, remain: 33, goback: 33 },
+        level3: { win: 50, gameover: 50 },
+      };
 
+      // Function to calculate and normalize odds
+      function updateOdds(level, action) {
+        const range = document.getElementById(`${level}-${action}`);
+        const display = document.getElementById(`${level}-${action}-display`);
+        const value = parseInt(range.value, 10);
+
+        // Update the display value
+        display.textContent = `${value}%`;
+
+        // Update the odds object
+        odds[level][action] = value;
+
+        // Calculate the total and ensure all percentages sum to 100%
+        calculateRemainingOdds(level);
+      }
+
+      function calculateRemainingOdds(level) {
+        const levelOdds = odds[level];
+        const actions = Object.keys(levelOdds);
+        let total = actions.reduce((acc, action) => acc + levelOdds[action], 0);
+
+        // Normalize odds to sum up to 100%
+        if (total !== 100) {
+          const excess = total - 100;
+          adjustOddsForLevel(level, excess);
+        }
+
+        // Update the display for each action after normalization
+        actions.forEach((action) => {
+          document.getElementById(
+            `${level}-${action}-display`
+          ).textContent = `${odds[level][action]}%`;
+          document.getElementById(`${level}-${action}`).value =
+            odds[level][action];
+        });
+      }
+
+      function adjustOddsForLevel(level, excess) {
+        const levelOdds = odds[level];
+        const actions = Object.keys(levelOdds);
+
+        // Adjust all the odds proportionally to ensure the sum is 100%
+        actions.forEach((action) => {
+          if (levelOdds[action] > 0) {
+            const reduction = (excess / actions.length).toFixed(2);
+            odds[level][action] = Math.max(0, levelOdds[action] - reduction);
+          }
+        });
+      }
+
+      // Example: Modify getRandomCardForLevel to use updated odds
       function getRandomCardForLevel(level) {
         const levelActions = actions.filter((action) => action.level === level);
 
         switch (level) {
           case "0":
             return getRandomCard(levelActions, {
-              advanceLevel: 2 / 6,
-              remain: 2 / 6,
-              gameover: 2 / 6,
+              advanceLevel: odds.level0.advance / 100,
+              remain: odds.level0.remain / 100,
+              gameover: odds.level0.gameover / 100,
             });
 
           case "1":
             return getRandomCard(levelActions, {
-              advanceLevel: 1 / 4,
-              remain: 1 / 4,
-              goBack: 1 / 4,
-              gameover: 1 / 4,
+              advanceLevel: odds.level1.advance / 100,
+              remain: odds.level1.remain / 100,
+              goBack: odds.level1.goback / 100,
+              gameover: odds.level1.gameover / 100,
             });
 
           case "2":
             return getRandomCard(levelActions, {
-              advanceLevel: 1 / 3,
-              remain: 1 / 3,
-              goBack: 1 / 3,
+              advanceLevel: odds.level2.advance / 100,
+              remain: odds.level2.remain / 100,
+              goBack: odds.level2.goback / 100,
             });
 
           case "3":
             return getRandomCard(levelActions, {
-              winAllPrizes: 1 / 2,
-              gameover: 1 / 2,
+              winAllPrizes: odds.level3.win / 100,
+              gameover: odds.level3.gameover / 100,
             });
 
           default:
