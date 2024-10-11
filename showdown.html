@@ -447,6 +447,7 @@
 
     #game-status ul li {
       color: #555;
+      font-size: 1.2rem;
     }
     #logo {
       display: block;
@@ -563,7 +564,7 @@
     }
     #status li {
       color: #555;
-      font-size: 1.5rem;
+      font-size: 1.2rem;
       font-weight: bold;
     }
 
@@ -821,7 +822,6 @@
         </div>
       </div>
       <ul id="players"></ul>
-
       <div id="game-status">
         <ul id="status"></ul>
         <ul id="players"></ul>
@@ -1356,17 +1356,18 @@
       // Example: Modify getRandomCardForLevel to use updated odds
       function getRandomCardForLevel(level) {
         const levelActions = actions.filter((action) => action.level === level);
+        const numCards = levelActions.length; // Number of available cards for the level
 
         switch (level) {
           case "0":
-            return getRandomCard(levelActions, {
+            return getRandomCard(levelActions.slice(0, numCards), {
               advanceLevel: odds.level0.advance / 100,
               remain: odds.level0.remain / 100,
               gameover: odds.level0.gameover / 100,
             });
 
           case "1":
-            return getRandomCard(levelActions, {
+            return getRandomCard(levelActions.slice(0, numCards), {
               advanceLevel: odds.level1.advance / 100,
               remain: odds.level1.remain / 100,
               goBack: odds.level1.goback / 100,
@@ -1374,14 +1375,14 @@
             });
 
           case "2":
-            return getRandomCard(levelActions, {
+            return getRandomCard(levelActions.slice(0, numCards), {
               advanceLevel: odds.level2.advance / 100,
               remain: odds.level2.remain / 100,
               goBack: odds.level2.goback / 100,
             });
 
           case "3":
-            return getRandomCard(levelActions, {
+            return getRandomCard(levelActions.slice(0, numCards), {
               winAllPrizes: odds.level3.win / 100,
               gameover: odds.level3.gameover / 100,
             });
