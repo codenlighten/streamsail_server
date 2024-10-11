@@ -602,6 +602,13 @@
       margin-bottom: 20px;
     }
 
+    #finalCard {
+      width: 100%;
+      max-width: 300px;
+      margin: 0 auto;
+      border-radius: 12px;
+    }
+
     @keyframes confetti-fall {
       0% {
         transform: translateY(-100vh) rotate(0deg); /* Start from top */
@@ -769,6 +776,16 @@
               </div>
             </div>
           </div>
+        </div>
+      </div>
+      <div id="finalOutcomeDiv">
+        <div id="finalCard" style="display: none">
+          <img
+            id="card-final"
+            src=""
+            alt="Final Card"
+            style="width: 100%; height: auto"
+          />
         </div>
       </div>
       <div id="spacer"></div>
@@ -1061,6 +1078,17 @@
           image: "3-champion-victory.png",
         },
       ];
+      const victoryGif = "/graphics/3-champion-victory.gif";
+      const defeatGif = "/graphics/3-championship-defeat.gif";
+      function showFinalOutcome(outcome) {
+        // hide other cards
+        document.getElementById("cards").style.display = "none";
+        // show final card
+        document.getElementById("finalCard").style.display = "block";
+        document.getElementById("card-final").src =
+          outcome === "win" ? victoryGif : defeatGif;
+      }
+      showFinalOutcome("win");
 
       function getRandomCardForLevel(level) {
         const levelActions = actions.filter((action) => action.level === level);
@@ -1376,6 +1404,10 @@
               triggerConfetti();
               musicPlayer.play();
               isPlaying = true;
+              setTimeout(() => {
+                showFinalOutcome("win");
+                // resetAll();
+              }, 3000);
             }
             break;
           case "remain":
@@ -1402,6 +1434,13 @@
             updateStatus(`${player.name} drew '${alt}' and the game is over.`);
             flashBackground();
             gameOver = true;
+            if (level === 3) {
+              setTimeout(() => {
+                showFinalOutcome("lose");
+                // resetAll();
+              }, 3000);
+            }
+
             break;
           default:
             updateStatus(`${player.name} drew '${alt}'. No action taken.`);
