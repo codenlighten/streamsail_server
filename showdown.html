@@ -1289,8 +1289,8 @@
 
         let player = players[currentPlayerIndex];
         const selectedAction = selectedCards[cardIndex].action;
-
-        handleAction(selectedAction, player);
+        const alt = selectedCards[cardIndex].alt;
+        handleAction(selectedAction, player, alt);
         flipAllCards(cardIndex); // Show all cards, revealing the chosen one
         cardsRevealed = true;
 
@@ -1329,24 +1329,25 @@
         walkAwayUI.style.display = "none"; // Hide the Walk Away UI
       }
 
-      function handleAction(action, player) {
-        const alt = action.alt;
+      function handleAction(action, player, alt) {
         switch (action) {
           case "addLife":
             player.lives += 1;
-            updateStatus(`${player.name} drew '${alt}!`);
+            updateStatus(`${player.name} drew '${alt}'!`);
             showPositiveEffect("Good Move!");
             triggerConfetti();
             break;
           case "loseLife":
             player.lives -= 1;
-            updateStatus(`${player.name} drew '${alt}.`);
+            updateStatus(`${player.name} drew '${alt}'.`);
             if (player.lives === 0) {
               updateStatus(`${player.name} has died.`);
               players.splice(currentPlayerIndex, 1);
               flashBackground();
               if (players.length === 0) {
-                updateStatus(`drew '${alt}. Game over.`);
+                updateStatus(
+                  `Game over. ${player.name} drew '${alt}' and lost.`
+                );
                 gameOver = true;
                 flashBackground();
                 return;
@@ -1355,19 +1356,19 @@
             break;
           case "advanceLevel":
             player.level += 1;
-            updateStatus(`${player.name} advanced to level ${player.level}.`);
-            showPositiveEffect(
-              `Great Job! ${player.name} advanced to Level ${player.level}!`
+            updateStatus(
+              `${player.name} advanced to level ${player.level} with '${alt}'.`
             );
-
+            showPositiveEffect(
+              `Great Job! ${player.name} advanced to Level ${player.level} with '${alt}'!`
+            );
             triggerConfetti();
 
-            // Only offer to walk away if the player reaches level 3 or above
             if (player.level === 3) {
               offerWalkAwayUI(3);
             } else if (player.level === 4) {
               updateStatus(
-                `${player.name} has reached level 4 and won the game!`
+                `${player.name} has reached level 4 with '${alt}' and won the game!`
               );
               gameOver = true;
               showPositiveEffect(`${player.name} Wins!`);
@@ -1378,7 +1379,7 @@
             break;
           case "remain":
             updateStatus(
-              `${player.name} drew '${alt}'. Player stays at level ${player.level}`
+              `${player.name} drew '${alt}'. Player stays at level ${player.level}.`
             );
             flashBackground();
             break;
@@ -1386,7 +1387,7 @@
             if (player.level > 0) {
               player.level -= 1;
               updateStatus(
-                `${player.name} drew '${alt}'. Player and went back to level ${player.level}`
+                `${player.name} drew '${alt}' and went back to level ${player.level}.`
               );
               flashBackground();
             } else {
@@ -1396,6 +1397,14 @@
               flashBackground();
             }
             break;
+          case "gameover":
+            updateStatus(`${player.name} drew '${alt}' and the game is over.`);
+            flashBackground();
+            gameOver = true;
+            break;
+          default:
+            updateStatus(`${player.name} drew '${alt}'. No action taken.`);
+            flashBackground();
         }
       }
 
