@@ -931,51 +931,35 @@
       let hash = "";
       async function setRandomCards(level) {
         let numCards;
+
+        // Determine the number of cards based on the current level
         switch (level) {
           case 0:
-            numCards = 6; // Training Camp
-            selectedCards = shuffleDeck([...actions]).slice(0, numCards);
-            selectedCards = [
-              { action: "advanceLevel", alt: "Warm-Up Scrimmage" },
-              { action: "advanceLevel", alt: "Strategy Session" },
-              { action: "remain", alt: "Basic Drills" },
-              { action: "remain", alt: "Endurance Training" },
-              { action: "instantLoss", alt: "Pulled Hamstring" },
-              { action: "instantLoss", alt: "Sidelined" },
-            ];
+            numCards = 5;
             break;
           case 1:
-            numCards = 4; // Regular Season
-            selectedCards = [
-              { action: "advanceLevel", alt: "Long Pass" },
-              { action: "remain", alt: "Run the Ball" },
-              { action: "goBack", alt: "False Start" },
-              { action: "instantLoss", alt: "Turnover" },
-            ];
+            numCards = 4;
             break;
           case 2:
-            numCards = 3; // Playoffs
-            selectedCards = [
-              { action: "advanceLevel", alt: "Hail Mary" },
-              { action: "remain", alt: "Blitz Defense" },
-              { action: "goBack", alt: "Turnover on Downs" },
-            ];
+            numCards = 3;
             break;
           case 3:
-            numCards = 2; // Championship Game
-            selectedCards = [
-              { action: "winAllPrizes", alt: "Last-Second Shot" },
-              { action: "loseEverything", alt: "Missed Buzzer-Beater" },
-            ];
+            numCards = 2;
             break;
+          default:
+            numCards = 5; // Default to 5 cards for safety
         }
+        //reset the revealed order p
+        const revealedOrder = document.getElementById("revealedOrder");
+        revealedOrder.textContent = ``;
+        // Shuffle and pick the correct number of cards
+        selectedCards = shuffleDeck([...actions]).slice(0, numCards);
         const altText = selectedCards.map((card) => card.alt).join(", ");
         hash = await smartledger.hash(JSON.stringify(altText));
         orderHash.textContent = `Source: ${hash}`;
         displayCards();
         cardsRevealed = false;
       }
-
       // Function to set game mode
       function setGameMode(mode) {
         gameMode = mode;
@@ -1167,42 +1151,45 @@
           case "advanceLevel":
             player.level += 1;
             updateStatus(`${player.name} advanced to level ${player.level}.`);
-            if (player.level === 4) {
-              updateStatus(`${player.name} has won the Championship Game!`);
+            showPositiveEffect(
+              `Great Job! ${player.name} advanced to Level ${player.level}!`
+            );
+
+            triggerConfetti();
+
+            // Only offer to walk away if the player reaches level 3 or above
+            if (player.level === 3) {
+              offerWalkAwayUI(3);
+            } else if (player.level === 4) {
+              updateStatus(
+                `${player.name} has reached level 4 and won the game!`
+              );
               gameOver = true;
               showPositiveEffect(`${player.name} Wins!`);
               triggerConfetti();
+              musicPlayer.play();
+              isPlaying = true;
             }
-            break;
-          case "instantLoss":
-            updateStatus(`${player.name} lost instantly.`);
-            players.splice(currentPlayerIndex, 1);
-            flashBackground();
-            if (players.length === 0) {
-              updateStatus("All players are dead. Game over.");
-              gameOver = true;
-              return;
-            }
-            break;
-          case "goBack":
-            player.level = Math.max(player.level - 1, 0); // Don't go below level 0
-            updateStatus(`${player.name} goes back to level ${player.level}.`);
-            flashBackground();
             break;
           case "remain":
-            updateStatus(`${player.name} stays at level ${player.level}.`);
+            updateStatus(
+              `${player.name} drew 'Remain Same Place' and stays at level ${player.level}`
+            );
             flashBackground();
             break;
-          case "winAllPrizes":
-            updateStatus(`${player.name} wins all prizes!`);
-            gameOver = true;
-            showPositiveEffect(`${player.name} Wins!`);
-            triggerConfetti();
-            break;
-          case "loseEverything":
-            updateStatus(`${player.name} loses everything.`);
-            gameOver = true;
-            flashBackground();
+          case "goBack":
+            if (player.level > 0) {
+              player.level -= 1;
+              updateStatus(
+                `${player.name} drew 'Go Back' and went back to level ${player.level}`
+              );
+              flashBackground();
+            } else {
+              updateStatus(
+                `${player.name} drew 'Go Back' but cannot go back any further.`
+              );
+              flashBackground();
+            }
             break;
         }
       }
