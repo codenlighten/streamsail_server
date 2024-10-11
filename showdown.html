@@ -1330,22 +1330,23 @@
       }
 
       function handleAction(action, player) {
+        const alt = action.alt;
         switch (action) {
           case "addLife":
             player.lives += 1;
-            updateStatus(`${player.name} drew 'Add Life' and gained a life!`);
+            updateStatus(`${player.name} drew '${alt}!`);
             showPositiveEffect("Good Move!");
             triggerConfetti();
             break;
           case "loseLife":
             player.lives -= 1;
-            updateStatus(`${player.name} drew 'Lose Life' and lost a life.`);
+            updateStatus(`${player.name} drew '${alt}.`);
             if (player.lives === 0) {
               updateStatus(`${player.name} has died.`);
               players.splice(currentPlayerIndex, 1);
               flashBackground();
               if (players.length === 0) {
-                updateStatus("All players are dead. Game over.");
+                updateStatus(`drew '${alt}. Game over.`);
                 gameOver = true;
                 flashBackground();
                 return;
@@ -1377,7 +1378,7 @@
             break;
           case "remain":
             updateStatus(
-              `${player.name} drew 'Remain Same Place' and stays at level ${player.level}`
+              `${player.name} drew '${alt}'. Player stays at level ${player.level}`
             );
             flashBackground();
             break;
@@ -1385,12 +1386,12 @@
             if (player.level > 0) {
               player.level -= 1;
               updateStatus(
-                `${player.name} drew 'Go Back' and went back to level ${player.level}`
+                `${player.name} drew '${alt}'. Player and went back to level ${player.level}`
               );
               flashBackground();
             } else {
               updateStatus(
-                `${player.name} drew 'Go Back' but cannot go back any further.`
+                `${player.name} drew '${alt}' but cannot go back any further.`
               );
               flashBackground();
             }
