@@ -261,7 +261,7 @@
         sourceNode = track;
         audioElement.play();
       };
-
+      let playing = false;
       // Create sampler pads for each audio category
       const createPad = (category, audioArray) => {
         audioArray.forEach((audio, index) => {
@@ -272,7 +272,15 @@
           pad.addEventListener("click", () => {
             clearInterval(interval); // Stop any active loop when a pad is clicked
             interval = null;
-            playAudio(audio);
+            if (!playing) {
+              playAudio(audio);
+              playing = true;
+              pad.textContent = "Stop";
+            } else {
+              sourceNode.disconnect();
+              playing = false;
+              pad.textContent = `${category} ${index + 1}`;
+            }
           });
 
           samplerGrid.appendChild(pad);
@@ -301,69 +309,86 @@
       };
 
       // Add effects controls (e.g., volume control)
-      const createEffectsSection = () => {
-        // Create a volume control slider
-        const volumeControl = document.createElement("input");
-        volumeControl.type = "range";
-        volumeControl.min = "0";
-        volumeControl.max = "2";
-        volumeControl.step = "0.01";
-        volumeControl.value = "1"; // Default volume
-        volumeControl.classList.add("effect-control");
+      // Add effects controls (e.g., volume control)
+      //   const createEffectsSection = () => {
+      //     const volumeControl = document.createElement("input");
+      //     volumeControl.type = "range";
+      //     volumeControl.min = "0";
+      //     volumeControl.max = "2";
+      //     volumeControl.step = "0.01";
+      //     volumeControl.value = "1"; // Default volume
+      //     volumeControl.classList.add("effect-control");
 
-        // Label for the volume control
-        const volumeLabel = document.createElement("label");
-        volumeLabel.textContent = "Volume";
+      //     // Label for the volume control
+      //     const volumeLabel = document.createElement("label");
+      //     volumeLabel.textContent = "Volume";
 
-        // Update gain value based on volume control input
-        volumeControl.addEventListener("input", (event) => {
-          const volume = event.target.value;
-          gainNode.gain.value = volume;
-        });
+      //     // Update gain value based on volume control input
+      //     volumeControl.addEventListener("input", (event) => {
+      //       const volume = event.target.value;
+      //       gainNode.gain.value = volume;
+      //     });
 
-        // Create a delay control slider
-        const delayControl = document.createElement("input");
-        delayControl.type = "range";
-        delayControl.min = "0";
-        delayControl.max = "2";
-        delayControl.step = "0.01";
-        delayControl.value = "0.5"; // Default delay value
-        delayControl.classList.add("effect-control");
+      //     // Create a delay control slider
+      //     const delayControl = document.createElement("input");
+      //     delayControl.type = "range";
+      //     delayControl.min = "0";
+      //     delayControl.max = "2";
+      //     delayControl.step = "0.01";
+      //     delayControl.value = "0.5"; // Default delay value
+      //     delayControl.classList.add("effect-control");
 
-        // Label for the delay control
-        const delayLabel = document.createElement("label");
-        delayLabel.textContent = "Delay";
+      //     // Label for the delay control
+      //     const delayLabel = document.createElement("label");
+      //     delayLabel.textContent = "Delay";
 
-        // Add the delay node to the audio context and connect it
-        const delayNode = audioContext.createDelay();
-        delayNode.delayTime.value = 0.5;
+      //     // Add the delay node to the audio context
+      //     const delayNode = audioContext.createDelay();
+      //     delayNode.delayTime.value = 0.5; // Set the initial delay time to 0.5 seconds
 
-        // Update delay value based on delay control input
-        delayControl.addEventListener("input", (event) => {
-          const delayValue = event.target.value;
-          delayNode.delayTime.value = delayValue;
-        });
+      //     // Update delay value based on delay control input
+      //     delayControl.addEventListener("input", (event) => {
+      //       const delayValue = event.target.value;
+      //       delayNode.delayTime.value = delayValue;
+      //     });
 
-        // Append volume control and label to effects container
-        effectsContainer.appendChild(volumeLabel);
-        effectsContainer.appendChild(volumeControl);
+      //     // Append volume control and label to effects container
+      //     effectsContainer.appendChild(volumeLabel);
+      //     effectsContainer.appendChild(volumeControl);
 
-        // Append delay control and label to effects container
-        effectsContainer.appendChild(delayLabel);
-        effectsContainer.appendChild(delayControl);
+      //     // Append delay control and label to effects container
+      //     effectsContainer.appendChild(delayLabel);
+      //     effectsContainer.appendChild(delayControl);
 
-        // Connect the nodes (track -> gain -> delay -> destination)
-        sourceNode
-          .connect(gainNode)
-          .connect(delayNode)
-          .connect(audioContext.destination);
-      };
+      //     // Ensure that the delay node is connected properly in the audio graph
+      //     gainNode.connect(delayNode).connect(audioContext.destination);
+
+      //     // Call playAudio to ensure the nodes are connected in the right order
+      //     if (sourceNode) {
+      //       sourceNode.connect(gainNode);
+      //     }
+      //   };
+
+      // Function to handle audio playback
+      //   const playAudio = (audioSrc) => {
+      //     if (sourceNode) {
+      //       sourceNode.disconnect(); // Disconnect any previous source
+      //     }
+      //     const audioElement = new Audio(audioSrc);
+      //     const track = audioContext.createMediaElementSource(audioElement);
+
+      //     // Connect the track to the gain node (which is connected to the delay and destination)
+      //     track.connect(gainNode);
+      //     sourceNode = track;
+
+      //     audioElement.play();
+      //   };
 
       // Initialize sampler pads and effects section
       Object.keys(audioSamples).forEach((category) => {
         createPad(category, audioSamples[category]);
       });
-      createEffectsSection();
+      //   createEffectsSection();
     </script>
   </body>
 </html>
