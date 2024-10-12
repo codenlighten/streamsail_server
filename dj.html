@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DJ Sampler</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #1c1c1c;
+        color: #fff;
+        text-align: center;
+        margin: 0;
+        padding: 20px;
+      }
+
+      h1 {
+        color: #f39c12;
+        margin-bottom: 20px;
+      }
+
+      .sampler-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-gap: 20px;
+        margin: 20px 0;
+      }
+
+      .sampler-pad {
+        padding: 20px;
+        background-color: #333;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      .sampler-pad:hover {
+        background-color: #555;
+      }
+
+      .sampler-pad span {
+        display: block;
+        margin-top: 10px;
+        font-size: 18px;
+      }
+
+      audio {
+        display: none;
+      }
+
+      @media (max-width: 768px) {
+        .sampler-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 480px) {
+        .sampler-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>DJ Live Stream Sampler</h1>
+
+    <div class="sampler-grid" id="samplerGrid"></div>
+
+    <audio id="mp3" controls></audio>
+
+    <script>
+      const samplerGrid = document.getElementById("samplerGrid");
+      const mp3 = document.getElementById("mp3");
+
+      const audioSamples = {
+        General: [
+          "./general_audio/general1.mp3",
+          "./general_audio/general2.mp3",
+          "./general_audio/general3.mp3",
+          "./general_audio/general4.mp3",
+          "./general_audio/general5.mp3",
+          "./general_audio/general6.mp3",
+          "./general_audio/general7.mp3",
+          "./general_audio/general8.mp3",
+          "./general_audio/general9.mp3",
+          "./general_audio/general9a.mp3",
+          "./general_audio/general9b.mp3",
+          "./general_audio/general9c.mp3",
+          "./general_audio/general9d.mp3",
+          "./general_audio/general9e.mp3",
+          "./general_audio/general9f.mp3",
+          "./general_audio/general9g.mp3",
+          "./general_audio/general9h.mp3",
+        ],
+        Thrones: [
+          "./thrones_audio/thrones1.mp3",
+          "./thrones_audio/thrones2.mp3",
+          "./thrones_audio/thrones3.mp3",
+          "./thrones_audio/thrones4.mp3",
+          "./thrones_audio/thrones5.mp3",
+          "./thrones_audio/thrones6.mp3",
+        ],
+        Champions: [
+          "./championship_audio/champion1.mp3",
+          "./championship_audio/champion2.mp3",
+          "./championship_audio/champion3.mp3",
+          "./championship_audio/champion4.mp3",
+          "./championship_audio/champion5.mp3",
+          "./championship_audio/champion6.mp3",
+          "./championship_audio/champion7.mp3",
+          "./championship_audio/champion-slow.mp3",
+        ],
+        Purchase: [
+          "./purchase_spot_audio/purchase1.mp3",
+          "./purchase_spot_audio/purchase2.mp3",
+          "./purchase_spot_audio/purchase3.mp3",
+          "./purchase_spot_audio/purchase4.mp3",
+          "./purchase_spot_audio/purchase5.mp3",
+        ],
+        Winner: [
+          "./winner_audio/winner1.mp3",
+          "./winner_audio/winner2.mp3",
+          "./winner_audio/winner3.mp3",
+          "./winner_audio/winner4.mp3",
+          "./winner_audio/winner5.mp3",
+          "./winner_audio/winner6.mp3",
+        ],
+      };
+
+      const createPad = (category, audioArray) => {
+        audioArray.forEach((audio, index) => {
+          const pad = document.createElement("div");
+          pad.classList.add("sampler-pad");
+          pad.textContent = `${category} ${index + 1}`;
+
+          pad.addEventListener("click", () => {
+            mp3.src = audio;
+            mp3.play();
+          });
+
+          samplerGrid.appendChild(pad);
+        });
+      };
+
+      Object.keys(audioSamples).forEach((category) => {
+        createPad(category, audioSamples[category]);
+      });
+    </script>
+  </body>
+</html>

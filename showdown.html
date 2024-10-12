@@ -2,2014 +2,240 @@
 <html lang="en">
   <head>
     <!-- Primary Meta Tags -->
-    <title>Game of Cards | EchoXEra</title>
-    <meta name="title" content="Game of Cards | EchoXEra" />
+    <title>DJ Auto Spin - AI-Powered Live Stream Automation for DJs</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="title"
+      content="DJ Auto Spin - AI-Powered Live Stream Automation for DJs"
+    />
     <meta
       name="description"
-      content="Join the ultimate game show experience with Game of Cards! Pull cards to advance, gain lives, or stay in the game. Who will reach level 4 first? Play now on EchoXEra!"
+      content="DJ Auto Spin helps live stream DJs automate their shows with AI-cloned voice responses, winner announcements, marketing, and engagement triggers."
     />
+    <meta
+      name="keywords"
+      content="AI DJ, Live stream DJ, DJ automation, AI voice DJ, live stream breakers, DJ Auto Spin, live music, AI announcements, DJ tools, live show automation"
+    />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="DJAutoSpin Team" />
+    <link rel="canonical" href="https://DJAutoSpin.com/" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://www.echoxera.com" />
-    <meta property="og:title" content="Game of Cards | EchoXEra" />
+    <meta property="og:url" content="https://DJAutoSpin.com/" />
+    <meta
+      property="og:title"
+      content="DJ Auto Spin - AI-Powered Live Stream Automation for DJs"
+    />
     <meta
       property="og:description"
-      content="Experience the excitement of Game of Cards. Pull cards and face thrilling decisions in this interactive game show app. Who will win?"
+      content="Automate your DJ live streams with AI voice integration for responses, marketing, and engagement triggers. Perfect for live stream breakers and music shows."
     />
     <meta
       property="og:image"
-      content="https://plugins.whatsonchain.com/api/plugin/main/5787a9dd6508a606d28e2d0d7df646083f712aa916a7f3970267f61a45bcf799"
+      content="https://DJAutoSpin.com/assets/og-image.jpg"
     />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://www.echoxera.com" />
-    <meta property="twitter:title" content="Game of Cards | EchoXEra" />
+    <meta property="twitter:url" content="https://DJAutoSpin.com/" />
+    <meta
+      property="twitter:title"
+      content="DJ Auto Spin - AI-Powered Live Stream Automation for DJs"
+    />
     <meta
       property="twitter:description"
-      content="Test your luck in Game of Cards! Gain or lose lives, advance, or stay the same, and race to level 4. Play now on EchoXEra."
+      content="Automate your live stream with AI. DJ Auto Spin simplifies winner announcements, purchases, and engagement responses for live stream DJs."
     />
     <meta
       property="twitter:image"
-      content="https://plugins.whatsonchain.com/api/plugin/main/5787a9dd6508a606d28e2d0d7df646083f712aa916a7f3970267f61a45bcf799"
+      content="https://DJAutoSpin.com/assets/twitter-image.jpg"
     />
 
-    <!-- Additional Meta Tags -->
-    <meta name="robots" content="index, follow" />
-    <meta
-      name="keywords"
-      content="game show, card game, interactive game, online game, Game of Cards, EchoXEra, multiplayer game"
-    />
-    <meta name="author" content="EchoXEra Team" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Mobile Optimization -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <meta name="theme-color" content="#0bb28a" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/favicon.png" />
+
+    <!-- Stylesheets and Fonts -->
     <link
-      rel="icon"
-      href="https://plugins.whatsonchain.com/api/plugin/main/5787a9dd6508a606d28e2d0d7df646083f712aa916a7f3970267f61a45bcf799"
-      type="image/x-icon"
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Arial:400,700&display=swap"
     />
-    <!-- smartledger tools -->
-    <script src="https://plugins.whatsonchain.com/api/plugin/main/168d796a870dec5cc241dacf140fdbbc2212c9e1ca83614e82914fc42c6d1052"></script>
+    <link rel="stylesheet" href="style.css" />
+
+    <!-- Scripts -->
+    <script src="script.js" defer></script>
   </head>
-  <!-- <style>
-    body {
-      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #0b2a44;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      background-image: radial-gradient(circle, #0bb28a, #004d61);
-      background-size: cover;
-      color: white;
-      overflow: hidden;
-    }
-
-    #game-container {
-      width: 80%;
-      background-color: rgba(255, 255, 255, 0.1);
-      border-radius: 15px;
-      padding: 30px;
-      box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.2);
-      border: 5px solid #0bb28a;
-      backdrop-filter: blur(10px);
-      animation: pulse 2s infinite alternate;
-    }
-
-    @keyframes pulse {
-      0% {
-        box-shadow: 0 0 10px rgba(11, 178, 138, 0.7);
-      }
-      100% {
-        box-shadow: 0 0 20px rgba(11, 178, 138, 0.9);
-      }
-    }
-
-    h1 {
-      text-align: center;
-      font-size: 3rem;
-      color: #004d61;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      text-shadow: 0 0 10px #0bb28a, 0 0 20px #00d4ff;
-    }
-
-    h2 {
-      text-align: center;
-      font-size: 2rem;
-      color: #fff;
-      margin-bottom: 20px;
-      text-transform: uppercase;
-      text-shadow: 0 0 10px #fff, 0 0 20px #ff00ff;
-    }
-
-    #player-list,
-    #game-area,
-    #game-status {
-      margin-top: 20px;
-    }
-
-    #cards {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      margin-top: 20px;
-    }
-
-    .card {
-      width: 160px;
-      height: 220px;
-      background-color: #088a6f;
-      border-radius: 12px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-      transition: transform 0.3s, box-shadow 0.3s;
-      transform-style: preserve-3d;
-      cursor: pointer;
-    }
-
-    .card:hover {
-      transform: scale(1.1);
-      box-shadow: 0 12px 25px rgba(255, 255, 255, 0.8);
-    }
-
-    .card-inner {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      transition: transform 0.6s;
-      transform-style: preserve-3d;
-    }
-
-    .card.flip .card-inner {
-      transform: rotateY(180deg);
-    }
-
-    .card-front,
-    .card-back {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      backface-visibility: hidden;
-      border-radius: 12px;
-    }
-
-    .card-back {
-      transform: rotateY(180deg);
-    }
-
-    button {
-      padding: 15px 25px;
-      font-size: 1.1rem;
-      color: #fff;
-      background-color: #0bb28a;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-      width: 100%;
-      margin-top: 20px;
-    }
-
-    button:hover {
-      background-color: #088a6f;
-      box-shadow: 0 8px 15px rgba(0, 255, 255, 0.5);
-    }
-
-    #positive-effect {
-      display: none;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 3rem;
-      font-weight: bold;
-      color: #ffdd57;
-      text-shadow: 0 0 15px #ffdd57, 0 0 25px #ff00ff;
-      animation: fadeInOut 2s ease-in-out;
-    }
-
-    #logo {
-      width: 120px;
-      height: 120px;
-      border-radius: 20px;
-      box-shadow: 0 0 20px #0bb28a;
-      margin-bottom: 20px;
-      animation: rotate 5s linear infinite;
-    }
-    #hash {
-      font-size: 1.2rem;
-      color: #ffdd57;
-      margin-top: 20px;
-    }
-
-    #revealedOrder {
-      font-size: 1.2rem;
-      color: #ffdd57;
-      margin-top: 20px;
-      font-weight: bold;
-    }
-
-    /* audio */
-    #audioDiv {
-      display: none;
-    }
-    #verified {
-      word-break: break-all;
-      margin-top: 20px;
-    }
-
-    #game-status {
-      max-height: 200px;
-      overflow-y: auto;
-    }
-    @keyframes fadeInOut {
-      0% {
-        opacity: 0;
-        transform: scale(0.8) translate(-50%, -50%);
-      }
-      50% {
-        opacity: 1;
-        transform: scale(1.2) translate(-50%, -50%);
-      }
-      100% {
-        opacity: 0;
-        transform: scale(0.8) translate(-50%, -50%);
-      }
-    }
-
-    @keyframes rotate {
-      from {
-        transform: rotate(0deg);
-      }
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    .confetti {
-      position: absolute;
-      width: 10px;
-      height: 10px;
-      background-color: #ffdd57;
-      animation: confetti-fall 3s linear;
-    }
-
-    @keyframes confetti-fall {
-      0% {
-        transform: translateY(-100vh) rotate(0deg);
-      }
-      100% {
-        transform: translateY(100vh) rotate(360deg);
-      }
-    }
-
-    @media (max-width: 768px) {
-      #game-container {
-        width: 95%;
-      }
-
-      h1 {
-        font-size: 2.5rem;
-      }
-
-      h2 {
-        font-size: 1.8rem;
-      }
-
-      .card {
-        width: 120px;
-        height: 180px;
-      }
-      .card-inner {
-        width: 100%;
-        height: 100%;
-      }
-
-      .card-front,
-      .card-back {
-        width: 100%;
-      }
-
-      /*card img */
-      .card img {
-        width: 100%;
-        height: 100%;
-      }
-      button {
-        font-size: 1rem;
-      }
-    }
-  </style> -->
 
   <style>
     body {
-      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f0f8f8;
+      font-family: "Arial", sans-serif;
+      background-color: #111;
+      color: #fff;
       margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-
-    #game-container {
-      width: 60%;
-      background-color: #ffffff;
-      border-radius: 10px;
       padding: 20px;
-      box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
-      border-top: 10px solid #0bb28a;
-      border-bottom: 5px solid #0bb28a;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
     }
 
     h1 {
-      text-align: center;
       color: #0bb28a;
-      font-size: 2.5rem;
-      margin-bottom: 10px;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      font-size: 2.5em;
+      letter-spacing: 2px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .sampler-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-gap: 20px;
+      width: 100%;
+      max-width: 1200px;
+    }
+
+    .sampler-pad {
+      background: linear-gradient(135deg, #0bb28a, #065f46);
+      border: 2px solid #0bb28a;
+      border-radius: 15px;
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 15px rgba(0, 0, 0, 0.5);
+      color: #fff;
+      font-weight: bold;
+      font-size: 1.1em;
       text-transform: uppercase;
     }
 
-    h2 {
-      text-align: center;
-      color: #333;
-      font-size: 1.8rem;
-      margin-bottom: 15px;
+    .sampler-pad:hover {
+      background: linear-gradient(135deg, #065f46, #0bb28a);
+      transform: scale(1.05);
+      box-shadow: 0 15px 20px rgba(0, 0, 0, 0.8);
     }
 
-    #player-list,
-    #game-area,
-    #game-status {
-      margin-top: 20px;
+    .sampler-pad:active {
+      transform: scale(0.98);
+      box-shadow: 0 8px 10px rgba(0, 0, 0, 0.6);
     }
 
-    #host-input {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 20px;
-    }
-
-    #host-input input {
-      padding: 10px;
-      font-size: 1rem;
-      border: 2px solid #0bb28a;
-      border-radius: 5px;
-      margin-right: 10px;
-      width: 250px;
-      outline: none;
-    }
-
-    #host-input input:focus {
-      border-color: #0bb28a;
-    }
-
-    #host-input button {
-      padding: 10px 20px;
-      font-size: 1rem;
-      background-color: #0bb28a;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-
-    #host-input button:hover {
-      background-color: #088a6f;
-    }
-
-    #cards {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      margin-top: 20px;
-    }
-
-    button {
-      padding: 15px 25px;
-      font-size: 1.1rem;
-      color: #fff;
-      background-color: #0bb28a;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-      /* 1/5 width of #cards */
-      width: calc(20% - 15px);
-    }
-
-    button:hover {
-      background-color: #088a6f;
-    }
-
-    button:disabled {
-      background-color: #ccc;
-      cursor: not-allowed;
-    }
-
-    ul {
-      list-style-type: none;
-      padding: 0;
-    }
-
-    li {
-      padding: 10px 0;
-      font-size: 1.2rem;
-      color: #444;
-      border-bottom: 1px solid #eee;
-    }
-    #players {
-      max-height: 200px;
-      overflow-y: auto;
-      /* border: 1px solid #eee; */
-      padding: 10px;
-      /* border-radius: 5px; */
-    }
-    #players li {
-      color: #0bb28a;
-      font-weight: bold;
-      width: 80%;
-      font-size: 2.5rem;
-      margin: 0 auto;
-    }
-
-    #game-status ul {
-      max-height: 200px;
-      overflow-y: auto;
-      /* border: 1px solid #eee; */
-      padding: 10px;
-      /* border-radius: 5px; */
-    }
-
-    #game-status ul li {
-      color: #555;
-      font-size: 1.2rem;
-    }
-    #logo {
-      display: block;
-      margin: 0 auto;
-      width: 100px;
-      height: 100px;
-      border-radius: 12%;
-    }
-    #verified {
-      width: 80%;
-      margin: 0 auto;
-      word-break: break-all;
-      margin-top: 20px;
-    }
-    /* Existing CSS */
-
-    #positive-effect {
-      display: none;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 3rem;
-      font-weight: bold;
-      color: #0bb28a;
-      text-shadow: 0 0 10px #0bb28a, 0 0 20px #0bb28a;
-      animation: fadeInOut 2s ease-in-out;
-    }
-
-    #audioDiv {
-      display: none;
-    }
-    /* volume */
-    #volumeAdjust {
-      display: flex;
-      align-items: left;
-      margin-top: 20px;
-      margin-bottom: 12px;
-    }
-    @keyframes fadeInOut {
-      0% {
-        opacity: 0;
-        transform: scale(0.8) translate(-50%, -50%);
-      }
-      50% {
-        opacity: 1;
-        transform: scale(1.2) translate(-50%, -50%);
-      }
-      100% {
-        opacity: 0;
-        transform: scale(0.8) translate(-50%, -50%);
-      }
-    }
-    /* CSS for the flip animation */
-    .card {
-      perspective: 1000px; /* Creates 3D space for the card */
-      width: 150px;
-      height: 200px;
-      margin: 0 10px;
-    }
-
-    .card-inner {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      transition: transform 0.6s;
-      transform-style: preserve-3d;
-    }
-
-    .card.flip .card-inner {
-      transform: rotateY(180deg); /* Flip the card */
-    }
-
-    .card-front,
-    .card-back {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      backface-visibility: hidden; /* Prevent seeing the backside when not flipped */
-    }
-
-    .card-back {
-      transform: rotateY(180deg); /* Back starts flipped */
-    }
-    /* keep to left */
-    #resetButton {
-      width: 100%;
-      max-width: 150px;
-      padding: 15px 25px;
-      font-size: 1.1rem;
-      color: #fff;
-      background-color: #0bb28a;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-      margin-top: 20px;
-    }
-
-    .confetti {
-      position: absolute;
-      width: 10px;
-      height: 10px;
-      background-color: #ffdd57;
-      animation: confetti-fall 3s linear;
-      opacity: 0.9;
-    }
-    #status {
-      max-height: 200px;
-      overflow-y: auto;
-      padding: 10px;
-      width: 80%;
-      margin: 0 auto;
-    }
-    #status li {
-      color: #555;
-      font-size: 1.2rem;
-      font-weight: bold;
-    }
-
-    #walkAwayUI {
-      display: none;
-      margin-top: 20px;
-    }
-
-    .walkBtns {
-      padding: 10px 20px;
-      font-size: 1rem;
-      background-color: #0bb28a;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-      margin-top: 10px;
-    }
-
-    .walkBtns:hover {
-      background-color: #088a6f;
-    }
-    #orderHash {
-      font-size: 1.2rem;
-      color: #0bb28a;
+    audio {
       margin-top: 30px;
-    }
-    #revealedOrder {
-      font-size: 1.2rem;
-      color: #0bb28a;
-      margin-top: 20px;
-    }
-
-    #spacer {
-      margin-bottom: 20px;
-    }
-
-    #finalCard {
-      width: 100%;
-      max-width: 300px;
-      margin: 0 auto;
-      border-radius: 12px;
-    }
-
-    #simulationResults {
-      /* bottom */
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
       background-color: #0bb28a;
-      color: white;
-      padding: 20px;
-    }
-    #simulationResults h2 {
-      font-size: 1.5rem;
-      margin-bottom: 10px;
-    }
-    #simulationResults input {
-      padding: 5px;
-      font-size: 1rem;
-      border: 2px solid #fff;
       border-radius: 5px;
-      margin-right: 10px;
-      width: 50px;
-      outline: none;
-    }
-    #simulationResults button {
-      padding: 5px 10px;
-      font-size: 1rem;
-      background-color: #0bb28a;
-      color: white;
-      border: 2px solid #fff;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-    #simulationResults button:hover {
-      background-color: #088a6f;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
     }
 
-    @keyframes confetti-fall {
-      0% {
-        transform: translateY(-100vh) rotate(0deg); /* Start from top */
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(100vh) rotate(360deg); /* Fall down rotating */
-        opacity: 0;
-      }
-    }
-
-    /* media */
     @media (max-width: 768px) {
-      #game-container {
-        width: 90%;
+      .sampler-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .sampler-grid {
+        grid-template-columns: 1fr;
       }
 
       h1 {
-        font-size: 2rem;
-      }
-
-      h2 {
-        font-size: 1.5rem;
-      }
-
-      #host-input input {
-        width: 200px;
-      }
-
-      button {
-        padding: 10px 20px;
-        font-size: 1rem;
-      }
-
-      #cards {
-        flex-wrap: wrap;
-        gap: 10px;
-      }
-
-      button {
-        width: calc(33.33% - 10px);
+        font-size: 2em;
       }
     }
   </style>
   <body>
-    <div id="game-container">
-      <img
-        src="https://plugins.whatsonchain.com/api/plugin/main/5787a9dd6508a606d28e2d0d7df646083f712aa916a7f3970267f61a45bcf799"
-        alt=""
-        id="logo"
-        class="standalone"
-      />
-      <h1 class="standalone">Game of Cards</h1>
-      <div id="game-area">
-        <div id="spacer2"></div>
-        <h1 style="display: none" id="playerUp">Player Up:</h1>
-        <!-- <h2>CHOOSE A CARD</h2> -->
-        <div id="cards">
-          <!-- Card 1 -->
-          <div class="card" onclick="revealCard(0)">
-            <div class="card-inner">
-              <div class="card-front">
-                <img
-                  id="card-0-front"
-                  src=""
-                  alt="Card 1"
-                  style="width: 100%; height: auto"
-                />
-              </div>
-              <div class="card-back">
-                <img
-                  id="card-0-back"
-                  src=""
-                  alt="Card 1"
-                  style="width: 100%; height: auto"
-                />
-              </div>
-            </div>
-          </div>
+    <h1>DJ Auto Spin</h1>
+    <p>Live Stream Sample</p>
+    <div class="sampler-grid" id="samplerGrid"></div>
 
-          <!-- Card 2 -->
-          <div class="card" onclick="revealCard(1)">
-            <div class="card-inner">
-              <div class="card-front">
-                <img
-                  id="card-1-front"
-                  src=""
-                  alt="Card 2"
-                  style="width: 100%; height: auto"
-                />
-              </div>
-              <div class="card-back">
-                <img
-                  id="card-1-back"
-                  src=""
-                  alt="Card 2"
-                  style="width: 100%; height: auto"
-                />
-              </div>
-            </div>
-          </div>
-
-          <!-- Card 3 -->
-          <div class="card" onclick="revealCard(2)">
-            <div class="card-inner">
-              <div class="card-front">
-                <img
-                  id="card-2-front"
-                  src=""
-                  alt="Card 3"
-                  style="width: 100%; height: auto"
-                />
-              </div>
-              <div class="card-back">
-                <img
-                  id="card-2-back"
-                  src=""
-                  alt="Card 3"
-                  style="width: 100%; height: auto"
-                />
-              </div>
-            </div>
-          </div>
-
-          <!-- Card 4 -->
-          <div class="card" onclick="revealCard(3)">
-            <div class="card-inner">
-              <div class="card-front">
-                <img
-                  id="card-3-front"
-                  src=""
-                  alt="Card 4"
-                  style="width: 100%; height: auto"
-                />
-              </div>
-              <div class="card-back">
-                <img
-                  id="card-3-back"
-                  src=""
-                  alt="Card 4"
-                  style="width: 100%; height: auto"
-                />
-              </div>
-            </div>
-          </div>
-
-          <!-- Card 5 -->
-          <div class="card" onclick="revealCard(4)">
-            <div class="card-inner">
-              <div class="card-front">
-                <img
-                  id="card-4-front"
-                  src=""
-                  alt="Card 5"
-                  style="width: 100%; height: auto"
-                />
-              </div>
-              <div class="card-back">
-                <img
-                  id="card-4-back"
-                  src=""
-                  alt="Card 5"
-                  style="width: 100%; height: auto"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <ul id="players"></ul>
-      <div id="game-status">
-        <ul id="status"></ul>
-        <ul id="players"></ul>
-      </div>
-      <div id="verified">
-        <p id="orderHash"></p>
-        <p id="revealedOrder"></p>
-      </div>
-      <div id="finalOutcomeDiv">
-        <div id="finalCard" style="display: none">
-          <img
-            id="card-final"
-            src=""
-            alt="Final Card"
-            style="width: 100%; height: auto"
-          />
-        </div>
-      </div>
-
-      <div id="spacer"></div>
-
-      <div id="positive-effect">Good Move!</div>
-      <div id="confetti-container"></div>
-      <!-- hidden audio  div for https://plugins.whatsonchain.com/api/plugin/main/82f1805b9b8439e5c20c21ea1cc14ecccf8603aa982512c23685205aaa5eccc0-->
-      <div id="audioDiv">
-        <audio id="audio" controls autoplay>
-          <source
-            src="https://plugins.whatsonchain.com/api/plugin/main/82f1805b9b8439e5c20c21ea1cc14ecccf8603aa982512c23685205aaa5eccc0"
-            type="audio/mpeg"
-          />
-          Your browser does not support the audio element.
-        </audio>
-      </div>
-
-      <div id="player-list">
-        <div
-          id="actions-container"
-          style="
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 20px;
-          "
-        >
-          <!-- Walk Away UI -->
-          <div
-            id="walkAwayUI"
-            style="
-              display: none;
-              flex-direction: column;
-              align-items: flex-start;
-              margin-left: 20px;
-            "
-          >
-            <h2 id="walkAwayMessage">You're at Level X. Walk away?</h2>
-            <button class="walkBtns" id="walkAwayYes" onclick="walkAway()">
-              Yes, Walk Away
-            </button>
-            <button
-              class="walkBtns"
-              id="walkAwayNo"
-              onclick="continuePlaying()"
-            >
-              No, Continue Playing
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Game Mode Selection -->
-
-      <div id="host-input" class="standalone">
-        <input type="text" id="player-name" placeholder="Enter player name" />
-        <button onclick="addPlayer()">Add Player</button>
-      </div>
-      <div id="volumeAdjust">
-        <input
-          type="range"
-          min="0"
-          max="100"
-          value="50"
-          class="slider"
-          id="volumeRange"
-          oninput="adjustVolume()"
-        />
-      </div>
-      <div id="game-mode" class="standalone">
-        <label>
-          <input
-            type="radio"
-            name="mode"
-            id="multiplayer"
-            value="multiplayer"
-            onclick="setGameMode('multiplayer')"
-            checked
-          />
-          Multiplayer
-        </label>
-        <label>
-          <input
-            type="radio"
-            name="mode"
-            id="singleplayer"
-            value="singleplayer"
-            onclick="setGameMode('singleplayer')"
-          />
-          Single Player
-        </label>
-      </div>
-      <!--reset button -->
-      <button id="resetButton" onclick="resetAll()">Reset</button>
-    </div>
-    <!-- <div id="odds-control-panel">
-      <h2>Adjust Game Odds</h2>
-      <div class="level-controls">
-        <h3>Level 0</h3>
-        <label
-          >Advance Level: <span id="level0-advance-display">33%</span></label
-        >
-        <input
-          type="range"
-          id="level0-advance"
-          min="0"
-          max="100"
-          value="33"
-          step="1"
-          oninput="updateOdds('level0', 'advance')"
-        />
-        <label>Remain: <span id="level0-remain-display">33%</span></label>
-        <input
-          type="range"
-          id="level0-remain"
-          min="0"
-          max="100"
-          value="33"
-          step="1"
-          oninput="updateOdds('level0', 'remain')"
-        />
-        <label>Game Over: <span id="level0-gameover-display">33%</span></label>
-        <input
-          type="range"
-          id="level0-gameover"
-          min="0"
-          max="100"
-          value="33"
-          step="1"
-          oninput="updateOdds('level0', 'gameover')"
-        />
-      </div>
-      <div class="level-controls">
-        <h3>Level 1</h3>
-        <label
-          >Advance Level: <span id="level1-advance-display">25%</span></label
-        >
-        <input
-          type="range"
-          id="level1-advance"
-          min="0"
-          max="100"
-          value="25"
-          step="1"
-          oninput="updateOdds('level1', 'advance')"
-        />
-        <label>Remain: <span id="level1-remain-display">25%</span></label>
-        <input
-          type="range"
-          id="level1-remain"
-          min="0"
-          max="100"
-          value="25"
-          step="1"
-          oninput="updateOdds('level1', 'remain')"
-        />
-        <label>Go Back: <span id="level1-goback-display">25%</span></label>
-        <input
-          type="range"
-          id="level1-goback"
-          min="0"
-          max="100"
-          value="25"
-          step="1"
-          oninput="updateOdds('level1', 'goback')"
-        />
-        <label>Game Over: <span id="level1-gameover-display">25%</span></label>
-        <input
-          type="range"
-          id="level1-gameover"
-          min="0"
-          max="100"
-          value="25"
-          step="1"
-          oninput="updateOdds('level1', 'gameover')"
-        />
-      </div>
-      <div class="level-controls">
-        <h3>Level 2</h3>
-        <label
-          >Advance Level: <span id="level2-advance-display">33%</span></label
-        >
-        <input
-          type="range"
-          id="level2-advance"
-          min="0"
-          max="100"
-          value="33"
-          step="1"
-          oninput="updateOdds('level2', 'advance')"
-        />
-        <label>Remain: <span id="level2-remain-display">33%</span></label>
-        <input
-          type="range"
-          id="level2-remain"
-          min="0"
-          max="100"
-          value="33"
-          step="1"
-          oninput="updateOdds('level2', 'remain')"
-        />
-        <label>Go Back: <span id="level2-goback-display">33%</span></label>
-        <input
-          type="range"
-          id="level2-goback"
-          min="0"
-          max="100"
-          value="33"
-          step="1"
-          oninput="updateOdds('level2', 'goback')"
-        />
-      </div>
-      <div class="level-controls">
-        <h3>Level 3</h3>
-        <label>Win All Prizes: <span id="level3-win-display">50%</span></label>
-        <input
-          type="range"
-          id="level3-win"
-          min="0"
-          max="100"
-          value="50"
-          step="1"
-          oninput="updateOdds('level3', 'win')"
-        />
-        <label>Game Over: <span id="level3-gameover-display">50%</span></label>
-        <input
-          type="range"
-          id="level3-gameover"
-          min="0"
-          max="100"
-          value="50"
-          step="1"
-          oninput="updateOdds('level3', 'gameover')"
-        />
-      </div>
-    </div> -->
-    <div id="simulationResults" class="standalone">
-      <h2>Simulation Results</h2>
-      <!-- number of plays to simulate -->
-      <label for="numPlays">Number of Plays:</label>
-      <input
-        type="number"
-        id="numPlays"
-        name="numPlays"
-        min="1"
-        max="10000"
-        value="100"
-      />
-
-      <!-- entry fee input -->
-      <label for="entryFee">Entry Fee (in $):</label>
-      <input type="number" id="entryFee" name="entryFee" min="1" value="5" />
-
-      <!-- prize values -->
-      <label for="topPrize">Top Prize (in $):</label>
-      <input type="number" id="topPrize" name="topPrize" min="1" value="140" />
-
-      <button onclick="handleSimulation()">Simulate Game</button>
-
-      <ul id="simulationResultsList"></ul>
-    </div>
+    <audio id="mp3" controls></audio>
 
     <script>
-      let players = [];
-      let currentPlayerIndex = 0;
-      let gameOver = false;
-      let cardsRevealed = false;
-      let selectedCards = [];
-      let isPlaying = false;
-      let gameMode = "multiplayer";
-      //automatically select game mode
-      document.getElementById("multiplayer").checked = true;
-      const actions = [
-        // Level 0 actions
-        {
-          level: "0",
-          action: "default",
-          alt: "Back",
-          label: "Back",
-          image: "0-back.gif",
-          // cardBackImage for level 0
-        },
-        {
-          level: "0",
-          action: "gameover",
-          alt: "Benched",
-          label: "Benched",
-          image: "0-benched.png",
-        },
-        {
-          level: "0",
-          action: "advanceLevel",
-          alt: "Coach's Playbook",
-          label: "Coach's Playbook",
-          image: "0-coachs-playbook.png",
-        },
-        {
-          level: "0",
-          action: "gameover",
-          alt: "Cut from the Squad",
-          label: "Cut from the Squad",
-          image: "0-cut-from-the-squad.png",
-        },
-        {
-          level: "0",
-          action: "remain",
-          alt: "False Start",
-          label: "False Start",
-          image: "0-false-start.png",
-        },
-        {
-          level: "0",
-          action: "advanceLevel",
-          alt: "Get in the Game",
-          label: "Get in the Game",
-          image: "0-get-in-the-game.png",
-        },
-        {
-          level: "0",
-          action: "remain",
-          alt: "Keep Going",
-          label: "Keep Going",
-          image: "0-keep-going.png",
-        },
-        {
-          level: "0",
-          action: "remain",
-          alt: "Stretch it Out",
-          label: "Stretch it Out",
-          image: "0-stretch-it-out.png",
-        },
-        {
-          level: "0",
-          action: "gameover",
-          alt: "Twisted Ankle",
-          label: "Twisted Ankle",
-          image: "0-twisted-ankle.png",
-        },
+      const samplerGrid = document.getElementById("samplerGrid");
+      const mp3 = document.getElementById("mp3");
 
-        // Level 1 actions
-        {
-          level: "1",
-          action: "default",
-          alt: "Back",
-          label: "Back",
-          image: "1-back.gif",
-        },
-        {
-          level: "1",
-          action: "remain",
-          alt: "Butter Fingers",
-          label: "Butter Fingers",
-          image: "1-butter-fingers.png",
-        },
-        {
-          level: "1",
-          action: "advanceLevel",
-          alt: "Deep Bomb",
-          label: "Deep Bomb",
-          image: "1-deep-bomb.png",
-        },
-        {
-          level: "1",
-          action: "goBack",
-          alt: "False Start",
-          label: "False Start",
-          image: "1-false-start-level.png",
-        },
-        {
-          level: "1",
-          action: "gameover",
-          alt: "Fumble",
-          label: "Fumble",
-          image: "1-fumble.png",
-        },
-        {
-          level: "1",
-          action: "remain",
-          alt: "Hold the Line",
-          label: "Hold the Line",
-          image: "1-hold-the-line.png",
-        },
-
-        // Level 2 actions
-        {
-          level: "2",
-          action: "default",
-          alt: "Back",
-          label: "Back",
-          image: "2-back.gif",
-        },
-        {
-          level: "2",
-          action: "remain",
-          alt: "Defensive Wall",
-          label: "Defensive Wall",
-          image: "2-defensive-wall.png",
-        },
-        {
-          level: "2",
-          action: "goBack",
-          alt: "Flag on the Play",
-          label: "Flag on the Play",
-          image: "2-flag-on-the-play.png",
-        },
-        {
-          level: "2",
-          action: "advanceLevel",
-          alt: "Hail Mary",
-          label: "Hail Mary",
-          image: "2-hail-mary.png",
-        },
-        {
-          level: "2",
-          action: "remain",
-          alt: "Injury Timeout",
-          label: "Injury Timeout",
-          image: "2-injury-timeout.png",
-        },
-        {
-          level: "2",
-          action: "goBack",
-          alt: "Turnover on Downs",
-          label: "Turnover on Downs",
-          image: "2-turnover-on-downs.png",
-        },
-
-        // Level 3 actions
-        {
-          level: "3",
-          action: "default",
-          alt: "Back",
-          label: "Back",
-          image: "4-back.gif",
-        },
-        {
-          level: "3",
-          action: "gameover",
-          alt: "Championship Defeat",
-          label: "Championship Defeat",
-          image: "3-championship-defeat.png",
-        },
-        {
-          level: "3",
-          action: "winAllPrizes",
-          alt: "Champion Victory",
-          label: "Champion Victory",
-          image: "3-champion-victory.png",
-        },
-      ];
-      const victoryGif = "/graphics/3-champion-victory.gif";
-      const defeatGif = "/graphics/3-championship-defeat.gif";
-      function showFinalOutcome(outcome) {
-        // hide other cards
-        document.getElementById("cards").style.display = "none";
-        // show final card
-        document.getElementById("finalCard").style.display = "block";
-        document.getElementById("card-final").src =
-          outcome === "win" ? victoryGif : defeatGif;
-      }
-      // showFinalOutcome("win");
-      let odds = {
-        level0: { advance: 33, remain: 33, gameover: 33 },
-        level1: { advance: 25, remain: 25, goback: 25, gameover: 25 },
-        level2: { advance: 33, remain: 33, goback: 33 },
-        level3: { win: 50, gameover: 50 },
+      const audioSamples = {
+        General: [
+          "./general_audio/general1.mp3",
+          "./general_audio/general2.mp3",
+          "./general_audio/general3.mp3",
+          "./general_audio/general4.mp3",
+          "./general_audio/general5.mp3",
+          "./general_audio/general6.mp3",
+          "./general_audio/general7.mp3",
+          "./general_audio/general8.mp3",
+          "./general_audio/general9.mp3",
+          "./general_audio/general9a.mp3",
+          "./general_audio/general9b.mp3",
+          "./general_audio/general9c.mp3",
+          "./general_audio/general9d.mp3",
+          "./general_audio/general9e.mp3",
+          "./general_audio/general9f.mp3",
+          "./general_audio/general9g.mp3",
+          "./general_audio/general9h.mp3",
+        ],
+        Thrones: [
+          "./thrones_audio/thrones1.mp3",
+          "./thrones_audio/thrones2.mp3",
+          "./thrones_audio/thrones3.mp3",
+          "./thrones_audio/thrones4.mp3",
+          "./thrones_audio/thrones5.mp3",
+          "./thrones_audio/thrones6.mp3",
+        ],
+        Champions: [
+          "./championship_audio/champion1.mp3",
+          "./championship_audio/champion2.mp3",
+          "./championship_audio/champion3.mp3",
+          "./championship_audio/champion4.mp3",
+          "./championship_audio/champion5.mp3",
+          "./championship_audio/champion6.mp3",
+          "./championship_audio/champion7.mp3",
+          "./championship_audio/champion-slow.mp3",
+        ],
+        Purchase: [
+          "./purchase_spot_audio/purchase1.mp3",
+          "./purchase_spot_audio/purchase2.mp3",
+          "./purchase_spot_audio/purchase3.mp3",
+          "./purchase_spot_audio/purchase4.mp3",
+          "./purchase_spot_audio/purchase5.mp3",
+        ],
+        Winner: [
+          "./winner_audio/winner1.mp3",
+          "./winner_audio/winner2.mp3",
+          "./winner_audio/winner3.mp3",
+          "./winner_audio/winner4.mp3",
+          "./winner_audio/winner5.mp3",
+          "./winner_audio/winner6.mp3",
+        ],
       };
 
-      // Function to calculate and normalize odds
-      function updateOdds(level, action) {
-        const range = document.getElementById(`${level}-${action}`);
-        const display = document.getElementById(`${level}-${action}-display`);
-        const value = parseInt(range.value, 10);
+      const createPad = (category, audioArray) => {
+        audioArray.forEach((audio, index) => {
+          const pad = document.createElement("div");
+          pad.classList.add("sampler-pad");
+          pad.textContent = `${category} ${index + 1}`;
 
-        // Update the display value
-        display.textContent = `${value}%`;
-
-        // Update the odds object
-        odds[level][action] = value;
-
-        // Calculate the total and ensure all percentages sum to 100%
-        calculateRemainingOdds(level);
-      }
-
-      function calculateRemainingOdds(level) {
-        const levelOdds = odds[level];
-        const actions = Object.keys(levelOdds);
-        let total = actions.reduce((acc, action) => acc + levelOdds[action], 0);
-
-        // Normalize odds to sum up to 100%
-        if (total !== 100) {
-          const excess = total - 100;
-          adjustOddsForLevel(level, excess);
-        }
-
-        // Update the display for each action after normalization
-        actions.forEach((action) => {
-          document.getElementById(
-            `${level}-${action}-display`
-          ).textContent = `${odds[level][action]}%`;
-          document.getElementById(`${level}-${action}`).value =
-            odds[level][action];
-        });
-      }
-
-      function adjustOddsForLevel(level, excess) {
-        const levelOdds = odds[level];
-        const actions = Object.keys(levelOdds).filter(
-          (action) => levelOdds[action] > 0
-        );
-        const actionsCount = actions.length;
-
-        // Distribute excess evenly among non-zero actions
-        let distributedExcess = excess / actionsCount;
-
-        actions.forEach((action) => {
-          if (levelOdds[action] > 0) {
-            odds[level][action] = Math.max(
-              0,
-              levelOdds[action] - distributedExcess
-            );
-          }
-        });
-
-        // Recalculate total and ensure it sums up to 100%
-        let newTotal = actions.reduce(
-          (acc, action) => acc + odds[level][action],
-          0
-        );
-        const difference = 100 - newTotal;
-
-        // Adjust all non-zero actions by the remaining difference evenly
-        actions.forEach((action) => {
-          if (levelOdds[action] > 0) {
-            odds[level][action] += difference / actionsCount;
-          }
-        });
-      }
-
-      // Example: Modify getRandomCardForLevel to use updated odds
-      function getRandomCardForLevel(level) {
-        const levelActions = actions.filter((action) => action.level === level);
-        const numCards = levelActions.length; // Number of available cards for the level
-
-        switch (level) {
-          case "0":
-            return getRandomCard(levelActions.slice(0, numCards), {
-              advanceLevel: odds.level0.advance / 100,
-              remain: odds.level0.remain / 100,
-              gameover: odds.level0.gameover / 100,
-            });
-
-          case "1":
-            return getRandomCard(levelActions.slice(0, numCards), {
-              advanceLevel: odds.level1.advance / 100,
-              remain: odds.level1.remain / 100,
-              goBack: odds.level1.goback / 100,
-              gameover: odds.level1.gameover / 100,
-            });
-
-          case "2":
-            return getRandomCard(levelActions.slice(0, numCards), {
-              advanceLevel: odds.level2.advance / 100,
-              remain: odds.level2.remain / 100,
-              goBack: odds.level2.goback / 100,
-            });
-
-          case "3":
-            return getRandomCard(levelActions.slice(0, numCards), {
-              winAllPrizes: odds.level3.win / 100,
-              gameover: odds.level3.gameover / 100,
-            });
-
-          default:
-            return null;
-        }
-      }
-
-      function getRandomCard(levelActions, probabilities) {
-        const random = Math.random();
-        let cumulativeProbability = 0;
-
-        for (let [actionType, probability] of Object.entries(probabilities)) {
-          cumulativeProbability += probability;
-          if (random <= cumulativeProbability) {
-            return levelActions.find((action) => action.action === actionType);
-          }
-        }
-        return levelActions[0]; // fallback in case of error
-      }
-
-      const musicPlayer = document.getElementById("audio");
-      const volumeRange = document.getElementById("volumeRange");
-
-      //start music when volume is adjusted
-      volumeRange.addEventListener("input", function () {
-        if (!isPlaying) {
-          musicPlayer.play();
-          isPlaying = true;
-        }
-      });
-      // Function to shuffle the deck of cards
-      function shuffleDeck(array) {
-        for (let i = array.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [array[i], array[j]] = [array[j], array[i]];
-        }
-        return array;
-      }
-      const orderHash = document.getElementById("orderHash");
-      // Function to set a new random deck of cards
-      let hash = "";
-      async function setRandomCards(level) {
-        let numCards;
-
-        // Determine the number of cards based on the current level
-        switch (level) {
-          case 0:
-            numCards = 5;
-            break;
-          case 1:
-            numCards = 4;
-            break;
-          case 2:
-            numCards = 3;
-            break;
-          case 3:
-            numCards = 2;
-            break;
-          default:
-            numCards = 5;
-        }
-        //filter the cards based on the level
-        console.log(level);
-        const filtered = actions.filter(
-          (action) =>
-            parseInt(action.level) === level && action.action !== "default"
-        );
-        console.log(filtered);
-        //get the random level array
-
-        //shuffle using random function getRandomCardForLevel
-        selectedCards = shuffleDeck([...filtered]).slice(0, numCards);
-        console.log(selectedCards);
-
-        // selectedCards = shuffleDeck([...filtered]).slice(0, numCards); // Get shuffled cards
-        console.log(selectedCards);
-        displayCards(level); // Ensure display is called with the newly shuffled deck
-        cardsRevealed = false;
-      }
-
-      // Function to set game mode
-      function setGameMode(mode) {
-        gameMode = mode;
-        if (mode === "singleplayer") {
-          // Hide the player name input for single player
-          document.getElementById("host-input").style.display = "none";
-          // Initialize the game with a single anonymous player
-          players = [{ name: "Player 1", lives: 1, level: 0 }];
-          updatePlayerList();
-          displayCurrentPlayer(players[0].name);
-        } else {
-          // Show player input for multiplayer
-          document.getElementById("host-input").style.display = "flex";
-          players = [];
-          document.getElementById("players").innerHTML = ""; // Clear player list
-        }
-      }
-      // Function to add players in multiplayer mode
-      function addPlayer() {
-        if (gameMode === "multiplayer") {
-          const playerName = document.getElementById("player-name").value;
-          if (playerName) {
-            players.push({ name: playerName, lives: 1, level: 0 });
-            if (players.length === 1) {
-              displayCurrentPlayer(playerName);
-            }
-            updatePlayerList();
-            document.getElementById("player-name").value = "";
-          }
-        }
-      }
-
-      // Function to update the player list
-      function updatePlayerList() {
-        const playerList = document.getElementById("players");
-        playerList.innerHTML = "";
-        players.forEach((player, index) => {
-          const playerItem = document.createElement("li");
-          const heartEmoji = "❤️";
-          const lives = heartEmoji.repeat(player.lives); // Show lives as hearts
-          const levelEmoji = "🏆";
-          const level = levelEmoji.repeat(player.level + 1); // Show level as trophies
-          playerItem.textContent = `${player.name} - Lives: ${lives} |  Level: ${level}`;
-          playerList.appendChild(playerItem);
-        });
-        if (players.length > 0) {
-          displayCurrentPlayer(players[currentPlayerIndex].name);
-        }
-      }
-      // Function to display the current player up
-      function displayCurrentPlayer(playerName) {
-        const playerUp = document.getElementById("playerUp");
-        playerUp.textContent = `Step into the Spotlight: ${playerName}`;
-        playerUp.style.display = "block";
-      }
-
-      function updateStatus(message) {
-        const statusList = document.getElementById("status");
-        const statusItem = document.createElement("li");
-        statusList.innerHTML = ""; // Clear existing status
-        statusItem.textContent = message;
-        statusItem.style.color = "#0bb28a";
-        statusItem.style.fontWeight = "bold";
-        statusItem.style.fontSize = "2rem";
-        statusList.prepend(statusItem);
-        // turn the other status list items to grey
-        const statusItems = document.querySelectorAll("#status li");
-        if (statusItems.length > 1) {
-          statusItems.forEach((item, i) => {
-            if (i !== 0) {
-              item.style.color = "#ccc";
-              item.style.fontWeight = "normal";
-              item.style.fontSize = "1.8rem";
-            }
+          pad.addEventListener("click", () => {
+            mp3.src = audio;
+            mp3.play();
           });
-        }
-      }
 
-      // Function to show the positive effect message
-      function showPositiveEffect(message) {
-        const positiveEffect = document.getElementById("positive-effect");
-        positiveEffect.textContent = message;
-        positiveEffect.style.display = "block";
-
-        setTimeout(() => {
-          positiveEffect.style.display = "none";
-        }, 2000);
-      }
-
-      // Function to trigger confetti effect
-      function triggerConfetti() {
-        const confettiContainer = document.getElementById("confetti-container");
-        confettiContainer.innerHTML = ""; // Clear existing confetti
-
-        for (let i = 0; i < 50; i++) {
-          const confetti = document.createElement("div");
-          confetti.classList.add("confetti");
-          confetti.style.left = `${Math.random() * 100}vw`;
-          confetti.style.backgroundColor = getRandomColor();
-          confettiContainer.appendChild(confetti);
-        }
-
-        setTimeout(() => {
-          confettiContainer.innerHTML = ""; // Clear confetti after 3 seconds
-        }, 3000);
-      }
-
-      // Function to get a random confetti color
-      function getRandomColor() {
-        const colors = ["#ffdd57", "#ff6b6b", "#51cf66", "#1c7ed6", "#ff922b"];
-        return colors[Math.floor(Math.random() * colors.length)];
-      }
-      //   flash black background for 2 seconds
-      function flashBackground() {
-        document.body.style.backgroundColor = "black";
-        setTimeout(() => {
-          document.body.style.backgroundColor = "#f0f8f8";
-        }, 2000);
-      }
-
-      function revealCard(cardIndex) {
-        if (gameOver || players.length === 0 || cardsRevealed) return;
-
-        let player = players[currentPlayerIndex];
-        const selectedAction = selectedCards[cardIndex].action;
-        const alt = selectedCards[cardIndex].alt;
-        flipAllCards(cardIndex); // Show all cards, revealing the chosen one
-        handleAction(selectedAction, player, alt);
-        cardsRevealed = true;
-
-        currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
-        updatePlayerList();
-        //order of cards revealed in p tag
-        const revealedOrder = document.getElementById("revealedOrder");
-        revealedOrder.textContent = `Revealed Order: ${selectedCards
-          .map((card) => card.alt)
-          .join(", ")}`;
-        const currentLevel = players[currentPlayerIndex].level;
-        setTimeout(() => {
-          setRandomCards(currentLevel);
-        }, 3000);
-      }
-      function offerWalkAwayUI(level) {
-        const walkAwayMessage = document.getElementById("walkAwayMessage");
-        walkAwayMessage.textContent = `You're at Level ${level}. Would you like to walk away with the prize for this level?`;
-
-        const walkAwayUI = document.getElementById("walkAwayUI");
-        walkAwayUI.style.display = "flex"; // Show the Walk Away UI
-
-        return true;
-      }
-
-      function walkAway() {
-        updateStatus(
-          `${players[currentPlayerIndex].name} walked away with the Level ${players[currentPlayerIndex].level} prize!`
-        );
-        const walkAwayUI = document.getElementById("walkAwayUI");
-        walkAwayUI.style.display = "none"; // Hide the Walk Away UI
-        gameOver = true;
-      }
-
-      function continuePlaying() {
-        const walkAwayUI = document.getElementById("walkAwayUI");
-        walkAwayUI.style.display = "none"; // Hide the Walk Away UI
-      }
-
-      function handleAction(action, player, alt) {
-        switch (action) {
-          case "addLife":
-            player.lives += 1;
-            updateStatus(`${player.name} drew '${alt}'!`);
-            // showPositiveEffect("Good Move!");
-            triggerConfetti();
-            break;
-          case "loseLife":
-            player.lives -= 1;
-            updateStatus(`${player.name} drew '${alt}'.`);
-            if (player.lives === 0) {
-              updateStatus(`${player.name} has died.`);
-              players.splice(currentPlayerIndex, 1);
-              flashBackground();
-              if (players.length === 0) {
-                updateStatus(
-                  `Game over. ${player.name} drew '${alt}' and lost.`
-                );
-                gameOver = true;
-                flashBackground();
-                return;
-              }
-            }
-            break;
-          case "remain":
-            updateStatus(
-              `${player.name} drew '${alt}'. Player stays at level ${player.level}.`
-            );
-            flashBackground();
-            break;
-          case "goBack":
-            if (player.level > 0) {
-              player.level -= 1;
-              updateStatus(
-                `${player.name} drew '${alt}' and went back to level ${player.level}.`
-              );
-              flashBackground();
-            } else {
-              updateStatus(
-                `${player.name} drew '${alt}' but cannot go back any further.`
-              );
-              flashBackground();
-            }
-            break;
-
-          case "advanceLevel":
-            player.level += 1;
-            updateStatus(
-              `${player.name} advanced to level ${player.level} with '${alt}'.`
-            );
-            // showPositiveEffect(
-            //   `Great Job! ${player.name} advanced to Level ${player.level} with '${alt}'!`
-            // );
-            triggerConfetti();
-
-            if (player.level === 3) {
-              offerWalkAwayUI(3);
-            } else if (player.level === 4) {
-              updateStatus(
-                `${player.name} has reached level 4 with '${alt}' and won the game!`
-              );
-              gameOver = true;
-              // showPositiveEffect(`${player.name} Wins!`);
-              triggerConfetti();
-              musicPlayer.play();
-              isPlaying = true;
-              setTimeout(() => {
-                showFinalOutcome("win");
-                // resetAll();
-              }, 3000);
-            }
-            break;
-          case "gameover":
-            updateStatus(`${player.name} drew '${alt}' and the game is over.`);
-            flashBackground();
-            gameOver = true;
-            if (player.level === 3 || player.level === 4) {
-              setTimeout(() => {
-                showFinalOutcome("lose");
-                // resetAll();
-              }, 3000);
-            }
-
-            break;
-          default:
-            updateStatus(`${player.name} drew '${alt}'. No action taken.`);
-            flashBackground();
-        }
-      }
-
-      // Function to display the cards
-      function displayCards(level) {
-        const cardContainer = document.getElementById("cards");
-        cardContainer.innerHTML = "";
-        const backGraphic = actions.find(
-          (action) =>
-            parseInt(action.level) === level && action.action === "default"
-        );
-        selectedCards.forEach((card, index) => {
-          console.log(card);
-          const cardDiv = document.createElement("div");
-          cardDiv.classList.add("card"); // Add card container
-          cardDiv.onclick = () => revealCard(index);
-
-          const cardInner = document.createElement("div");
-          cardInner.classList.add("card-inner");
-
-          const cardFront = document.createElement("div");
-          cardFront.classList.add("card-front");
-          cardFront.innerHTML = `<img src="/graphics/${backGraphic.image}" alt="Card ${index}" style="width:100%; height:auto;">`;
-
-          const cardBack = document.createElement("div");
-          cardBack.classList.add("card-back");
-
-          cardBack.innerHTML = `<img src="/graphics/${card.image}" alt="Card ${index}" style="width:100%; height:auto;">`;
-          console.log(card.image);
-          cardInner.appendChild(cardFront);
-          cardInner.appendChild(cardBack);
-          cardDiv.appendChild(cardInner);
-
-          cardContainer.appendChild(cardDiv);
+          samplerGrid.appendChild(pad);
         });
-      }
+      };
 
-      function flipAllCards(chosenIndex) {
-        const cards = document.querySelectorAll(".card");
-        cards.forEach((card, index) => {
-          card.classList.add("flip"); // Apply flip to all cards
-          if (index === chosenIndex) {
-            card.style.backgroundColor = "#fff";
-            // make the border stand out
-            card.style.border = "4px solid yellow";
-            card.style.boxShadow = "0 0 10px yellow";
-            card.style.transform = "scale(1.1)";
-            //glow effect
-            card.style.padding = "10px";
-            card.style.animation = "glow 1s infinite alternate";
-          }
-        });
-      }
-      // Initialize with a shuffled set of cards
-      setRandomCards(0);
-
-      function adjustVolume() {
-        const volumeRange = document.getElementById("volumeRange");
-        const audio = document.getElementById("audio");
-        audio.volume = volumeRange.value / 100;
-      }
-
-      //add event listener to game mode selection
-      document.querySelectorAll('input[name="mode"]').forEach((input) =>
-        input.addEventListener("change", function () {
-          setGameMode(this.value);
-          //add player name as player 1
-          if (this.value === "singleplayer") {
-            players = [{ name: "Player 1", lives: 1, level: 0 }];
-            updatePlayerList();
-            displayCurrentPlayer(players[0].name);
-          }
-        })
-      );
-
-      function resetAll() {
-        players = [];
-        currentPlayerIndex = 0;
-        gameOver = false;
-        cardsRevealed = false;
-        selectedCards = [];
-        isPlaying = false;
-        gameMode = "singleplayer";
-        setGameMode("singleplayer");
-        setRandomCards(0);
-        updatePlayerList();
-        document.getElementById("status").innerHTML = "";
-        document.getElementById("playerUp").style.display = "none";
-        document.getElementById("walkAwayUI").style.display = "none";
-        document.getElementById("orderHash").textContent = "";
-        document.getElementById("revealedOrder").textContent = "";
-        document.getElementById("confetti-container").innerHTML = "";
-        document.getElementById("positive-effect").style.display = "none";
-        document.getElementById("audioDiv").style.display = "none";
-        document.body.style.backgroundColor = "#f0f8f8";
-      }
-
-      document
-        .getElementById("resetButton")
-        .addEventListener("click", resetAll);
-
-      //listen for keyboard letter 's' to trigger the standalone class to disappear
-      document.addEventListener("keydown", function (event) {
-        if (event.key === "s") {
-          const elements = document.getElementsByClassName("standalone");
-          //   console.log(elements);
-          for (let i = 0; i < elements.length; i++) {
-            if (elements[i].style.display === "none") {
-              elements[i].style.display = "block";
-            } else {
-              elements[i].style.display = "none";
-            }
-          }
-        }
+      Object.keys(audioSamples).forEach((category) => {
+        createPad(category, audioSamples[category]);
       });
-      //set to single player mode
-      //check the single player radio button
-      document.getElementById("singleplayer").checked = true;
-      setGameMode("singleplayer");
-      document.addEventListener("DOMContentLoaded", adjustVolume);
-      let spaceAmount = 20;
-      // listen to i to increase spacing
-      document.addEventListener("keydown", function (event) {
-        if (event.key === "i") {
-          const spacer = document.getElementById("spacer");
-          const spacer2 = document.getElementById("spacer2");
-          spacer2.style.marginBottom = `${(spaceAmount += 20)}px`;
-          spacer.style.marginBottom = `${(spaceAmount += 20)}px`;
-        }
-      });
-      // listen to d to decrease spacing
-      document.addEventListener("keydown", function (event) {
-        if (event.key === "d") {
-          const spacer = document.getElementById("spacer");
-          const spacer2 = document.getElementById("spacer2");
-          spacer.style.marginBottom = `${(spaceAmount -= 20)}px`;
-          spacer2.style.marginBottom = `${(spaceAmount -= 20)}px`;
-        }
-      });
-      //click keyboard letter s on dom load
-      const event = new KeyboardEvent("keydown", {
-        key: "s",
-      });
-
-      document.dispatchEvent(event);
-      function simulateGame(numPlays, entryFee, topPrize) {
-        const outcomes = {
-          win: 0,
-          gameOver: 0,
-        };
-
-        function playGame() {
-          let level = 0;
-          while (level < 4) {
-            const random = Math.random();
-            switch (level) {
-              case 0:
-                if (random < 0.33) {
-                  level++; // Advance to Level 1
-                } else if (random < 0.66) {
-                  return "gameOver"; // Game Over
-                } else {
-                  // Remain on Level 0 (do nothing)
-                }
-                break;
-              case 1:
-                if (random < 0.25) {
-                  level++; // Advance to Level 2
-                } else if (random < 0.5) {
-                  return "gameOver"; // Game Over
-                } else if (random < 0.75) {
-                  level--; // Go Back to Level 0
-                } else {
-                  // Remain on Level 1 (do nothing)
-                }
-                break;
-              case 2:
-                if (random < 0.33) {
-                  level++; // Advance to Level 3
-                } else if (random < 0.66) {
-                  level--; // Go Back to Level 1
-                } else {
-                  // Remain on Level 2 (do nothing)
-                }
-                break;
-              case 3:
-                if (random < 0.5) {
-                  return "win"; // Win All Prizes
-                } else {
-                  return "gameOver"; // Game Over at Level 3
-                }
-            }
-          }
-        }
-
-        for (let i = 0; i < numPlays; i++) {
-          const result = playGame();
-          if (result === "win") {
-            outcomes.win++;
-          } else if (result === "gameOver") {
-            outcomes.gameOver++;
-          }
-        }
-
-        // Calculate prize payouts and total revenue
-        const totalPrizeCosts = outcomes.win * topPrize;
-        const totalRevenue = numPlays * entryFee;
-        const netProfit = totalRevenue - totalPrizeCosts;
-
-        // Calculate the percentages of each outcome
-        const winPercentage = ((outcomes.win / numPlays) * 100).toFixed(2);
-        const gameOverPercentage = (
-          (outcomes.gameOver / numPlays) *
-          100
-        ).toFixed(2);
-        const profitPerGame = (netProfit / numPlays).toFixed(2);
-        return {
-          winPercentage,
-          gameOverPercentage,
-          totalPrizeCosts,
-          totalRevenue,
-          netProfit,
-          profitPerGame,
-        };
-      }
-
-      function handleSimulation() {
-        const numPlays = parseInt(document.getElementById("numPlays").value);
-        const entryFee = parseFloat(document.getElementById("entryFee").value);
-        const topPrize = parseFloat(document.getElementById("topPrize").value);
-
-        const results = simulateGame(numPlays, entryFee, topPrize);
-
-        const simulationResultsList = document.getElementById(
-          "simulationResultsList"
-        );
-        simulationResultsList.innerHTML = ""; // Clear existing results
-
-        // Display the results
-        const winResult = document.createElement("li");
-        winResult.textContent = `Wins: ${results.winPercentage}%`;
-        simulationResultsList.appendChild(winResult);
-
-        const gameOverResult = document.createElement("li");
-        gameOverResult.textContent = `Game Overs: ${results.gameOverPercentage}%`;
-        simulationResultsList.appendChild(gameOverResult);
-
-        const prizeCostsResult = document.createElement("li");
-        prizeCostsResult.textContent = `Total Prize Costs: $${results.totalPrizeCosts.toFixed(
-          2
-        )}`;
-        simulationResultsList.appendChild(prizeCostsResult);
-
-        const revenueResult = document.createElement("li");
-        revenueResult.textContent = `Total Revenue: $${results.totalRevenue.toFixed(
-          2
-        )}`;
-        simulationResultsList.appendChild(revenueResult);
-
-        const netProfitResult = document.createElement("li");
-        netProfitResult.textContent = `Net Profit/Loss: $${results.netProfit.toFixed(
-          2
-        )}`;
-        simulationResultsList.appendChild(netProfitResult);
-
-        const profitPerGameResult = document.createElement("li");
-        profitPerGameResult.textContent = `Profit/Loss Per Game: $${results.profitPerGame}`;
-        simulationResultsList.appendChild(profitPerGameResult);
-      }
-
-      resetAll();
     </script>
   </body>
 </html>
