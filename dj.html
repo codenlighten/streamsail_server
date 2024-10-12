@@ -217,21 +217,31 @@
           "./winner_audio/winner6.mp3",
         ],
       };
-      let interval;
-      // 45 seconds loop through all the audio samples
-      const triggerLoop = () => {
-        let i = 0;
-        //trigger first audio immediately
-        mp3.src = audioSamples.General[i];
-        //then loop through the rest every 45 seconds
+
+      let interval = null;
+      let currentIndex = 0;
+
+      // Trigger loop for a specific audio category
+      const triggerLoop = (audioArray) => {
+        // Play the first audio immediately
+        mp3.src = audioArray[currentIndex];
+        mp3.play();
+
+        // Clear any existing interval
+        clearInterval(interval);
+
+        // Set up the loop to play the next audio every 45 seconds
         interval = setInterval(() => {
-          i++;
-          if (i >= audioSamples.General.length) {
-            i = 0;
+          currentIndex++;
+          if (currentIndex >= audioArray.length) {
+            currentIndex = 0;
           }
-          mp3.src = audioSamples.General[i];
+          mp3.src = audioArray[currentIndex];
+          mp3.play();
         }, 45000);
       };
+
+      // Create sampler pads for each audio category
       const createPad = (category, audioArray) => {
         audioArray.forEach((audio, index) => {
           const pad = document.createElement("div");
@@ -239,32 +249,41 @@
           pad.textContent = `${category} ${index + 1}`;
 
           pad.addEventListener("click", () => {
+            clearInterval(interval); // Stop any active loop when a pad is clicked
+            interval = null;
             mp3.src = audio;
             mp3.play();
           });
 
           samplerGrid.appendChild(pad);
         });
-        const loopPad = document.createElement("div");
-        loopPad.classList.add("sampler-pad");
-        loopPad.textContent = `Trigger Loop`;
-        loopPad.addEventListener("click", () => {
-          if (interval) {
-            loopPad.textContent = `Trigger Loop`;
-            clearInterval(interval);
-            interval = null;
-          } else {
-            loopPad.textContent = `Stop Loop`;
-            triggerLoop();
-          }
-        });
-        samplerGrid.appendChild(loopPad);
+
+        // Only add loop control for non-"Purchase" and non-"Winner" categories
+        if (category !== "Purchase" && category !== "Winner") {
+          const loopPad = document.createElement("div");
+          loopPad.classList.add("sampler-pad");
+          loopPad.textContent = `Trigger Loop`;
+
+          loopPad.addEventListener("click", () => {
+            if (!interval) {
+              loopPad.textContent = `Stop Loop`;
+              currentIndex = 0; // Reset the index to the beginning of the array
+              triggerLoop(audioArray);
+            } else {
+              loopPad.textContent = `Trigger Loop`;
+              clearInterval(interval);
+              interval = null;
+            }
+          });
+
+          samplerGrid.appendChild(loopPad);
+        }
       };
 
+      // Create sampler pads for all categories
       Object.keys(audioSamples).forEach((category) => {
         createPad(category, audioSamples[category]);
       });
-      //add a pad for the trigger loop
     </script>
   </body>
 </html>
