@@ -532,6 +532,10 @@
     .card-back {
       transform: rotateY(180deg); /* Back starts flipped */
     }
+
+    .card-front img {
+      border: 3px solid black;
+    }
     /* keep to left */
     #resetButton {
       width: 100%;
@@ -1810,13 +1814,17 @@
           cardInner.appendChild(cardFront);
           cardInner.appendChild(cardBack);
           cardDiv.appendChild(cardInner);
-
           cardContainer.appendChild(cardDiv);
         });
       }
 
       function flipAllCards(chosenIndex) {
         const cards = document.querySelectorAll(".card");
+        // get all img in .card-front
+        const img = document.querySelectorAll(".card-front img");
+        img.forEach((img) => {
+          img.style.display = "none";
+        });
         cards.forEach((card, index) => {
           card.classList.add("flip"); // Apply flip to all cards
           if (index === chosenIndex) {
