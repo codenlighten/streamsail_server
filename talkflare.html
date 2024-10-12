@@ -637,6 +637,21 @@
           "./championship_audio/champion7.mp3",
           "./championship_audio/champion-slow.mp3",
         ];
+        const puchase = [
+          "./purchase_spot_audio/purchase1.mp3",
+          "./purchase_spot_audio/purchase2.mp3",
+          "./purchase_spot_audio/purchase3.mp3",
+          "./purchase_spot_audio/purchase4.mp3",
+          "./purchase_spot_audio/purchase5.mp3",
+        ];
+        const winner = [
+          "./winner_audio/winner1.mp3",
+          "./winner_audio/winner2.mp3",
+          "./winner_audio/winner3.mp3",
+          "./winner_audio/winner4.mp3",
+          "./winner_audio/winner5.mp3",
+          "./winner_audio/winner6.mp3",
+        ];
         const populateAudio = (audioArray, category) => {
           audioArray.forEach((audio, index) => {
             const option = document.createElement("option");
@@ -648,6 +663,8 @@
         populateAudio(generalAudio, "general");
         populateAudio(thrones, "thrones");
         populateAudio(champions, "champions");
+        populateAudio(puchase, "purchase");
+        populateAudio(winner, "winner");
         audioMp3.addEventListener("change", () => {
           const audioIndex = audioMp3.value;
           mp3.src = generalAudio[audioIndex];
