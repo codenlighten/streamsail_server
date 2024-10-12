@@ -267,7 +267,11 @@
         <option value="user">User</option>
       </select>
     </div>
-
+    <div id="selectMp3">
+      <label for="audioMp3">Choose Audio File</label>
+      <select name="" id="audioMp3"></select>
+      <audio src="" id="mp3"></audio>
+    </div>
     <div class="container">
       <input type="text" id="apiKey" placeholder="Enter your OpenAI API key" />
       <button id="saveApiKey">Save API Key</button>
@@ -380,6 +384,18 @@
           "Alright, folks, let me tell you something—you’ve seen a lot of breaks, auctions, and raffles on Whatnot, but this Championship Series Game? This is next-level. This isn’t just your typical show where you buy a spot, sit back, and hope you win something. No, no—this is all about you making the big plays. Here’s how it works—you buy a spot for just $25, and you’re in the game. Each level you pass, you’ve got a decision to make: do you lock in the prize and play it safe, or do you take the risk and go for more? And let me tell you, that risk is worth it, because we’re talking about a chance to win a $250 Silverback Signed & Authenticated Jersey. How often do you get to control your own destiny in a game like this? And let me be straight with you—you’re not going to find this kind of game anywhere else on Whatnot. Other shows are about luck, but this one? It’s about guts. It’s about making the moves and going all the way. That’s why this is the game everyone’s talking about. So if you want in, now’s the time to grab your spot. Spots are flying fast, and once they’re gone, they’re gone. Don’t be the one watching from the sidelines while someone else takes that grand prize home. Get in the game now, and let’s see if you’ve got what it takes! 🎉🔥🏅",
           "Alright, folks, I know things are moving a little slow, but let me tell you—this is the calm before the storm! We’re about to heat things up with the Championship Series Game, and trust me, you don’t want to be sitting on the sidelines when it happens! For just $25, you’re stepping into a game where every decision could lead you to a $250 Silverback Signed & Authenticated Jersey. This is a one-of-a-kind shot, and the stakes? They’re REAL. I get it—sometimes we hesitate, but here’s the deal: the spots are still open, and that means YOUR chance to get in and take control of the game is still alive! Think about it—right now, you have the chance to lock in a spot and maybe even fly under the radar to snag that prize. This isn’t just another break or raffle. This is the game where YOU make the choices. You’ve got the power to walk away with a prize or go big for the Championship. So don’t let a slow start fool you—once these spots start moving, they’ll be gone before you know it. So here’s what you need to do—take advantage of this moment, grab your spot, and be ready to jump into the game when things kick off. Trust me, you don’t want to be the one who missed out when the prizes start rolling in. Let’s make it happen!",
         ];
+
+        const listAllTemplates = () => {
+          const allTemplates = [
+            ...speechTemplates.general,
+            ...speechTemplates.cardOfThrones,
+            ...championshipSeriesGameScript.openingShow,
+            ...championshipPitches,
+          ];
+          console.log(allTemplates);
+          return allTemplates;
+        };
+        listAllTemplates();
 
         // Check if audio response is enabled
         document
@@ -551,6 +567,63 @@
             isFetching = false;
           }
         }
+        // 3 folders for mp3s /thrones_audio general_audio championship_audio
+        const audioMp3 = document.getElementById("audioMp3");
+        const mp3 = document.getElementById("mp3");
+        //9 generals
+        const generalAudio = [
+          "./general_audio/general1.mp3",
+          "./general_audio/general2.mp3",
+          "./general_audio/general3.mp3",
+          "./general_audio/general4.mp3",
+          "./general_audio/general5.mp3",
+          "./general_audio/general6.mp3",
+          "./general_audio/general7.mp3",
+          "./general_audio/general8.mp3",
+          "./general_audio/general9.mp3",
+          "./general_audio/general9a.mp3",
+          "./general_audio/general9b.mp3",
+          "./general_audio/general9c.mp3",
+          "./general_audio/general9d.mp3",
+          "./general_audio/general9e.mp3",
+          "./general_audio/general9f.mp3",
+          "./general_audio/general9g.mp3",
+          "./general_audio/general9h.mp3",
+        ];
+        const thrones = [
+          "./thrones_audio/thrones1.mp3",
+          "./thrones_audio/thrones2.mp3",
+          "./thrones_audio/thrones3.mp3",
+          "./thrones_audio/thrones4.mp3",
+          "./thrones_audio/thrones5.mp3",
+          "./thrones_audio/thrones6.mp3",
+        ];
+        const champions = [
+          "./championship_audio/champion1.mp3",
+          "./championship_audio/champion2.mp3",
+          "./championship_audio/champion3.mp3",
+          "./championship_audio/champion4.mp3",
+          "./championship_audio/champion5.mp3",
+          "./championship_audio/champion6.mp3",
+          "./championship_audio/champion7.mp3",
+          "./championship_audio/champion-slow.mp3",
+        ];
+        const populateAudio = (audioArray, category) => {
+          audioArray.forEach((audio, index) => {
+            const option = document.createElement("option");
+            option.value = index;
+            option.textContent = `${category} ${index + 1}`;
+            audioMp3.appendChild(option);
+          });
+        };
+        populateAudio(generalAudio, "general");
+        populateAudio(thrones, "thrones");
+        populateAudio(champions, "champions");
+        audioMp3.addEventListener("change", () => {
+          const audioIndex = audioMp3.value;
+          mp3.src = generalAudio[audioIndex];
+          mp3.play();
+        });
       })();
     </script>
   </body>
