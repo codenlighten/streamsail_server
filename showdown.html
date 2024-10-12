@@ -1954,13 +1954,14 @@
           (outcomes.gameOver / numPlays) *
           100
         ).toFixed(2);
-
+        const profitPerGame = (netProfit / numPlays).toFixed(2);
         return {
           winPercentage,
           gameOverPercentage,
           totalPrizeCosts,
           totalRevenue,
           netProfit,
+          profitPerGame,
         };
       }
 
@@ -2002,6 +2003,10 @@
           2
         )}`;
         simulationResultsList.appendChild(netProfitResult);
+
+        const profitPerGameResult = document.createElement("li");
+        profitPerGameResult.textContent = `Profit/Loss Per Game: $${results.profitPerGame}`;
+        simulationResultsList.appendChild(profitPerGameResult);
       }
 
       resetAll();
