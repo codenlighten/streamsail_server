@@ -178,6 +178,32 @@
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
       }
 
+      /* audio */
+      audio {
+        width: 100%;
+        margin-top: 20px;
+      }
+
+      #selectMp3 {
+        display: block;
+      }
+      #selectMp3 label {
+        display: block;
+        margin-top: 20px;
+      }
+      #selectMp3 select {
+        width: 100%;
+        margin-top: 10px;
+      }
+      #selectMp3 audio {
+        width: 100%;
+        margin-top: 20px;
+      }
+      /* options */
+      #selectMp3 option {
+        padding: 10px;
+      }
+
       /* Mobile responsive adjustments */
       @media (max-width: 768px) {
         .container {
@@ -269,7 +295,10 @@
     </div>
     <div id="selectMp3">
       <label for="audioMp3">Choose Audio File</label>
-      <select name="" id="audioMp3"></select>
+      <select name="" id="audioMp3">
+        <!-- null -->
+        <option value="">Select an audio file</option>
+      </select>
       <audio src="" id="mp3"></audio>
     </div>
     <div class="container">
