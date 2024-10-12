@@ -627,7 +627,7 @@
     #simulationResults input {
       padding: 5px;
       font-size: 1rem;
-      border: 2px solid #0bb28a;
+      border: 2px solid #fff;
       border-radius: 5px;
       margin-right: 10px;
       width: 50px;
@@ -638,7 +638,7 @@
       font-size: 1rem;
       background-color: #0bb28a;
       color: white;
-      border: none;
+      border: 2px solid #fff;
       border-radius: 5px;
       cursor: pointer;
       transition: background-color 0.3s;
@@ -1079,10 +1079,20 @@
         id="numPlays"
         name="numPlays"
         min="1"
-        max="1000"
+        max="10000"
         value="100"
       />
+
+      <!-- entry fee input -->
+      <label for="entryFee">Entry Fee (in $):</label>
+      <input type="number" id="entryFee" name="entryFee" min="1" value="5" />
+
+      <!-- prize values -->
+      <label for="topPrize">Top Prize (in $):</label>
+      <input type="number" id="topPrize" name="topPrize" min="1" value="140" />
+
       <button onclick="handleSimulation()">Simulate Game</button>
+
       <ul id="simulationResultsList"></ul>
     </div>
 
@@ -1874,7 +1884,7 @@
       });
 
       document.dispatchEvent(event);
-      function simulateGame(numPlays) {
+      function simulateGame(numPlays, entryFee, topPrize) {
         const outcomes = {
           win: 0,
           gameOver: 0,
@@ -1933,6 +1943,11 @@
           }
         }
 
+        // Calculate prize payouts and total revenue
+        const totalPrizeCosts = outcomes.win * topPrize;
+        const totalRevenue = numPlays * entryFee;
+        const netProfit = totalRevenue - totalPrizeCosts;
+
         // Calculate the percentages of each outcome
         const winPercentage = ((outcomes.win / numPlays) * 100).toFixed(2);
         const gameOverPercentage = (
@@ -1940,17 +1955,28 @@
           100
         ).toFixed(2);
 
-        return { winPercentage, gameOverPercentage };
+        return {
+          winPercentage,
+          gameOverPercentage,
+          totalPrizeCosts,
+          totalRevenue,
+          netProfit,
+        };
       }
 
       function handleSimulation() {
-        const numPlays = document.getElementById("numPlays").value;
-        const results = simulateGame(numPlays);
+        const numPlays = parseInt(document.getElementById("numPlays").value);
+        const entryFee = parseFloat(document.getElementById("entryFee").value);
+        const topPrize = parseFloat(document.getElementById("topPrize").value);
+
+        const results = simulateGame(numPlays, entryFee, topPrize);
+
         const simulationResultsList = document.getElementById(
           "simulationResultsList"
         );
         simulationResultsList.innerHTML = ""; // Clear existing results
 
+        // Display the results
         const winResult = document.createElement("li");
         winResult.textContent = `Wins: ${results.winPercentage}%`;
         simulationResultsList.appendChild(winResult);
@@ -1958,6 +1984,24 @@
         const gameOverResult = document.createElement("li");
         gameOverResult.textContent = `Game Overs: ${results.gameOverPercentage}%`;
         simulationResultsList.appendChild(gameOverResult);
+
+        const prizeCostsResult = document.createElement("li");
+        prizeCostsResult.textContent = `Total Prize Costs: $${results.totalPrizeCosts.toFixed(
+          2
+        )}`;
+        simulationResultsList.appendChild(prizeCostsResult);
+
+        const revenueResult = document.createElement("li");
+        revenueResult.textContent = `Total Revenue: $${results.totalRevenue.toFixed(
+          2
+        )}`;
+        simulationResultsList.appendChild(revenueResult);
+
+        const netProfitResult = document.createElement("li");
+        netProfitResult.textContent = `Net Profit/Loss: $${results.netProfit.toFixed(
+          2
+        )}`;
+        simulationResultsList.appendChild(netProfitResult);
       }
 
       resetAll();
