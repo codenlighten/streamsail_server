@@ -1328,9 +1328,13 @@
 
       function adjustOddsForLevel(level, excess) {
         const levelOdds = odds[level];
-        const actions = Object.keys(levelOdds);
+        const actions = Object.keys(levelOdds).filter(
+          (action) => levelOdds[action] > 0
+        );
         const actionsCount = actions.length;
-        let distributedExcess = Math.round(excess / actionsCount); // Distribute excess evenly
+
+        // Distribute excess evenly among non-zero actions
+        let distributedExcess = excess / actionsCount;
 
         actions.forEach((action) => {
           if (levelOdds[action] > 0) {
@@ -1341,16 +1345,19 @@
           }
         });
 
-        // Recalculate the total and adjust if needed
+        // Recalculate total and ensure it sums up to 100%
         let newTotal = actions.reduce(
           (acc, action) => acc + odds[level][action],
           0
         );
+        const difference = 100 - newTotal;
 
-        if (newTotal !== 100) {
-          const difference = 100 - newTotal;
-          odds[level][actions[0]] += difference; // Adjust first action by the difference
-        }
+        // Adjust all non-zero actions by the remaining difference evenly
+        actions.forEach((action) => {
+          if (levelOdds[action] > 0) {
+            odds[level][action] += difference / actionsCount;
+          }
+        });
       }
 
       // Example: Modify getRandomCardForLevel to use updated odds
@@ -1452,7 +1459,14 @@
           (action) =>
             parseInt(action.level) === level && action.action !== "default"
         );
-        selectedCards = shuffleDeck([...filtered]).slice(0, numCards); // Get shuffled cards
+        console.log(filtered);
+        //get the random level array
+
+        //shuffle using random function getRandomCardForLevel
+        selectedCards = shuffleDeck([...filtered]).slice(0, numCards);
+        console.log(selectedCards);
+
+        // selectedCards = shuffleDeck([...filtered]).slice(0, numCards); // Get shuffled cards
         console.log(selectedCards);
         displayCards(level); // Ensure display is called with the newly shuffled deck
         cardsRevealed = false;
@@ -1584,8 +1598,8 @@
         let player = players[currentPlayerIndex];
         const selectedAction = selectedCards[cardIndex].action;
         const alt = selectedCards[cardIndex].alt;
-        handleAction(selectedAction, player, alt);
         flipAllCards(cardIndex); // Show all cards, revealing the chosen one
+        handleAction(selectedAction, player, alt);
         cardsRevealed = true;
 
         currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
@@ -1649,6 +1663,27 @@
               }
             }
             break;
+          case "remain":
+            updateStatus(
+              `${player.name} drew '${alt}'. Player stays at level ${player.level}.`
+            );
+            flashBackground();
+            break;
+          case "goBack":
+            if (player.level > 0) {
+              player.level -= 1;
+              updateStatus(
+                `${player.name} drew '${alt}' and went back to level ${player.level}.`
+              );
+              flashBackground();
+            } else {
+              updateStatus(
+                `${player.name} drew '${alt}' but cannot go back any further.`
+              );
+              flashBackground();
+            }
+            break;
+
           case "advanceLevel":
             player.level += 1;
             updateStatus(
@@ -1676,31 +1711,11 @@
               }, 3000);
             }
             break;
-          case "remain":
-            updateStatus(
-              `${player.name} drew '${alt}'. Player stays at level ${player.level}.`
-            );
-            flashBackground();
-            break;
-          case "goBack":
-            if (player.level > 0) {
-              player.level -= 1;
-              updateStatus(
-                `${player.name} drew '${alt}' and went back to level ${player.level}.`
-              );
-              flashBackground();
-            } else {
-              updateStatus(
-                `${player.name} drew '${alt}' but cannot go back any further.`
-              );
-              flashBackground();
-            }
-            break;
           case "gameover":
             updateStatus(`${player.name} drew '${alt}' and the game is over.`);
             flashBackground();
             gameOver = true;
-            if (level === 3) {
+            if (player.level === 3) {
               setTimeout(() => {
                 showFinalOutcome("lose");
                 // resetAll();
@@ -1806,6 +1821,19 @@
         document.getElementById("positive-effect").style.display = "none";
         document.getElementById("audioDiv").style.display = "none";
         document.body.style.backgroundColor = "#f0f8f8";
+        //reset adjust odds
+        document.getElementById("level0-advance").value = 33;
+        document.getElementById("level0-remain").value = 33;
+        document.getElementById("level0-gameover").value = 33;
+        document.getElementById("level1-advance").value = 25;
+        document.getElementById("level1-remain").value = 25;
+        document.getElementById("level1-goback").value = 25;
+        document.getElementById("level1-gameover").value = 25;
+        document.getElementById("level2-advance").value = 33;
+        document.getElementById("level2-remain").value = 33;
+        document.getElementById("level2-goback").value = 33;
+        document.getElementById("level3-win").value = 50;
+        document.getElementById("level3-gameover").value = 50;
       }
 
       document
