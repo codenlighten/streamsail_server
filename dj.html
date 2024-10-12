@@ -217,7 +217,21 @@
           "./winner_audio/winner6.mp3",
         ],
       };
-
+      let interval;
+      // 45 seconds loop through all the audio samples
+      const triggerLoop = () => {
+        let i = 0;
+        //trigger first audio immediately
+        mp3.src = audioSamples.General[i];
+        //then loop through the rest every 45 seconds
+        interval = setInterval(() => {
+          i++;
+          if (i >= audioSamples.General.length) {
+            i = 0;
+          }
+          mp3.src = audioSamples.General[i];
+        }, 45000);
+      };
       const createPad = (category, audioArray) => {
         audioArray.forEach((audio, index) => {
           const pad = document.createElement("div");
@@ -231,11 +245,26 @@
 
           samplerGrid.appendChild(pad);
         });
+        const loopPad = document.createElement("div");
+        loopPad.classList.add("sampler-pad");
+        loopPad.textContent = `Trigger Loop`;
+        loopPad.addEventListener("click", () => {
+          if (interval) {
+            loopPad.textContent = `Trigger Loop`;
+            clearInterval(interval);
+            interval = null;
+          } else {
+            loopPad.textContent = `Stop Loop`;
+            triggerLoop();
+          }
+        });
+        samplerGrid.appendChild(loopPad);
       };
 
       Object.keys(audioSamples).forEach((category) => {
         createPad(category, audioSamples[category]);
       });
+      //add a pad for the trigger loop
     </script>
   </body>
 </html>
