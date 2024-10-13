@@ -101,21 +101,29 @@
         margin-bottom: 20px;
         text-align: center;
       }
+      .wrapper {
+        text-align: center;
+      }
+      .standalone {
+        display: none;
+      }
     </style>
   </head>
   <body>
     <div class="container">
-      <div class="title">COUNTDOWN <span>TIMER</span></div>
-      <div class="subtitle">"Get ready for the big moment!"</div>
-      <div class="description">
-        Click the START button to begin the countdown. The timer will start at
-        60 seconds and count down to zero. Each second will display a different
-        saying to keep you engaged. Get ready for the big moment!
+      <div class="wrapper">
+        <div class="title">COUNTDOWN <span>TIMER</span></div>
+        <div class="subtitle">"Get ready for the big moment!"</div>
+        <div class="description">
+          Click the START button to begin the countdown. The timer will start at
+          60 seconds and count down to zero. Each second will display a
+          different saying to keep you engaged. Get ready for the big moment!
+        </div>
       </div>
       <div class="timer-box" id="timer">00:00</div>
-
-      <div class="sayings-box" id="saying">Get ready, it's coming!</div>
-
+      <div class="wrapper">
+        <div class="sayings-box" id="saying">Get ready, it's coming!</div>
+      </div>
       <div class="controls">
         <input
           value="60"
@@ -131,6 +139,7 @@
     <script>
       let countdown;
       let isRunning = false;
+      let wrapperOff = false;
       const countdownNumber = document.getElementById("countdownNumber");
       let secondsLeft = parseInt(countdownNumber.value) || 60;
 
@@ -154,27 +163,28 @@
         countdown = setInterval(() => {
           secondsLeft--;
           displayTime(secondsLeft);
-
-          if (secondsLeft === 60) {
-            updateSaying(0); // Show "The countdown begins now!"
-          } else if (secondsLeft === 50) {
-            updateSaying(1); // Show "Don’t blink, things are heating up!"
-          } else if (secondsLeft === 40) {
-            updateSaying(2); // Show "Hold tight! The next move is near!"
-          } else if (secondsLeft === 30) {
-            updateSaying(3); // Show "Stay ready! It's almost here!"
-          } else if (secondsLeft === 25) {
-            updateSaying(4); // Show "The clock is ticking! Get prepared!"
-          } else if (secondsLeft === 20) {
-            updateSaying(5); // Show "Anticipation is building! Get set!"
-          } else if (secondsLeft === 15) {
-            updateSaying(6); // Show "Just seconds left! Can you feel it?"
-          } else if (secondsLeft === 10) {
-            updateSaying(7); // Show "Things are moving fast! Stay tuned!"
-          } else if (secondsLeft === 5) {
-            updateSaying(8); // Show "The final moments are here! Stay alert!"
-          } else if (secondsLeft === 1) {
-            updateSaying(9); // Show "Get ready for the big reveal!"
+          if (wrapperOff) {
+            if (secondsLeft === 60) {
+              updateSaying(0); // Show "The countdown begins now!"
+            } else if (secondsLeft === 50) {
+              updateSaying(1); // Show "Don’t blink, things are heating up!"
+            } else if (secondsLeft === 40) {
+              updateSaying(2); // Show "Hold tight! The next move is near!"
+            } else if (secondsLeft === 30) {
+              updateSaying(3); // Show "Stay ready! It's almost here!"
+            } else if (secondsLeft === 25) {
+              updateSaying(4); // Show "The clock is ticking! Get prepared!"
+            } else if (secondsLeft === 20) {
+              updateSaying(5); // Show "Anticipation is building! Get set!"
+            } else if (secondsLeft === 15) {
+              updateSaying(6); // Show "Just seconds left! Can you feel it?"
+            } else if (secondsLeft === 10) {
+              updateSaying(7); // Show "Things are moving fast! Stay tuned!"
+            } else if (secondsLeft === 5) {
+              updateSaying(8); // Show "The final moments are here! Stay alert!"
+            } else if (secondsLeft === 1) {
+              updateSaying(9); // Show "Get ready for the big reveal!"
+            }
           }
 
           if (secondsLeft <= 0) {
@@ -206,6 +216,34 @@
       }
 
       displayTime(secondsLeft); // Initial display
+
+      //listen for spacebar to start timer
+      document.body.onkeyup = function (e) {
+        if (e.keyCode == 32) {
+          startTimer();
+        }
+      };
+      //listen for enter key to reset timer
+      document.body.onkeyup = function (e) {
+        if (e.keyCode == 13) {
+          resetTimer();
+        }
+      };
+
+      //listen for s key to add classlist display none to classs wrapper
+      document.body.onkeyup = function (e) {
+        if (e.keyCode == 83) {
+          if (!wrapperOff) {
+            console.log("wrapper off");
+            document.querySelector(".wrapper").classList.add("standalone");
+            wrapperOff = true;
+          } else {
+            console.log("wrapper on");
+            document.querySelector(".wrapper").classList.remove("standalone");
+            wrapperOff = false;
+          }
+        }
+      };
     </script>
   </body>
 </html>
