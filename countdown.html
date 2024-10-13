@@ -92,6 +92,15 @@
         background-color: #ddd;
         color: black;
       }
+      /* input for seconds */
+      input[type="number"] {
+        padding: 10px;
+        font-size: 1.2rem;
+        border-radius: 5px;
+        border: 2px solid white;
+        margin-bottom: 20px;
+        text-align: center;
+      }
     </style>
   </head>
   <body>
@@ -103,13 +112,17 @@
         60 seconds and count down to zero. Each second will display a different
         saying to keep you engaged. Get ready for the big moment!
       </div>
-
-      <input type="number" id="countdownNumber" placeholder="Enter seconds" />
       <div class="timer-box" id="timer">00:00</div>
 
       <div class="sayings-box" id="saying">Get ready, it's coming!</div>
 
       <div class="controls">
+        <input
+          value="60"
+          type="number"
+          id="countdownNumber"
+          placeholder="Enter seconds"
+        />
         <button class="button" onclick="startTimer()">START</button>
         <button class="button" onclick="resetTimer()">RESET</button>
       </div>
@@ -119,7 +132,7 @@
       let countdown;
       let isRunning = false;
       const countdownNumber = document.getElementById("countdownNumber");
-      let secondsLeft = countdownNumber.value || 60;
+      let secondsLeft = parseInt(countdownNumber.value) || 60;
 
       const sayings = [
         "The countdown begins now!",
