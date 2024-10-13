@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Echo X Live - Break Calculator</title>
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        background-color: #57c1a5;
+        margin: 0;
+        padding: 0;
+        color: white;
+      }
+
+      .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #57c1a5;
+      }
+
+      .calculator-section {
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 70%;
+        background-color: #57c1a5;
+      }
+
+      .title {
+        font-size: 2.5rem;
+        font-weight: 900;
+        text-transform: uppercase;
+        margin-bottom: 15px;
+        color: black;
+      }
+      .title span {
+        color: #fff;
+      }
+
+      .subtitle {
+        font-size: 1.5rem;
+        font-style: italic;
+        margin-bottom: 25px;
+        font-weight: bold;
+      }
+
+      .form-group {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 15px;
+      }
+
+      .form-group label {
+        flex: 1;
+        font-size: 1.2rem;
+        font-weight: bold;
+        margin-right: 20px;
+      }
+
+      .form-group input {
+        flex: 1;
+        padding: 10px;
+        font-size: 1.2rem;
+        border-radius: 5px;
+        border: 2px solid white;
+      }
+
+      .form-group input:focus {
+        outline: none;
+        border-color: #ddd;
+      }
+
+      .buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 30px;
+      }
+
+      .buttons .button {
+        background-color: #333;
+        color: white;
+        border-radius: 5px;
+        padding: 15px;
+        text-align: center;
+        text-decoration: none;
+        font-size: 16px;
+        font-weight: bold;
+        width: 45%;
+        border: 2px solid #fff;
+        cursor: pointer;
+      }
+
+      .buttons .button:hover {
+        background-color: #ddd;
+        color: black;
+      }
+
+      .result-box {
+        background-color: #ddd;
+        color: black;
+        padding: 20px;
+        margin-top: 30px;
+        border-radius: 10px;
+      }
+
+      .result-box p {
+        margin-bottom: 10px;
+        font-weight: bold;
+      }
+
+      .result-box input {
+        width: 100%;
+        padding: 10px;
+        font-size: 1.2rem;
+        border-radius: 5px;
+        border: 2px solid white;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="calculator-section">
+        <div class="title">BREAK <span>CALCULATOR</span></div>
+        <div class="subtitle">
+          Easily calculate the optimal price per spot and track your profit.
+        </div>
+
+        <form>
+          <div class="form-group">
+            <label for="cogs">COST OF GOODS (COGS)</label>
+            <input
+              type="number"
+              id="cogs"
+              name="cogs"
+              placeholder="Total cost of items (e.g., $1,000)"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="spots">NUMBER OF SPOTS</label>
+            <input
+              type="number"
+              id="spots"
+              name="spots"
+              placeholder="How many spots are in the break?"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="shipping">SHIPPING COST PER SPOT</label>
+            <input
+              type="number"
+              id="shipping"
+              name="shipping"
+              placeholder="Average shipping cost (e.g., $10)"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="platform">PLATFORM FEES (PERCENTAGE)</label>
+            <input
+              type="number"
+              id="platform"
+              name="platform"
+              placeholder="Platform cut percentage (e.g., 10%)"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="profit">DESIRED PROFIT (PERCENTAGE OR FLAT)</label>
+            <input
+              type="number"
+              id="profit"
+              name="profit"
+              placeholder="Desired profit (e.g., 15% or $200)"
+            />
+          </div>
+
+          <div class="buttons">
+            <button type="button" class="button" onclick="calculate()">
+              CALCULATE
+            </button>
+            <button type="reset" class="button">RESET</button>
+          </div>
+        </form>
+
+        <div class="result-box">
+          <p>SPOT PRICE (EACH SPOT SHOULD BE PRICED AT):</p>
+          <input type="text" id="spotPrice" readonly />
+
+          <p>TOTAL REVENUE (EXPECTED TOTAL REVENUE):</p>
+          <input type="text" id="totalRevenue" readonly />
+
+          <p>ESTIMATED PROFIT:</p>
+          <input type="text" id="estimatedProfit" readonly />
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function calculate() {
+        const cogs = parseFloat(document.getElementById("cogs").value) || 0;
+        const spots = parseFloat(document.getElementById("spots").value) || 1;
+        const shipping =
+          parseFloat(document.getElementById("shipping").value) || 0;
+        const platform =
+          parseFloat(document.getElementById("platform").value) / 100 || 0;
+        const profit = parseFloat(document.getElementById("profit").value) || 0;
+
+        const totalCost = cogs + spots * shipping;
+        const platformFees = totalCost * platform;
+        const desiredProfit = profit > 1 ? profit : totalCost * profit;
+
+        const spotPrice = (totalCost + platformFees + desiredProfit) / spots;
+        const totalRevenue = spotPrice * spots;
+        const estimatedProfit = totalRevenue - totalCost - platformFees;
+
+        document.getElementById("spotPrice").value = `$${spotPrice.toFixed(2)}`;
+        document.getElementById(
+          "totalRevenue"
+        ).value = `$${totalRevenue.toFixed(2)}`;
+        document.getElementById(
+          "estimatedProfit"
+        ).value = `$${estimatedProfit.toFixed(2)}`;
+      }
+    </script>
+  </body>
+</html>
