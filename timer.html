@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Echo X Live - Countdown Timer</title>
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        background-color: #57c1a5;
+        margin: 0;
+        padding: 0;
+        color: white;
+      }
+
+      .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #57c1a5;
+        flex-direction: column;
+      }
+
+      .title {
+        font-size: 2.5rem;
+        font-weight: 900;
+        text-transform: uppercase;
+        margin-bottom: 15px;
+        color: black;
+      }
+      .title span {
+        color: #fff;
+      }
+
+      .subtitle {
+        font-size: 1.5rem;
+        font-style: italic;
+        margin-bottom: 25px;
+        font-weight: bold;
+      }
+
+      .description {
+        font-size: 1.2rem;
+        line-height: 1.5;
+        margin-bottom: 40px;
+        font-weight: bold;
+        text-align: center;
+        max-width: 600px;
+      }
+
+      .timer-box {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 5rem;
+        font-weight: bold;
+        padding: 20px;
+        border-radius: 10px;
+        background-color: white;
+        color: black;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .sayings-box {
+        margin-top: 20px;
+        font-size: 1.8rem;
+        font-weight: bold;
+        text-align: center;
+        color: yellow;
+      }
+
+      .controls {
+        margin-top: 20px;
+      }
+
+      .button {
+        background-color: #333;
+        color: white;
+        border-radius: 5px;
+        padding: 15px;
+        margin-right: 15px;
+        text-align: center;
+        text-decoration: none;
+        font-size: 16px;
+        font-weight: bold;
+        border: 2px solid #fff;
+        cursor: pointer;
+      }
+
+      .button:hover {
+        background-color: #ddd;
+        color: black;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="title">COUNTDOWN <span>TIMER</span></div>
+      <div class="subtitle">"Get ready for the big moment!"</div>
+      <div class="description">
+        Click the START button to begin the countdown. The timer will start at
+        60 seconds and count down to zero. Each second will display a different
+        saying to keep you engaged. Get ready for the big moment!
+      </div>
+
+      <input type="number" id="countdownNumber" placeholder="Enter seconds" />
+      <div class="timer-box" id="timer">00:00</div>
+
+      <div class="sayings-box" id="saying">Get ready, it's coming!</div>
+
+      <div class="controls">
+        <button class="button" onclick="startTimer()">START</button>
+        <button class="button" onclick="resetTimer()">RESET</button>
+      </div>
+    </div>
+
+    <script>
+      let countdown;
+      let isRunning = false;
+      const countdownNumber = document.getElementById("countdownNumber");
+      let secondsLeft = countdownNumber.value || 60;
+
+      const sayings = [
+        "The countdown begins now!",
+        "Don’t blink, things are heating up!",
+        "Hold tight! The next move is near!",
+        "Stay ready! It's almost here!",
+        "The clock is ticking! Get prepared!",
+        "Anticipation is building! Get set!",
+        "Just seconds left! Can you feel it?",
+        "Things are moving fast! Stay tuned!",
+        "The final moments are here! Stay alert!",
+        "Get ready for the big reveal!",
+      ];
+
+      function startTimer() {
+        if (isRunning) return;
+        isRunning = true;
+
+        countdown = setInterval(() => {
+          secondsLeft--;
+          displayTime(secondsLeft);
+
+          if (secondsLeft === 60) {
+            updateSaying(0); // Show "The countdown begins now!"
+          } else if (secondsLeft === 50) {
+            updateSaying(1); // Show "Don’t blink, things are heating up!"
+          } else if (secondsLeft === 40) {
+            updateSaying(2); // Show "Hold tight! The next move is near!"
+          } else if (secondsLeft === 30) {
+            updateSaying(3); // Show "Stay ready! It's almost here!"
+          } else if (secondsLeft === 25) {
+            updateSaying(4); // Show "The clock is ticking! Get prepared!"
+          } else if (secondsLeft === 20) {
+            updateSaying(5); // Show "Anticipation is building! Get set!"
+          } else if (secondsLeft === 15) {
+            updateSaying(6); // Show "Just seconds left! Can you feel it?"
+          } else if (secondsLeft === 10) {
+            updateSaying(7); // Show "Things are moving fast! Stay tuned!"
+          } else if (secondsLeft === 5) {
+            updateSaying(8); // Show "The final moments are here! Stay alert!"
+          } else if (secondsLeft === 1) {
+            updateSaying(9); // Show "Get ready for the big reveal!"
+          }
+
+          if (secondsLeft <= 0) {
+            clearInterval(countdown);
+            isRunning = false;
+          }
+        }, 1000);
+      }
+
+      function resetTimer() {
+        clearInterval(countdown);
+        secondsLeft = 60;
+        displayTime(secondsLeft);
+        isRunning = false;
+        document.getElementById("saying").textContent = sayings[0]; // Reset to initial saying
+      }
+
+      function displayTime(seconds) {
+        const minutes = Math.floor(seconds / 60);
+        const remainderSeconds = seconds % 60;
+        const display = `${minutes < 10 ? "0" : ""}${minutes}:${
+          remainderSeconds < 10 ? "0" : ""
+        }${remainderSeconds}`;
+        document.getElementById("timer").textContent = display;
+      }
+
+      function updateSaying(index) {
+        document.getElementById("saying").textContent = sayings[index];
+      }
+
+      displayTime(secondsLeft); // Initial display
+    </script>
+  </body>
+</html>
