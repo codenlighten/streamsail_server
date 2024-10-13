@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Echo X Live - Livestream Toolbox</title>
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        background-color: #57c1a5;
+        margin: 0;
+        padding: 0;
+        color: white;
+      }
+
+      .container {
+        /* center of top and bottom */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #57c1a5;
+      }
+
+      .left-section,
+      .right-section {
+        padding: 20px;
+        /* background-color: #fff; */
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 40%;
+        margin: 0 20px;
+      }
+
+      .title {
+        font-size: 2.5rem;
+        font-weight: 900;
+        text-transform: uppercase;
+        margin-bottom: 15px;
+        color: black;
+      }
+      .title span {
+        color: #fff;
+      }
+
+      .subtitle {
+        font-size: 1.5rem;
+        font-style: italic;
+        margin-bottom: 25px;
+        font-weight: bold;
+      }
+
+      .description {
+        font-size: 1.2rem;
+        line-height: 1.5;
+        margin-bottom: 40px;
+        font-weight: bold;
+      }
+
+      .link-box {
+        /* darker grey bg */
+        background-color: #ddd;
+        color: black;
+        padding: 20px;
+        margin-bottom: 30px;
+        border-radius: 10px;
+      }
+
+      .link-box p {
+        margin-bottom: 10px;
+        font-weight: bold;
+      }
+
+      .link {
+        color: black;
+        text-decoration: none;
+        border: 2px solid #fff;
+        padding: 10px;
+        border-radius: 5px;
+        display: inline-block;
+        margin-bottom: 10px;
+        margin-left: 10px;
+        background-color: white;
+      }
+
+      .link-box a:hover {
+        background-color: #ddd;
+      }
+
+      .games-tools {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .column {
+        width: 48%;
+      }
+
+      .column h2 {
+        font-size: 24px;
+        margin-bottom: 20px;
+        font-weight: bold;
+        text-align: center;
+      }
+
+      .button {
+        display: block;
+        background-color: #57c1a5;
+        color: white;
+        border-radius: 5px;
+        padding: 15px;
+        margin-bottom: 15px;
+        text-align: center;
+        text-decoration: none;
+        font-size: 16px;
+        font-weight: bold;
+        border: 2px solid #fff;
+      }
+      .gametitle {
+        display: block;
+        background-color: white;
+        color: black;
+        border-radius: 5px;
+        padding: 15px;
+        margin-bottom: 15px;
+        text-align: center;
+        text-decoration: none;
+        font-size: 16px;
+        font-weight: bold;
+        border: 2px solid #fff;
+      }
+
+      .button:hover {
+        background-color: #ddd;
+      }
+      /* left side */
+      .online {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+      }
+      .online #dot {
+        width: 20px;
+        height: 20px;
+        background-color: red;
+        border-radius: 50%;
+        box-shadow: 0 0 10px red, 0 0 20px red, 0 0 30px red;
+        animation: pulse 1s infinite;
+      }
+      #topLeft {
+        display: flex;
+        align-items: center;
+      }
+      #tl-title {
+        font-size: 24px;
+        font-weight: bold;
+        margin-left: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- glowing red dot to show online -->
+
+      <div class="online">
+        <div id="topLeft">
+          <div id="dot"></div>
+          <span id="tl-title">EchoX Live</span>
+        </div>
+      </div>
+      <div class="left-section">
+        <div class="title">LIVESTREAM <span>TOOLBOX</span></div>
+        <div class="subtitle">
+          Unleash the full power of your live streams with Echo X Co-Pilot.
+          Stream smarter, play harder.
+        </div>
+        <div class="description">
+          Echo X Co-Pilot is designed to turn your live streams into an
+          interactive experience. Whether you're hosting a card break, running a
+          game of mystery pulls, or just want to add some excitement, Co-Pilot
+          has the tools you need to engage your audience and maximize fun.
+        </div>
+
+        <div class="link-box">
+          <p>
+            REFERRAL LINK (BUY):
+            <!-- capitalize url -->
+            <a class="link" href="https://whatnot.com/invite/echo_x_era"
+              >HTTPS://WHATNOT.COM/INVITE/ECHO_X_ERA</a
+            >
+          </p>
+          <p>
+            REFERRAL LINK (SELL):
+            <a class="link" href="https://whatnot.com/invite/seller/echo_x_era"
+              >HTTPS://WHATNOT.COM/INVITE/SELLER/ECHO_X_ERA</a
+            >
+          </p>
+          <p>COUPON CODE: <span class="link">SAVEFIVE</span></p>
+        </div>
+      </div>
+
+      <div class="right-section">
+        <div class="games-tools">
+          <div class="column">
+            <h2 class="gametitle">GAMES</h2>
+            <a href="#" class="button">MYSTERY PULLBOX</a>
+            <a href="#" class="button">RANDOMIZER WHEEL</a>
+            <a href="showdown.html" class="button">SPORTS SHOWDOWN</a>
+            <a href="#" class="button">GPK SHOWDOWN</a>
+            <a href="emojiracer.html" class="button">EMOJI RACER</a>
+          </div>
+          <div class="column">
+            <h2 class="gametitle">TOOLS</h2>
+            <a href="#" class="button">BREAK CALC</a>
+            <a href="talkflare.html" class="button">TALK FLARE</a>
+            <a href="dj.html" class="button">AUTO HOST</a>
+            <a href="#" class="button">COUNTDOWN</a>
+            <a href="#" class="button">TRACKER</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      function copyToClipboard(text) {
+        var dummy = document.createElement("textarea");
+        document.body.appendChild(dummy);
+        dummy.value = text;
+        dummy.select();
+        document.execCommand("copy");
+        document.body.removeChild(dummy);
+      }
+
+      document.querySelectorAll(".link").forEach((link) => {
+        link.addEventListener("click", (e) => {
+          e.preventDefault();
+          copyToClipboard(e.target.innerText);
+          alert("Copied to clipboard!");
+        });
+      });
+    </script>
+  </body>
+</html>
