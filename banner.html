@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Echo X Live - Message Banner</title>
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        background-color: #57c1a5;
+        margin: 0;
+        padding: 0;
+        color: white;
+      }
+
+      .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        flex-direction: column;
+      }
+
+      .banner {
+        width: 100%;
+        position: fixed;
+        top: 0;
+        background-color: #333;
+        color: #fff;
+        text-align: center;
+        font-size: 2.5rem;
+        font-weight: bold;
+        padding: 20px;
+        transform: translateY(-100%);
+        transition: transform 0.8s ease;
+      }
+
+      .banner.show {
+        transform: translateY(0);
+      }
+
+      .input-box {
+        position: fixed;
+        bottom: 20px;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+      }
+
+      input[type="text"] {
+        padding: 15px;
+        width: 70%;
+        font-size: 1.2rem;
+        border-radius: 5px;
+        border: 2px solid white;
+        margin-right: 10px;
+        text-align: center;
+      }
+
+      .button {
+        background-color: #333;
+        color: white;
+        border-radius: 5px;
+        padding: 15px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        border: 2px solid #fff;
+      }
+
+      .button:hover {
+        background-color: #ddd;
+        color: black;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div id="banner" class="banner">Your message will appear here!</div>
+      <div class="input-box">
+        <input type="text" id="messageInput" placeholder="Enter message" />
+        <button class="button" onclick="showBanner()">Display Message</button>
+      </div>
+    </div>
+
+    <script>
+      function showBanner() {
+        const banner = document.getElementById("banner");
+        const message = document.getElementById("messageInput").value;
+
+        if (message.trim() !== "") {
+          banner.textContent = message;
+          banner.classList.add("show");
+
+          // Hide the banner after 5 seconds
+          setTimeout(() => {
+            banner.classList.remove("show");
+          }, 5000);
+        }
+      }
+
+      // Optional: Trigger the banner with Enter key
+      document.getElementById("messageInput").addEventListener("keyup", function (e) {
+        if (e.key === "Enter") {
+          showBanner();
+        }
+      });
+    </script>
+  </body>
+</html>
