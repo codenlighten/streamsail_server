@@ -92,6 +92,7 @@
         background-color: #ddd;
         color: black;
       }
+
       /* input for seconds */
       input[type="number"] {
         padding: 10px;
@@ -101,9 +102,11 @@
         margin-bottom: 20px;
         text-align: center;
       }
+
       .wrapper {
         text-align: center;
       }
+
       .standalone {
         display: none;
       }
@@ -159,33 +162,12 @@
       function startTimer() {
         if (isRunning) return;
         isRunning = true;
+        secondsLeft = parseInt(countdownNumber.value) || 60;
 
         countdown = setInterval(() => {
           secondsLeft--;
           displayTime(secondsLeft);
-          if (wrapperOff) {
-            if (secondsLeft === 60) {
-              updateSaying(0); // Show "The countdown begins now!"
-            } else if (secondsLeft === 50) {
-              updateSaying(1); // Show "Don’t blink, things are heating up!"
-            } else if (secondsLeft === 40) {
-              updateSaying(2); // Show "Hold tight! The next move is near!"
-            } else if (secondsLeft === 30) {
-              updateSaying(3); // Show "Stay ready! It's almost here!"
-            } else if (secondsLeft === 25) {
-              updateSaying(4); // Show "The clock is ticking! Get prepared!"
-            } else if (secondsLeft === 20) {
-              updateSaying(5); // Show "Anticipation is building! Get set!"
-            } else if (secondsLeft === 15) {
-              updateSaying(6); // Show "Just seconds left! Can you feel it?"
-            } else if (secondsLeft === 10) {
-              updateSaying(7); // Show "Things are moving fast! Stay tuned!"
-            } else if (secondsLeft === 5) {
-              updateSaying(8); // Show "The final moments are here! Stay alert!"
-            } else if (secondsLeft === 1) {
-              updateSaying(9); // Show "Get ready for the big reveal!"
-            }
-          }
+          updateSaying(secondsLeft);
 
           if (secondsLeft <= 0) {
             clearInterval(countdown);
@@ -211,39 +193,35 @@
         document.getElementById("timer").textContent = display;
       }
 
-      function updateSaying(index) {
+      function updateSaying(seconds) {
+        let index;
+        if (seconds >= 50) index = 0;
+        else if (seconds >= 40) index = 1;
+        else if (seconds >= 30) index = 2;
+        else if (seconds >= 25) index = 3;
+        else if (seconds >= 20) index = 4;
+        else if (seconds >= 15) index = 5;
+        else if (seconds >= 10) index = 6;
+        else if (seconds >= 5) index = 7;
+        else if (seconds >= 1) index = 8;
+        else index = 9;
+
         document.getElementById("saying").textContent = sayings[index];
       }
 
+      function toggleWrapper() {
+        const wrapper = document.querySelector(".wrapper");
+        wrapperOff = !wrapperOff;
+        wrapper.classList.toggle("standalone", wrapperOff);
+      }
+
+      document.body.onkeyup = function (e) {
+        if (e.keyCode === 32) startTimer(); // Start timer on spacebar
+        if (e.keyCode === 13) resetTimer(); // Reset timer on enter
+        if (e.keyCode === 83) toggleWrapper(); // Toggle wrapper on 'S'
+      };
+
       displayTime(secondsLeft); // Initial display
-
-      //listen for spacebar to start timer
-      document.body.onkeyup = function (e) {
-        if (e.keyCode == 32) {
-          startTimer();
-        }
-      };
-      //listen for enter key to reset timer
-      document.body.onkeyup = function (e) {
-        if (e.keyCode == 13) {
-          resetTimer();
-        }
-      };
-
-      //listen for s key to add classlist display none to classs wrapper
-      document.body.onkeyup = function (e) {
-        if (e.keyCode == 83) {
-          if (!wrapperOff) {
-            console.log("wrapper off");
-            document.querySelector(".wrapper").classList.add("standalone");
-            wrapperOff = true;
-          } else {
-            console.log("wrapper on");
-            document.querySelector(".wrapper").classList.remove("standalone");
-            wrapperOff = false;
-          }
-        }
-      };
     </script>
   </body>
 </html>
