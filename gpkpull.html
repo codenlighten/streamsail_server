@@ -96,12 +96,26 @@
         backdrop-filter: blur(10px);
       }
 
-      #cards-container {
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 20px;
-        margin-top: 20px;
+      .card-container {
+        margin: 10px;
+        display: inline-block;
+        width: 150px;
+        height: 200px;
+        perspective: 1000px;
+      }
+
+      .card-action {
+        display: none;
+        padding: 10px;
+        background-color: #f6b50e;
+        color: #6d1399;
+        border-radius: 10px;
+        margin-top: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      .card-action.visible {
+        display: block;
       }
 
       .card {
@@ -141,7 +155,7 @@
         overflow: hidden;
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        justify-content: flex-start;
         align-items: center;
       }
 
@@ -153,25 +167,32 @@
         background-color: #f6b50e;
         color: #6d1399;
         transform: rotateY(180deg);
+        padding: 10px;
+        box-sizing: border-box;
       }
 
-      .card-front img,
       .card-back img {
         width: 100%;
-        height: 100%;
-        object-fit: cover;
+        height: auto;
+        object-fit: contain;
+        max-height: 90%;
       }
-
+      .card-front img {
+        width: 100%;
+        height: auto;
+        object-fit: contain;
+        /* max-height: 60%; */
+      }
       .card-back h3 {
-        margin: 10px 0 5px;
-        font-size: 16px;
+        margin: 5px 0;
+        font-size: 14px;
         color: #6d1399;
       }
 
       .card-back p {
-        margin: 5px 0;
-        font-size: 12px;
-        padding: 0 5px;
+        margin: 2px 0;
+        font-size: 10px;
+        line-height: 1.2;
       }
 
       button {
@@ -395,6 +416,8 @@
             </div>
           </div>
         </div>
+        <!-- results of card -->
+        <div id="cardDetails"></div>
       </div>
       <button id="claim-prize" style="display: none">Claim Prize</button>
       <button id="next-level" style="display: none">Next Level</button>
@@ -620,6 +643,9 @@
         selectedCards = cardSet.slice(0, levelData.cards);
 
         selectedCards.forEach((card, index) => {
+          const cardContainer = document.createElement("div");
+          cardContainer.className = "card-container";
+
           const cardElement = document.createElement("div");
           cardElement.className = "card";
           cardElement.dataset.level = currentLevel;
@@ -634,22 +660,40 @@
                     <img src="./dumpster_images/${card.name
                       .toLowerCase()
                       .replace(/\s+/g, "_")}.png" alt="${card.name}">
-                    <h3>${card.name}</h3>
+                    <h3>${
+                      card.name == "Backwards Benny2"
+                        ? "Backwards Benny"
+                        : card.name
+                    }</h3>
                     <p>${card.effect}</p>
-                    <p><em>${card.explanation}</em></p>
                 </div>
             </div>
         `;
+
+          const actionElement = document.createElement("div");
+          actionElement.className = "card-action";
+          actionElement.innerHTML = `
+            <p><strong>Effect:</strong> ${card.effect}</p>
+            <p><em>${card.explanation}</em></p>
+        `;
+
+          cardContainer.appendChild(cardElement);
+          cardContainer.appendChild(actionElement);
+
           cardElement.addEventListener("click", () => revealCard(index));
-          cardsContainer.appendChild(cardElement);
+          cardsContainer.appendChild(cardContainer);
         });
         updateGameInfo();
       }
       function revealCard(index) {
         const card = selectedCards[index];
-        const cardElement = cardsContainer.children[index];
+        const cardContainer = cardsContainer.children[index];
+        const cardElement = cardContainer.querySelector(".card");
+        const actionElement = cardContainer.querySelector(".card-action");
+
         cardElement.classList.add("flipped");
         cardElement.style.pointerEvents = "none";
+        actionElement.classList.add("visible");
 
         // Reveal all other cards after a short delay
         setTimeout(() => {
@@ -657,16 +701,21 @@
           setTimeout(() => handleCardEffect(card.effect), 3000);
         }, 1500);
       }
-
       function revealAllCards() {
-        Array.from(cardsContainer.children).forEach((cardElement) => {
+        Array.from(cardsContainer.children).forEach((cardContainer) => {
+          const cardElement = cardContainer.querySelector(".card");
+          const actionElement = cardContainer.querySelector(".card-action");
           cardElement.classList.add("flipped");
           cardElement.style.pointerEvents = "none";
+          actionElement.classList.add("visible");
         });
       }
-
       function handleCardEffect(effect) {
-        if (effect.includes("Advance") || effect.includes("Step up")) {
+        if (
+          effect.includes("Advance") ||
+          effect.includes("Step up") ||
+          effect.includes("Climb back to Level 1")
+        ) {
           currentLevel++;
         } else if (
           effect.includes("back") ||
@@ -709,7 +758,6 @@
           endGame(false);
         }
       }
-
       function endGame(isWinner) {
         cardsContainer.innerHTML = "";
         claimPrizeButton.style.display = "none";
