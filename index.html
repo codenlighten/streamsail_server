@@ -63,24 +63,25 @@
         font-family: "Press Start 2P", cursive;
         background: radial-gradient(circle, #0d0d0d, #0b2820);
         color: #fff;
+        min-height: 100vh;
+        background-image: url("https://www.transparenttextures.com/patterns/diagmonds-light.png");
+        background-blend-mode: overlay;
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100%;
-        background-image: url("https://www.transparenttextures.com/patterns/diagmonds-light.png");
-        background-blend-mode: overlay;
-        overflow: hidden;
+        padding: 20px 0;
       }
 
       .container {
         text-align: center;
         background: rgba(0, 0, 0, 0.8);
-        padding: 60px 30px;
+        padding: 40px 30px;
         border-radius: 20px;
         box-shadow: 0 0 20px rgba(87, 193, 165, 0.7);
         animation: pulse 2s infinite alternate;
         width: 85%;
         max-width: 900px;
+        margin: auto;
       }
 
       @keyframes pulse {
@@ -108,8 +109,8 @@
 
       .game-link {
         display: inline-block;
-        margin: 20px;
-        padding: 20px 40px;
+        margin: 10px;
+        padding: 15px 30px;
         font-size: 1.2rem;
         text-transform: uppercase;
         background: linear-gradient(45deg, #57c1a5, #3d8671);
@@ -144,13 +145,22 @@
       }
 
       @media (max-width: 768px) {
+        body {
+          padding: 10px 0;
+        }
+
+        .container {
+          padding: 30px 20px;
+        }
+
         h1 {
-          font-size: 2.5rem;
+          font-size: 2rem;
         }
 
         .game-link {
-          padding: 15px 30px;
-          font-size: 1.1rem;
+          padding: 12px 24px;
+          font-size: 1rem;
+          margin: 8px;
         }
 
         #logo {
