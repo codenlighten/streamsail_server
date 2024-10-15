@@ -3,14 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Echo X Live - Scrolling Message Banner</title>
+    <title>Echo X Live - Enhanced Message Banner</title>
     <style>
       body {
         font-family: "Arial", sans-serif;
-        background-color: white;
+        background-color: #f0f0f0;
         margin: 0;
         padding: 0;
-        color: black;
+        color: #333;
       }
 
       .container {
@@ -21,31 +21,42 @@
         flex-direction: column;
       }
 
-      .scrolling-banner {
+      .banner {
         width: 100%;
-        overflow: hidden;
         position: fixed;
         top: 30%;
         background-color: #57c1a5;
         color: white;
+        text-align: center;
         font-size: 2.5rem;
         font-weight: bold;
         padding: 20px;
         box-sizing: border-box;
+        opacity: 0;
+        transition: all 0.5s ease-in-out;
+      }
+
+      .banner.show {
+        opacity: 1;
+      }
+
+      .scrolling-banner {
+        overflow: hidden;
+        white-space: nowrap;
       }
 
       .scrolling-banner-text {
         display: inline-block;
-        white-space: nowrap;
-        animation: scroll 10s linear infinite;
+        padding-left: 100%;
+        animation: scroll 15s linear infinite;
       }
 
       @keyframes scroll {
-        from {
-          transform: translateX(100%);
+        0% {
+          transform: translate(0, 0);
         }
-        to {
-          transform: translateX(-100%);
+        100% {
+          transform: translate(-100%, 0);
         }
       }
 
@@ -55,11 +66,13 @@
         display: flex;
         justify-content: center;
         width: 100%;
+        padding: 0 20px;
+        box-sizing: border-box;
       }
 
       input[type="text"] {
         padding: 15px;
-        width: 70%;
+        width: 50%;
         font-size: 1.2rem;
         border-radius: 5px;
         border: 2px solid #57c1a5;
@@ -80,45 +93,128 @@
         font-size: 16px;
         font-weight: bold;
         cursor: pointer;
-        border: 2px solid white;
+        border: none;
+        transition: background-color 0.3s ease;
       }
 
       .button:hover {
         background-color: #45a48d;
       }
+
+      .button:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+      }
+
+      #stopResetButton {
+        background-color: #ff6b6b;
+      }
+
+      #stopResetButton:hover {
+        background-color: #ff5252;
+      }
+
+      @media (max-width: 768px) {
+        .input-box {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        input[type="text"] {
+          width: 100%;
+          margin-right: 0;
+          margin-bottom: 10px;
+        }
+
+        .button {
+          width: 100%;
+          margin-bottom: 10px;
+        }
+      }
     </style>
   </head>
   <body>
     <div class="container">
-      <div id="scrollingBanner" class="scrolling-banner">
-        <span id="scrollingText" class="scrolling-banner-text"></span>
-      </div>
+      <div id="banner" class="banner"></div>
       <div class="input-box">
-        <input type="text" id="messageInput" placeholder="Enter message" />
-        <button class="button" onclick="showScrollingBanner()">
+        <input
+          type="text"
+          id="messageInput"
+          placeholder="Enter message"
+          maxlength="100"
+        />
+        <button id="displayButton" class="button" onclick="showBanner()">
+          Display Message
+        </button>
+        <button
+          id="scrollButton"
+          class="button"
+          onclick="showScrollingBanner()"
+        >
           Display Scrolling Message
+        </button>
+        <button id="stopResetButton" class="button" onclick="stopReset()">
+          Stop/Reset
         </button>
       </div>
     </div>
 
     <script>
-      function showScrollingBanner() {
-        const message = document.getElementById("messageInput").value;
-        const scrollingText = document.getElementById("scrollingText");
+      const banner = document.getElementById("banner");
+      const messageInput = document.getElementById("messageInput");
+      const displayButton = document.getElementById("displayButton");
+      const scrollButton = document.getElementById("scrollButton");
+      const stopResetButton = document.getElementById("stopResetButton");
+      let bannerTimeout;
 
-        if (message.trim() !== "") {
-          scrollingText.textContent = message;
+      function showBanner() {
+        const message = messageInput.value.trim();
+        if (message !== "") {
+          clearTimeout(bannerTimeout);
+          banner.textContent = message;
+          banner.classList.remove("scrolling-banner");
+          banner.classList.add("show");
+          bannerTimeout = setTimeout(hideBanner, 5000);
+          updateButtonState(true);
         }
       }
 
-      // Optional: Trigger the banner with Enter key
-      document
-        .getElementById("messageInput")
-        .addEventListener("keyup", function (e) {
-          if (e.key === "Enter") {
-            showScrollingBanner();
-          }
-        });
+      function showScrollingBanner() {
+        const message = messageInput.value.trim();
+        if (message !== "") {
+          clearTimeout(bannerTimeout);
+          banner.innerHTML = `<div class="scrolling-banner"><span class="scrolling-banner-text">${message}</span></div>`;
+          banner.classList.add("show", "scrolling-banner");
+          bannerTimeout = setTimeout(hideBanner, 15000);
+          updateButtonState(true);
+        }
+      }
+
+      function hideBanner() {
+        banner.classList.remove("show");
+        setTimeout(() => {
+          banner.classList.remove("scrolling-banner");
+          banner.innerHTML = "";
+          updateButtonState(false);
+        }, 500);
+      }
+
+      function stopReset() {
+        clearTimeout(bannerTimeout);
+        hideBanner();
+        messageInput.value = "";
+        updateButtonState(false);
+      }
+
+      function updateButtonState(isDisplaying) {
+        const isEmpty = messageInput.value.trim() === "";
+        displayButton.disabled = isEmpty || isDisplaying;
+        scrollButton.disabled = isEmpty || isDisplaying;
+        stopResetButton.disabled = !isDisplaying;
+      }
+
+      messageInput.addEventListener("input", () => updateButtonState(false));
+      updateButtonState(false);
     </script>
   </body>
 </html>
