@@ -11,29 +11,31 @@
         margin: 0;
         padding: 0;
         color: white;
-      }
-
-      .container {
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100vh;
-        background-color: #57c1a5;
+        min-height: 100vh;
+      }
+
+      .container {
+        width: 90%;
+        max-width: 800px;
+        padding: 20px;
+        box-sizing: border-box;
       }
 
       .calculator-section {
-        padding: 20px;
+        background-color: rgba(255, 255, 255, 0.1);
         border-radius: 10px;
+        padding: 20px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        width: 70%;
-        background-color: #57c1a5;
       }
 
       .title {
-        font-size: 2.5rem;
+        font-size: 2rem;
         font-weight: 900;
         text-transform: uppercase;
-        margin-bottom: 15px;
+        margin-bottom: 10px;
         color: black;
       }
       .title span {
@@ -41,82 +43,89 @@
       }
 
       .subtitle {
-        font-size: 1.5rem;
+        font-size: 1rem;
         font-style: italic;
-        margin-bottom: 25px;
+        margin-bottom: 15px;
         font-weight: bold;
       }
 
       .form-group {
         display: flex;
-        justify-content: space-between;
-        margin-bottom: 15px;
+        flex-direction: column;
+        margin-bottom: 10px;
       }
 
       .form-group label {
-        flex: 1;
-        font-size: 1.2rem;
+        font-size: 0.9rem;
         font-weight: bold;
-        margin-right: 20px;
+        margin-bottom: 5px;
       }
 
       .form-group input {
-        flex: 1;
-        padding: 10px;
-        font-size: 1.2rem;
+        padding: 8px;
+        font-size: 0.9rem;
         border-radius: 5px;
         border: 2px solid white;
-      }
-
-      .form-group input:focus {
-        outline: none;
-        border-color: #ddd;
       }
 
       .buttons {
         display: flex;
         justify-content: space-between;
-        margin-top: 30px;
+        margin-top: 15px;
       }
 
       .buttons .button {
         background-color: #333;
         color: white;
         border-radius: 5px;
-        padding: 15px;
+        padding: 10px;
         text-align: center;
         text-decoration: none;
-        font-size: 16px;
+        font-size: 0.9rem;
         font-weight: bold;
         width: 45%;
         border: 2px solid #fff;
         cursor: pointer;
       }
 
-      .buttons .button:hover {
-        background-color: #ddd;
-        color: black;
-      }
-
       .result-box {
         background-color: #ddd;
         color: black;
-        padding: 20px;
-        margin-top: 30px;
+        padding: 15px;
+        margin-top: 15px;
         border-radius: 10px;
       }
 
       .result-box p {
-        margin-bottom: 10px;
+        margin-bottom: 5px;
         font-weight: bold;
+        font-size: 0.9rem;
       }
 
       .result-box input {
         width: 100%;
-        padding: 10px;
-        font-size: 1.2rem;
+        padding: 8px;
+        font-size: 0.9rem;
         border-radius: 5px;
         border: 2px solid white;
+        margin-bottom: 10px;
+      }
+
+      @media (min-width: 768px) {
+        .form-group {
+          flex-direction: row;
+          align-items: center;
+        }
+
+        .form-group label {
+          width: 40%;
+          margin-right: 10px;
+          margin-bottom: 0;
+        }
+
+        .form-group input {
+          width: 60%;
+        }
       }
     </style>
   </head>
@@ -135,7 +144,7 @@
               type="number"
               id="cogs"
               name="cogs"
-              placeholder="Total cost of items (e.g., $1,000)"
+              placeholder="Total cost of items"
             />
           </div>
 
@@ -145,7 +154,7 @@
               type="number"
               id="spots"
               name="spots"
-              placeholder="How many spots are in the break?"
+              placeholder="How many spots?"
             />
           </div>
 
@@ -155,27 +164,27 @@
               type="number"
               id="shipping"
               name="shipping"
-              placeholder="Average shipping cost (e.g., $10)"
+              placeholder="Average shipping cost"
             />
           </div>
 
           <div class="form-group">
-            <label for="platform">PLATFORM FEES (PERCENTAGE)</label>
+            <label for="platform">PLATFORM FEES (%)</label>
             <input
               type="number"
               id="platform"
               name="platform"
-              placeholder="Platform cut percentage (e.g., 10%)"
+              placeholder="Platform cut percentage"
             />
           </div>
 
           <div class="form-group">
-            <label for="profit">DESIRED PROFIT (PERCENTAGE OR FLAT)</label>
+            <label for="profit">DESIRED PROFIT (% OR FLAT)</label>
             <input
               type="number"
               id="profit"
               name="profit"
-              placeholder="Desired profit (e.g., 15% or $200)"
+              placeholder="Desired profit"
             />
           </div>
 
@@ -188,10 +197,10 @@
         </form>
 
         <div class="result-box">
-          <p>SPOT PRICE (EACH SPOT SHOULD BE PRICED AT):</p>
+          <p>SPOT PRICE:</p>
           <input type="text" id="spotPrice" readonly />
 
-          <p>TOTAL REVENUE (EXPECTED TOTAL REVENUE):</p>
+          <p>TOTAL REVENUE:</p>
           <input type="text" id="totalRevenue" readonly />
 
           <p>ESTIMATED PROFIT:</p>
