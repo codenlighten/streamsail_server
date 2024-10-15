@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Echo X Live Card Break - Pick Your Spot & Unlock a Chaser!</title>
+    <style>
+      body {
+        font-family: "Roboto", sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        margin: 0;
+        padding: 20px;
+        transition: background 0.3s ease, color 0.3s ease;
+      }
+
+      body.light-mode {
+        background: #ffffff;
+        color: #000000;
+      }
+
+      body.dark-mode {
+        background: linear-gradient(120deg, #0b1e17, #062922);
+        color: #f0f0f0;
+      }
+
+      h1,
+      p {
+        text-align: center;
+        margin: 0 0 20px;
+      }
+
+      #title {
+        font-size: 2.5rem;
+        color: #089f78;
+        text-shadow: 0 0 10px #000, 0 0 20px #0bb28a;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        animation: titleGlow 2s infinite alternate;
+      }
+
+      @keyframes titleGlow {
+        0% {
+          text-shadow: 0 0 10px #ffcc00, 0 0 20px #ff00ff;
+        }
+        100% {
+          text-shadow: 0 0 20px #ffcc00, 0 0 40px #ff00ff;
+        }
+      }
+
+      .description {
+        max-width: 800px;
+        font-size: 1.2rem;
+        line-height: 1.8;
+        margin-bottom: 20px;
+        padding: 0 20px;
+      }
+
+      #circles-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        max-width: 900px;
+        padding: 20px;
+        background-color: rgba(12, 65, 58, 0.85);
+        border-radius: 20px;
+        box-shadow: 0 0 30px rgba(0, 255, 255, 0.8);
+      }
+
+      .circle {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 15px;
+        background: linear-gradient(145deg, #0bb28a, #089f78);
+        box-shadow: 0 0 15px rgba(0, 255, 255, 0.7);
+        color: #ffffff;
+        font-size: 22px;
+        font-weight: bold;
+        cursor: pointer;
+        user-select: none;
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        animation: bounce 1.5s infinite alternate;
+      }
+
+      .circle:hover {
+        transform: scale(1.2);
+        box-shadow: 0 0 30px rgba(0, 255, 255, 1);
+      }
+
+      .circle.taken {
+        background: linear-gradient(145deg, #d9534f, #a94442);
+        box-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
+        cursor: not-allowed;
+      }
+
+      .circle.chaser {
+        background: linear-gradient(145deg, #ffd700, #ffcc00);
+        box-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+      }
+
+      #game-settings {
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      #game-settings label,
+      #game-settings select,
+      #game-settings input {
+        margin: 5px;
+      }
+
+      #start-game {
+        padding: 10px 20px;
+        font-size: 1rem;
+        border: none;
+        border-radius: 5px;
+        background-color: #ffcc00;
+        color: #000;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+        margin-top: 10px;
+      }
+
+      #start-game:hover {
+        background-color: #e6b800;
+        transform: scale(1.05);
+      }
+
+      canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 100;
+      }
+
+      @media (max-width: 600px) {
+        .circle {
+          width: 50px;
+          height: 50px;
+          font-size: 16px;
+        }
+      }
+    </style>
+  </head>
+  <body class="light-mode">
+    <h1 id="title">
+      Echo X Live Card Break - Pick Your Spot & Unlock a Chaser!
+    </h1>
+
+    <div id="game-settings">
+      <label for="theme-selector">Choose Theme:</label>
+      <select id="theme-selector">
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+      </select>
+
+      <label for="number-of-spots">Number of Spots:</label>
+      <select id="number-of-spots">
+        <option value="25">25</option>
+        <option value="50">50</option>
+        <option value="75">75</option>
+        <option value="100">100</option>
+      </select>
+
+      <label for="number-of-chasers">Number of Chasers:</label>
+      <input type="number" id="number-of-chasers" min="1" max="10" value="2" />
+
+      <button id="start-game">Start Game</button>
+    </div>
+
+    <p class="description">
+      Select any circle to reserve your spot in tonight's card break! Each pick
+      adds excitement and a chance to discover something special.
+    </p>
+    <p class="description">
+      Pick a regular card and enjoy the celebration with vibrant, falling
+      confetti!
+    </p>
+    <p class="description">
+      If you're lucky enough to choose a Chaser card, get ready for a golden
+      explosion of confetti and an extra-special celebration as you unlock a
+      prize!
+    </p>
+
+    <div id="circles-container"></div>
+    <canvas id="confetti"></canvas>
+    <canvas id="chaser-effect"></canvas>
+
+    <audio id="winner-sound">
+      <source
+        src="https://plugins.whatsonchain.com/api/plugin/main/b2b08de6e69598572c0fe4a5ae7501da21c81c47d9d5fce297739b8ff32f5022/0"
+        type="audio/mpeg"
+      />
+      Your browser does not support the audio element.
+    </audio>
+
+    <script>
+      function getRandomChaserIndices(spots, chaserCount) {
+        const indices = [];
+        const chaserTypes = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
+        while (indices.length < chaserCount) {
+          const randomIndex = Math.floor(Math.random() * spots) + 1;
+          if (!indices.some((chaser) => chaser.index === randomIndex)) {
+            indices.push({
+              index: randomIndex,
+              type: chaserTypes[indices.length],
+            });
+          }
+        }
+        return indices;
+      }
+
+      function createConfettiPiece(canvas) {
+        const piece = {};
+        piece.x = Math.random() * canvas.width;
+        piece.y = Math.random() * -canvas.height;
+        piece.size = Math.random() * 6 + 4;
+        piece.speedY = Math.random() * 3 + 2;
+        piece.color = `hsl(${Math.random() * 360}, 100%, 50%)`;
+        piece.rotation = Math.random() * 360;
+
+        piece.update = function (ctx) {
+          this.y += this.speedY;
+          this.rotation += this.speedY;
+          if (this.y > canvas.height) {
+            this.reset(canvas);
+          }
+          ctx.fillStyle = this.color;
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fill();
+        };
+
+        piece.reset = function (canvas) {
+          this.x = Math.random() * canvas.width;
+          this.y = Math.random() * -canvas.height;
+        };
+
+        return piece;
+      }
+
+      function applyTheme(theme) {
+        document.body.className = theme + "-mode";
+      }
+
+      function renderCircles(
+        container,
+        numberOfSpots,
+        chaserIndices,
+        confettiCanvas
+      ) {
+        container.innerHTML = "";
+
+        for (let i = 1; i <= numberOfSpots; i++) {
+          const circle = document.createElement("div");
+          circle.classList.add("circle");
+          circle.textContent = i;
+          const chaserData = chaserIndices.find((chaser) => chaser.index === i);
+          if (chaserData) {
+            circle.dataset.chaser = chaserData.type;
+          }
+          circle.addEventListener("click", function () {
+            if (!circle.classList.contains("taken")) {
+              markCircleAsTaken(circle, confettiCanvas);
+            }
+          });
+          container.appendChild(circle);
+        }
+      }
+
+      function markCircleAsTaken(circle, confettiCanvas) {
+        circle.classList.add("taken");
+        if (circle.dataset.chaser) {
+          circle.classList.add("chaser");
+          triggerChaserEffect(circle.dataset.chaser, confettiCanvas);
+        } else {
+          triggerConfetti(confettiCanvas);
+        }
+      }
+
+      function triggerConfetti(confettiCanvas) {
+        const ctx = confettiCanvas.getContext("2d");
+        const pieces = [];
+
+        confettiCanvas.style.display = "block";
+        confettiCanvas.width = window.innerWidth;
+        confettiCanvas.height = window.innerHeight;
+
+        for (let i = 0; i < 150; i++) {
+          pieces.push(createConfettiPiece(confettiCanvas));
+        }
+
+        function update() {
+          ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+          pieces.forEach((piece) => piece.update(ctx));
+          requestAnimationFrame(update);
+        }
+
+        update();
+        setTimeout(() => {
+          ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+          confettiCanvas.style.display = "none";
+        }, 5000);
+      }
+
+      function triggerChaserEffect(chaserType, confettiCanvas) {
+        const chaserCanvas = document.getElementById("chaser-effect");
+        const chaserCtx = chaserCanvas.getContext("2d");
+        let chaserAlpha = 1;
+
+        chaserCanvas.width = window.innerWidth;
+        chaserCanvas.height = window.innerHeight;
+
+        function updateChaserEffect() {
+          chaserCtx.clearRect(0, 0, chaserCanvas.width, chaserCanvas.height);
+          chaserCtx.fillStyle = `rgba(255, 215, 0, ${chaserAlpha})`;
+          chaserCtx.fillRect(0, 0, chaserCanvas.width, chaserCanvas.height);
+          chaserAlpha -= 0.01;
+          if (chaserAlpha > 0) {
+            requestAnimationFrame(updateChaserEffect);
+          } else {
+            chaserCtx.clearRect(0, 0, chaserCanvas.width, chaserCanvas.height);
+          }
+        }
+
+        updateChaserEffect();
+        triggerConfetti(confettiCanvas);
+        const winnerSound = document.getElementById("winner-sound");
+        winnerSound.play();
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const container = document.getElementById("circles-container");
+        const startGameButton = document.getElementById("start-game");
+        const spotsDropdown = document.getElementById("number-of-spots");
+        const chasersInput = document.getElementById("number-of-chasers");
+        const themeSelector = document.getElementById("theme-selector");
+        const confettiCanvas = document.getElementById("confetti");
+
+        themeSelector.addEventListener("change", function () {
+          applyTheme(themeSelector.value);
+        });
+
+        startGameButton.addEventListener("click", function () {
+          const numberOfSpots = parseInt(spotsDropdown.value);
+          const numberOfChasers = parseInt(chasersInput.value);
+
+          if (numberOfChasers > numberOfSpots) {
+            alert("Number of chasers cannot exceed number of spots!");
+            return;
+          }
+
+          const chaserIndices = getRandomChaserIndices(
+            numberOfSpots,
+            numberOfChasers
+          );
+          renderCircles(
+            container,
+            numberOfSpots,
+            chaserIndices,
+            confettiCanvas
+          );
+        });
+
+        triggerConfetti(confettiCanvas);
+      });
+    </script>
+  </body>
+</html>
