@@ -60,6 +60,24 @@
         }
       }
 
+      .spin-message {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0) rotate(0deg);
+        font-size: 4rem;
+        font-weight: bold;
+        color: #57c1a5;
+        white-space: nowrap;
+        opacity: 0;
+        transition: all 1s ease-in-out;
+      }
+
+      .spin-message.show {
+        transform: translate(-50%, -50%) scale(1.5) rotate(1440deg);
+        opacity: 1;
+      }
+
       .input-box {
         position: fixed;
         bottom: 20px;
@@ -136,6 +154,7 @@
   <body>
     <div class="container">
       <div id="banner" class="banner"></div>
+      <div id="spinMessage" class="spin-message"></div>
       <div class="input-box">
         <input
           type="text"
@@ -153,6 +172,9 @@
         >
           Display Scrolling Message
         </button>
+        <button id="spinButton" class="button" onclick="showSpinMessage()">
+          Display Spinning Message
+        </button>
         <button id="stopResetButton" class="button" onclick="stopReset()">
           Stop/Reset
         </button>
@@ -161,9 +183,11 @@
 
     <script>
       const banner = document.getElementById("banner");
+      const spinMessage = document.getElementById("spinMessage");
       const messageInput = document.getElementById("messageInput");
       const displayButton = document.getElementById("displayButton");
       const scrollButton = document.getElementById("scrollButton");
+      const spinButton = document.getElementById("spinButton");
       const stopResetButton = document.getElementById("stopResetButton");
       let bannerTimeout;
 
@@ -174,6 +198,7 @@
           banner.textContent = message;
           banner.classList.remove("scrolling-banner");
           banner.classList.add("show");
+          spinMessage.classList.remove("show");
           bannerTimeout = setTimeout(hideBanner, 5000);
           updateButtonState(true);
         }
@@ -185,7 +210,20 @@
           clearTimeout(bannerTimeout);
           banner.innerHTML = `<div class="scrolling-banner"><span class="scrolling-banner-text">${message}</span></div>`;
           banner.classList.add("show", "scrolling-banner");
+          spinMessage.classList.remove("show");
           bannerTimeout = setTimeout(hideBanner, 15000);
+          updateButtonState(true);
+        }
+      }
+
+      function showSpinMessage() {
+        const message = messageInput.value.trim();
+        if (message !== "") {
+          clearTimeout(bannerTimeout);
+          spinMessage.textContent = message;
+          spinMessage.classList.add("show");
+          banner.classList.remove("show", "scrolling-banner");
+          bannerTimeout = setTimeout(hideSpinMessage, 5000);
           updateButtonState(true);
         }
       }
@@ -199,9 +237,18 @@
         }, 500);
       }
 
+      function hideSpinMessage() {
+        spinMessage.classList.remove("show");
+        setTimeout(() => {
+          spinMessage.textContent = "";
+          updateButtonState(false);
+        }, 1000);
+      }
+
       function stopReset() {
         clearTimeout(bannerTimeout);
         hideBanner();
+        hideSpinMessage();
         messageInput.value = "";
         updateButtonState(false);
       }
@@ -210,11 +257,19 @@
         const isEmpty = messageInput.value.trim() === "";
         displayButton.disabled = isEmpty || isDisplaying;
         scrollButton.disabled = isEmpty || isDisplaying;
+        spinButton.disabled = isEmpty || isDisplaying;
         stopResetButton.disabled = !isDisplaying;
       }
 
       messageInput.addEventListener("input", () => updateButtonState(false));
       updateButtonState(false);
+
+      // Optional: Trigger the message with Enter key
+      messageInput.addEventListener("keyup", function (e) {
+        if (e.key === "Enter") {
+          showBanner();
+        }
+      });
     </script>
   </body>
 </html>
