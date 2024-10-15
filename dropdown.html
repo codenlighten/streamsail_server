@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Echo X Live - Message Banner</title>
+    <title>Echo X Live - Scrolling Message Banner</title>
     <style>
       body {
         font-family: "Arial", sans-serif;
@@ -21,24 +21,32 @@
         flex-direction: column;
       }
 
-      .banner {
+      .scrolling-banner {
         width: 100%;
+        overflow: hidden;
         position: fixed;
-        top: 30%;
+        top: 35%;
         background-color: #57c1a5;
         color: white;
-        text-align: center;
         font-size: 2.5rem;
         font-weight: bold;
         padding: 20px;
-        border-radius: 5px;
-        transform: translateY(-100%);
-        transition: all 0.5s ease-in-out;
-        display: none;
+        box-sizing: border-box;
       }
 
-      .banner.show {
-        transform: translateY(0);
+      .scrolling-banner-text {
+        display: inline-block;
+        white-space: nowrap;
+        animation: scroll 10s linear infinite;
+      }
+
+      @keyframes scroll {
+        from {
+          transform: translateX(100%);
+        }
+        to {
+          transform: translateX(-100%);
+        }
       }
 
       .input-box {
@@ -82,27 +90,26 @@
   </head>
   <body>
     <div class="container">
-      <div id="banner" class="banner"></div>
+      <div id="scrollingBanner" class="scrolling-banner">
+        <span id="scrollingText" class="scrolling-banner-text"
+          >Your message will scroll here!</span
+        >
+      </div>
       <div class="input-box">
         <input type="text" id="messageInput" placeholder="Enter message" />
-        <button class="button" onclick="showBanner()">Display Message</button>
+        <button class="button" onclick="showScrollingBanner()">
+          Display Scrolling Message
+        </button>
       </div>
     </div>
 
     <script>
-      function showBanner() {
-        const banner = document.getElementById("banner");
+      function showScrollingBanner() {
         const message = document.getElementById("messageInput").value;
-        if (message.trim() !== "") {
-          banner.textContent = message;
-          banner.classList.add("show");
-          banner.style.display = "block";
+        const scrollingText = document.getElementById("scrollingText");
 
-          // Hide the banner after 5 seconds
-          setTimeout(() => {
-            banner.classList.remove("show");
-            banner.style.display = "none";
-          }, 5000);
+        if (message.trim() !== "") {
+          scrollingText.textContent = message;
         }
       }
 
@@ -111,7 +118,7 @@
         .getElementById("messageInput")
         .addEventListener("keyup", function (e) {
           if (e.key === "Enter") {
-            showBanner();
+            showScrollingBanner();
           }
         });
     </script>
