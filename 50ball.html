@@ -197,6 +197,10 @@
       #dancingman {
         display: none;
       }
+      .circle.chaser {
+        background: linear-gradient(145deg, #ffd700, #ffcc00);
+        box-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+      }
 
       @media (max-width: 600px) {
         .circle {
@@ -541,7 +545,21 @@
         }, 5000);
       }
 
-      // Chaser effect animation
+      function markCircleAsTaken(circle, confettiCanvas, congratulationsText) {
+        circle.classList.add("taken");
+        if (circle.dataset.chaser) {
+          circle.classList.add("chaser");
+          triggerChaserEffect(
+            circle.dataset.chaser,
+            confettiCanvas,
+            congratulationsText
+          );
+        } else {
+          triggerConfetti(confettiCanvas);
+        }
+      }
+
+      // Modified triggerChaserEffect function
       function triggerChaserEffect(
         chaserType,
         confettiCanvas,
@@ -561,13 +579,15 @@
           chaserAlpha -= 0.01;
           if (chaserAlpha > 0) {
             requestAnimationFrame(updateChaserEffect);
+          } else {
+            chaserCtx.clearRect(0, 0, chaserCanvas.width, chaserCanvas.height);
           }
         }
 
         updateChaserEffect();
         triggerConfetti(confettiCanvas); // Additional confetti for chaser
         showCongratulationsText(congratulationsText, chaserType);
-        const winnerSound = document.getElementById("winner-sound"); // Audio element
+        const winnerSound = document.getElementById("winner-sound");
         winnerSound.play();
         const dancingMan = document.getElementById("dancingman");
         dancingMan.style.display = "block";
@@ -575,7 +595,6 @@
           dancingMan.style.display = "none";
         }, 5000);
       }
-
       // DOMContentLoaded
       document.addEventListener("DOMContentLoaded", function () {
         const container = document.getElementById("circles-container");
