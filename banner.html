@@ -19,7 +19,7 @@
         justify-content: center;
         align-items: center;
         height: 100vh;
-        background-color: #f0f0f0;
+        /* background-color: #f0f0f0; */
         flex-direction: column;
       }
 
@@ -295,7 +295,7 @@
       const scrollImageButton = document.getElementById("scrollImageButton");
       const spinImageButton = document.getElementById("spinImageButton");
       const stopResetButton = document.getElementById("stopResetButton");
-      const colorPicker = document.getElementById("colorPicker");
+      let colorPicker = document.getElementById("colorPicker");
       const displayTimeInput = document.getElementById("displayTime");
       let bannerTimeout;
       const bg = document.body;
@@ -306,10 +306,11 @@
         spinMessage.style.color = colorPicker.value;
         localStorage.setItem("bannerColor", colorPicker.value);
       });
-      const backgroundPicker = document.getElementById("backgroundPicker");
+      let backgroundPicker = document.getElementById("backgroundPicker");
 
       backgroundPicker.addEventListener("input", function () {
         bg.style.backgroundColor = backgroundPicker.value;
+
         localStorage.setItem("bgColor", backgroundPicker.value);
       });
       function getDisplayTime() {
