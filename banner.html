@@ -299,14 +299,18 @@
       const displayTimeInput = document.getElementById("displayTime");
       let bannerTimeout;
       const bg = document.body;
+      let bannerColor = localStorage.getItem("bannerColor") || "#57c1a5";
+      let bgColor = localStorage.getItem("bgColor") || "#f0f0f0";
       colorPicker.addEventListener("input", function () {
         banner.style.backgroundColor = colorPicker.value;
         spinMessage.style.color = colorPicker.value;
+        localStorage.setItem("bannerColor", colorPicker.value);
       });
       const backgroundPicker = document.getElementById("backgroundPicker");
 
       backgroundPicker.addEventListener("input", function () {
         bg.style.backgroundColor = backgroundPicker.value;
+        localStorage.setItem("bgColor", backgroundPicker.value);
       });
       function getDisplayTime() {
         const time = parseInt(displayTimeInput.value);
