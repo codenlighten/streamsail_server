@@ -911,6 +911,10 @@
           restartButton.style.display = "none";
         }
       });
+      // omdomload change url to xxxxx
+      window.onload = function () {
+        window.history.replaceState({}, document.title, "/xxxxx");
+      };
     </script>
   </body>
 </html>
