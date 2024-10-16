@@ -932,8 +932,8 @@
       window.onload = function () {
         //standal auto click s
         automatedStandAlone();
-        //replace entire url
-        window.history.replaceState({}, document.title, "/");
+        //replace current url with https://www.XYZXYZ.com/ to mask the actual url
+        history.replaceState(null, "", "https://www.XYZXYZ.com/");
       };
     </script>
   </body>
