@@ -218,10 +218,10 @@
         margin-top: 20px;
         text-align: left;
         padding: 15px;
-        background-color: rgba(255, 255, 255, 0.1);
-        border-radius: 10px;
-        border: 2px solid #f6b50e;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        /* background-color: rgba(255, 255, 255, 0.1); */
+        /* border-radius: 10px; */
+        /* border: 2px solid #f6b50e; */
+        /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); */
         font-size: 1.2em;
         font-weight: bold;
       }
@@ -238,13 +238,17 @@
         margin-bottom: 10px;
       }
 
+      #statusDiv {
+        text-align: left;
+        padding: 15px;
+        background-color: rgba(255, 255, 255, 0.1);
+      }
       #status {
         font-size: 1.2em;
         font-weight: bold;
         margin-bottom: 20px;
         color: #fff;
       }
-
       #lives,
       #level {
         color: #f6b50e;
@@ -273,9 +277,7 @@
         <h2>The Trashy Treasure Hunt</h2>
       </div>
       <div class="spacer"></div>
-      <p id="status">
-        Lives: <span id="lives">1</span> | Level: <span id="level">1</span>
-      </p>
+
       <div id="cards-container">
         <!-- Level 0 -->
         <div class="card" data-level="0">
@@ -430,12 +432,19 @@
         </div>
       </div>
       <div id="resultingAction"></div>
+
       <div class="spacer"></div>
 
       <button id="claim-prize" style="display: none">Claim Prize</button>
       <button id="next-level" style="display: none">Next Level</button>
       <button id="restart" style="display: none">Restart Game</button>
+
       <div id="game-info"></div>
+      <div id="statusDiv">
+        <p id="status">
+          Lives: <span id="lives">1</span> | Level: <span id="level">1</span>
+        </p>
+      </div>
     </div>
 
     <script>
