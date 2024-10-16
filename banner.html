@@ -174,7 +174,8 @@
           maxlength="100"
         />
         <input type="color" id="colorPicker" value="#57c1a5" />
-
+        <!-- background another color picker-->
+        <input type="color" id="backgroundPicker" value="#f0f0f0" />
         <button id="displayButton" class="button" onclick="showBanner()">
           Display Message
         </button>
@@ -202,6 +203,9 @@
       const scrollButton = document.getElementById("scrollButton");
       const spinButton = document.getElementById("spinButton");
       const stopResetButton = document.getElementById("stopResetButton");
+      //background element
+      const bg = document.body;
+      const backgroundPicker = document.getElementById("backgroundPicker");
       let bannerTimeout;
       // color chooser wheel
       const colorPicker = document.getElementById("colorPicker");
@@ -209,6 +213,14 @@
         banner.style.backgroundColor = colorPicker.value;
         spinMessage.style.color = colorPicker.value;
       });
+
+      //background color picker
+      backgroundPicker.addEventListener("input", function () {
+        // background-color
+        console.log(backgroundPicker.value);
+        bg.style.backgroundColor = backgroundPicker.value;
+      });
+
       function showBanner() {
         const message = messageInput.value.trim();
         if (message !== "") {
