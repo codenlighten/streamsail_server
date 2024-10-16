@@ -298,6 +298,7 @@
       const displayTimeInput = document.getElementById("displayTime");
       let bannerTimeout;
       const bg = document.body;
+      let spinBool = false;
       let bannerColor = localStorage.getItem("bannerColor") || "#57c1a5";
       let bgColor = localStorage.getItem("bgColor") || "#f0f0f0";
       colorPicker.addEventListener("input", function () {
@@ -488,6 +489,17 @@
             });
           }
           standaloneStatus = !standaloneStatus;
+        }
+      });
+      //banner font size increase and decrease
+      let fontSize = 2.5;
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowUp") {
+          fontSize += 0.1;
+          banner.style.fontSize = `${fontSize}rem`;
+        } else if (e.key === "ArrowDown") {
+          fontSize -= 0.1;
+          banner.style.fontSize = `${fontSize}rem`;
         }
       });
     </script>
