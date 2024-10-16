@@ -14,14 +14,22 @@
         overflow-y: auto; /* Allow scrolling if content overflows */
       }
 
+      .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f0f0f0;
+        flex-direction: column;
+      }
+
       .spacer {
         width: 100%;
         transition: height 0.5s ease;
       }
 
       .banner-container {
-        position: fixed;
-        top: 30%;
+        position: relative;
         width: 100%;
         display: flex;
         justify-content: center;
@@ -443,12 +451,13 @@
       });
 
       let spacerHeight = 0;
-      const maxSpacerHeight = 500; // Optional upper limit for the spacer height
+      const maxSpacerHeight = 1000; // Optional upper limit for the spacer height
       const spacers = document.querySelectorAll(".spacer");
 
       document.addEventListener("keydown", (e) => {
         if (e.key === "i") {
           spacerHeight = Math.min(spacerHeight + 10, maxSpacerHeight); // Increase but limit to max height
+          console.log(spacerHeight);
         } else if (e.key === "d") {
           spacerHeight = Math.max(spacerHeight - 10, 0); // Decrease but don't go below 0
         }
