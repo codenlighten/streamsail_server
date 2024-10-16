@@ -429,11 +429,29 @@
     </div>
 
     <script>
+      const levels = {
+        0: { cards: 3, set: 3, name: "Dumpster Dive", frontImage: "1.png" },
+        1: { cards: 5, set: 8, name: "Ground Floor", frontImage: "5.png" },
+        2: {
+          cards: 4,
+          set: 7,
+          name: "Trash Can Showdown",
+          frontImage: "14.png",
+        },
+        3: { cards: 3, set: 3, name: "Landfill Finale", frontImage: "23.png" },
+        4: {
+          cards: 2,
+          set: 2,
+          name: "Double or Nothing",
+          frontImage: "27.png",
+        },
+      };
+
       const cardSets = {
         0: [
           {
             name: "Slick Shawn",
-            effect: "Advance to Level 1",
+            effect: "Climb back to Level 1",
             explanation: "You've found a way out! Move up to Level 1.",
           },
           {
@@ -444,14 +462,14 @@
           },
           {
             name: "Chalk Line Charli",
-            effect: "Game Over",
+            effect: "You've been buried",
             explanation: "Game Over. The trash has overwhelmed you.",
           },
         ],
         1: [
           {
             name: "Dumpster Danny",
-            effect: "Advance to Level 2",
+            effect: "Find a hidden ladder",
             explanation: "Lucky find! Advance to Level 2.",
           },
           {
@@ -467,12 +485,12 @@
           },
           {
             name: "Moldy Mike",
-            effect: "Stay on Level 1",
+            effect: "Stuck in the sludge",
             explanation: "You're trapped! Stay on Level 1.",
           },
           {
             name: "Backwards Benny",
-            effect: "back to Level 0",
+            effect: "Dumpster Drop",
             explanation: "Oops! Go back to Level 0 (Dumpster Dive).",
           },
           {
@@ -482,7 +500,7 @@
           },
           {
             name: "Dumpster Doom",
-            effect: "Game Over",
+            effect: "The game is over",
             explanation: "Game Over. Your journey ends here.",
           },
           {
@@ -494,7 +512,7 @@
         2: [
           {
             name: "Rotten Rick",
-            effect: "Advance to Level 3",
+            effect: "Step up to Level 3",
             explanation: "Great progress! Advance to Level 3.",
           },
           {
@@ -504,22 +522,22 @@
           },
           {
             name: "Moldy Molly",
-            effect: "Stay on Level 2",
+            effect: "Don't you go anywhere",
             explanation: "No movement. Stay on Level 2.",
           },
           {
             name: "Sloppy Sue",
-            effect: "Game Over",
+            effect: "Sloppy Finish",
             explanation: "Game Over. Your climb ends messily.",
           },
           {
             name: "Sludge Sam",
-            effect: "back to Level 1",
+            effect: "Go back to Level 1",
             explanation: "Slipped up! Go back to Level 1.",
           },
           {
             name: "Backwards Benny2",
-            effect: "back to Level 1",
+            effect: "Move back to Level 1",
             explanation: "Setback! Return to Level 1.",
           },
           {
@@ -531,22 +549,22 @@
         3: [
           {
             name: "Trash Can Trap",
-            effect: "Game Over",
+            effect: "It's a Traaap!",
             explanation: "Game Over. You've fallen into a trap!",
           },
           {
             name: "Trash Heap Hank",
-            effect: "Game Over",
+            effect: "It's All Over",
             explanation: "Game Over. The trash heap collapses on you.",
           },
           {
             name: "Braven the Bold",
-            effect: "Winner",
+            effect: "Winner Winner",
             explanation: "Congratulations! You've conquered the landfill!",
           },
           {
             name: "Moldy Marie",
-            effect: "Stay on Level 3",
+            effect: "Stay Put",
             explanation: "No progress. Remain on Level 3.",
           },
           {
@@ -558,12 +576,12 @@
         4: [
           {
             name: "Grand Prize Gary",
-            effect: "Winner",
+            effect: "Winner Winner",
             explanation: "Jackpot! You've won the grand prize!",
           },
           {
             name: "Slimey Samuel",
-            effect: "Game Over",
+            effect: "You Get Nothing",
             explanation: "Game Over. So close, but you lose everything!",
           },
         ],
