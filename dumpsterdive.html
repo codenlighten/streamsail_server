@@ -901,6 +901,23 @@
         }
       });
 
+      function automatedStandAlone() {
+        if (!standaloneStatus) {
+          standalone.style.display = "block";
+          spacers.forEach((spacer) => {
+            spacer.style.height = "0";
+          });
+        } else {
+          standalone.style.display = "none";
+          spacers.forEach((spacer) => {
+            spacer.style.height = "500px";
+          });
+          // scroll to make cards be in middle of screen
+          window.scrollTo(0, 200);
+        }
+        standaloneStatus = !standaloneStatus;
+      }
+
       //r for reset
       document.addEventListener("keydown", (e) => {
         if (e.key === "r") {
@@ -911,8 +928,10 @@
           restartButton.style.display = "none";
         }
       });
-      // omdomload change url to xxxxx
+
       window.onload = function () {
+        //standal auto click s
+        automatedStandAlone();
         window.history.replaceState({}, document.title, "/xxxxx");
       };
     </script>
