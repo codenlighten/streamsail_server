@@ -263,6 +263,7 @@
       <h1>Dumpster Dive</h1>
       <img src="./dumpster_images/NEW GAME STUFF(3).png" alt="" id="logo" />
       <h2>The Trashy Treasure Hunt</h2>
+      <div class="spacer"></div>
       <p id="status">
         Lives: <span id="lives">1</span> | Level: <span id="level">1</span>
       </p>
@@ -419,6 +420,8 @@
           </div>
         </div>
       </div>
+      <div class="spacer"></div>
+
       <button id="claim-prize" style="display: none">Claim Prize</button>
       <button id="next-level" style="display: none">Next Level</button>
       <button id="restart" style="display: none">Restart Game</button>
@@ -817,6 +820,34 @@
 
       // Start the game
       dealCards();
+
+      // event listener for card ripple effect. letter r
+      let rippling = false;
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "r" && !rippling) {
+          cardRippleEffect();
+          rippling = true;
+        } else if (e.key === "r" && rippling) {
+          rippling = false;
+        }
+      });
+      //add event listener to add height to spacer divs
+      const spacers = document.querySelectorAll(".spacer");
+      //i for increase, d for decrease
+      let spacerHeight = 0;
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "i") {
+          spacerHeight += 10;
+          spacers.forEach((spacer) => {
+            spacer.style.height = `${spacerHeight}px`;
+          });
+        } else if (e.key === "d") {
+          spacerHeight -= 10;
+          spacers.forEach((spacer) => {
+            spacer.style.height = `${spacerHeight}px`;
+          });
+        }
+      });
     </script>
   </body>
 </html>
