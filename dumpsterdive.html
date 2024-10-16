@@ -872,6 +872,17 @@
           standaloneStatus = !standaloneStatus;
         }
       });
+
+      //r for reset
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "r") {
+          currentLevel = 1;
+          lives = 1;
+          updateStatus();
+          dealCards();
+          restartButton.style.display = "none";
+        }
+      });
     </script>
   </body>
 </html>
