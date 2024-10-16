@@ -256,6 +256,13 @@
         margin: 0 auto;
         display: block;
       }
+      #resultingAction h1 {
+        color: #f6b50e;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        font-size: 2em;
+        margin-bottom: 10px;
+        font-weight: bold;
+      }
     </style>
   </head>
   <body>
@@ -422,6 +429,7 @@
           </div>
         </div>
       </div>
+      <div id="resultingAction"></div>
       <div class="spacer"></div>
 
       <button id="claim-prize" style="display: none">Claim Prize</button>
@@ -597,7 +605,7 @@
       const nextLevelButton = document.getElementById("next-level");
       const restartButton = document.getElementById("restart");
       const gameInfoElement = document.getElementById("game-info");
-
+      const resultingActionElement = document.getElementById("resultingAction");
       function updateStatus() {
         livesElement.textContent = lives;
         levelElement.textContent = currentLevel;
@@ -681,7 +689,7 @@
               <p><strong>Effect:</strong> ${card.effect}</p>
               <p><em>${card.explanation}</em></p>
           `;
-
+          resultingActionElement.innerHTML = "";
           cardContainer.appendChild(cardElement);
           cardContainer.appendChild(actionElement);
 
@@ -710,11 +718,15 @@
         const cardElement = cardContainer.querySelector(".card");
         const actionElement = cardContainer.querySelector(".card-action");
 
+        const cardAction = card.effect;
+        resultingActionElement.innerHTML = `
+          <h3>${cardAction}</h3>
+        `;
         cardElement.classList.add("flipped");
         // make larger
         cardElement.style.transform = "scale(1.1)";
         cardElement.style.pointerEvents = "none";
-        actionElement.classList.add("visible");
+        // actionElement.classList.add("visible");
 
         // Reveal all other cards after a short delay
         setTimeout(() => {
@@ -728,7 +740,7 @@
           const actionElement = cardContainer.querySelector(".card-action");
           cardElement.classList.add("flipped");
           cardElement.style.pointerEvents = "none";
-          actionElement.classList.add("visible");
+          // actionElement.classList.add("visible");
         });
       }
       function handleCardEffect(effect) {
