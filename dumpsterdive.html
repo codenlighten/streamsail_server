@@ -720,7 +720,7 @@
 
         const cardAction = card.effect;
         resultingActionElement.innerHTML = `
-          <h3>${cardAction}</h3>
+          <h3>${cardAction.toUpperCase()}</h3>
         `;
         cardElement.classList.add("flipped");
         // make larger
