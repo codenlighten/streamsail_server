@@ -173,14 +173,13 @@
 
       .image-container {
         max-width: 100%;
-        max-height: 300px;
+        max-height: auto;
         overflow: hidden;
       }
 
       .image-container img {
-        width: 100%;
-        height: auto;
-        max-height: calc(100vh - 200px); /* Ensure images don't overflow */
+        max-width: 100%;
+        max-height: calc(100vh - 200px);
       }
 
       #displayTime {
