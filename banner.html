@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Echo X Live - Enhanced Message Banner</title>
+    <title>Echo X Live - Enhanced Message Banner with Image Upload</title>
     <style>
       body {
         font-family: "Arial", sans-serif;
@@ -11,20 +11,31 @@
         margin: 0;
         padding: 0;
         color: #333;
+        overflow-y: auto; /* Allow scrolling if content overflows */
       }
 
-      .container {
+      .spacer {
+        width: 100%;
+        transition: height 0.5s ease;
+      }
+
+      .banner-container {
+        position: fixed;
+        top: 30%;
+        width: 100%;
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100vh;
-        flex-direction: column;
+        z-index: 1000;
+      }
+
+      .standalone {
+        display: none;
       }
 
       .banner {
         width: 100%;
-        position: fixed;
-        top: 30%;
+        position: relative;
         background-color: #57c1a5;
         color: white;
         text-align: center;
@@ -34,6 +45,10 @@
         box-sizing: border-box;
         opacity: 0;
         transition: all 0.5s ease-in-out;
+        max-height: calc(
+          100vh - 100px
+        ); /* Prevent the banner from overflowing */
+        overflow-y: auto; /* Allow scrolling if content exceeds banner height */
       }
 
       .banner.show {
@@ -86,15 +101,19 @@
         width: 100%;
         padding: 0 20px;
         box-sizing: border-box;
+        flex-wrap: wrap;
+        z-index: 1100; /* Ensure the input box stays above the spacer */
       }
 
-      input[type="text"] {
+      input[type="text"],
+      input[type="file"] {
         padding: 15px;
-        width: 50%;
+        width: calc(50% - 10px);
         font-size: 1.2rem;
         border-radius: 5px;
         border: 2px solid #57c1a5;
         margin-right: 10px;
+        margin-bottom: 10px;
         text-align: center;
         color: #57c1a5;
       }
@@ -113,6 +132,9 @@
         cursor: pointer;
         border: none;
         transition: background-color 0.3s ease;
+        margin-right: 10px;
+        margin-bottom: 10px;
+        flex-grow: 1;
       }
 
       .button:hover {
@@ -132,13 +154,41 @@
         background-color: #ff5252;
       }
 
-      /* color wheel */
       input[type="color"] {
         padding: 15px;
         border-radius: 5px;
         border: 2px solid #57c1a5;
         margin-right: 10px;
+        margin-bottom: 10px;
         cursor: pointer;
+      }
+
+      .image-container {
+        max-width: 100%;
+        max-height: 300px;
+        overflow: hidden;
+      }
+
+      .image-container img {
+        width: 100%;
+        height: auto;
+        max-height: calc(100vh - 200px); /* Ensure images don't overflow */
+      }
+
+      #displayTime {
+        padding: 15px;
+        font-size: 1.2rem;
+        border-radius: 5px;
+        border: 2px solid #57c1a5;
+        margin-right: 10px;
+        margin-bottom: 10px;
+        text-align: center;
+      }
+
+      label {
+        color: #57c1a5;
+        font-size: 1.2rem;
+        margin-right: 10px;
       }
 
       @media (max-width: 768px) {
@@ -147,25 +197,35 @@
           align-items: center;
         }
 
-        input[type="text"] {
+        input[type="text"],
+        input[type="file"] {
           width: 100%;
           margin-right: 0;
-          margin-bottom: 10px;
         }
 
         .button {
           width: 100%;
-          margin-bottom: 10px;
+        }
+      }
+
+      @media (max-height: 600px) {
+        .banner-container {
+          top: 20%; /* Adjust top position for small heights */
+        }
+
+        .spin-message {
+          top: 40%; /* Adjust top position for small heights */
         }
       }
     </style>
   </head>
   <body>
     <div class="container">
-      <div id="banner" class="banner"></div>
-      <div id="spinMessage" class="spin-message"></div>
-      <!-- color chooser wheel -->
-
+      <div class="banner-container">
+        <div id="banner" class="banner"></div>
+        <div id="spinMessage" class="spin-message"></div>
+      </div>
+      <div class="spacer"></div>
       <div class="input-box">
         <input
           type="text"
@@ -173,9 +233,12 @@
           placeholder="Enter message"
           maxlength="100"
         />
+        <input type="file" id="imageInput" accept="image/*" />
         <input type="color" id="colorPicker" value="#57c1a5" />
-        <!-- background another color picker-->
         <input type="color" id="backgroundPicker" value="#f0f0f0" />
+        <input type="number" id="displayTime" placeholder="Display Time" />
+        <label for="displayTime">Display Time (seconds):</label>
+
         <button id="displayButton" class="button" onclick="showBanner()">
           Display Message
         </button>
@@ -189,6 +252,23 @@
         <button id="spinButton" class="button" onclick="showSpinMessage()">
           Display Spinning Message
         </button>
+        <button id="displayImageButton" class="button" onclick="showImage()">
+          Display Image
+        </button>
+        <button
+          id="scrollImageButton"
+          class="button"
+          onclick="showScrollingImage()"
+        >
+          Scroll Image
+        </button>
+        <button
+          id="spinImageButton"
+          class="button"
+          onclick="showSpinningImage()"
+        >
+          Spin Image
+        </button>
         <button id="stopResetButton" class="button" onclick="stopReset()">
           Stop/Reset
         </button>
@@ -199,27 +279,31 @@
       const banner = document.getElementById("banner");
       const spinMessage = document.getElementById("spinMessage");
       const messageInput = document.getElementById("messageInput");
+      const imageInput = document.getElementById("imageInput");
       const displayButton = document.getElementById("displayButton");
       const scrollButton = document.getElementById("scrollButton");
       const spinButton = document.getElementById("spinButton");
+      const displayImageButton = document.getElementById("displayImageButton");
+      const scrollImageButton = document.getElementById("scrollImageButton");
+      const spinImageButton = document.getElementById("spinImageButton");
       const stopResetButton = document.getElementById("stopResetButton");
-      //background element
-      const bg = document.body;
-      const backgroundPicker = document.getElementById("backgroundPicker");
-      let bannerTimeout;
-      // color chooser wheel
       const colorPicker = document.getElementById("colorPicker");
+      const displayTimeInput = document.getElementById("displayTime");
+      let bannerTimeout;
+      const bg = document.body;
       colorPicker.addEventListener("input", function () {
         banner.style.backgroundColor = colorPicker.value;
         spinMessage.style.color = colorPicker.value;
       });
+      const backgroundPicker = document.getElementById("backgroundPicker");
 
-      //background color picker
       backgroundPicker.addEventListener("input", function () {
-        // background-color
-        console.log(backgroundPicker.value);
         bg.style.backgroundColor = backgroundPicker.value;
       });
+      function getDisplayTime() {
+        const time = parseInt(displayTimeInput.value);
+        return isNaN(time) || time < 1 ? 5 : time;
+      }
 
       function showBanner() {
         const message = messageInput.value.trim();
@@ -229,7 +313,7 @@
           banner.classList.remove("scrolling-banner");
           banner.classList.add("show");
           spinMessage.classList.remove("show");
-          bannerTimeout = setTimeout(hideBanner, 5000);
+          bannerTimeout = setTimeout(hideBanner, getDisplayTime() * 1000);
           updateButtonState(true);
         }
       }
@@ -241,7 +325,7 @@
           banner.innerHTML = `<div class="scrolling-banner"><span class="scrolling-banner-text">${message}</span></div>`;
           banner.classList.add("show", "scrolling-banner");
           spinMessage.classList.remove("show");
-          bannerTimeout = setTimeout(hideBanner, 15000);
+          bannerTimeout = setTimeout(hideBanner, getDisplayTime() * 1000);
           updateButtonState(true);
         }
       }
@@ -253,8 +337,60 @@
           spinMessage.textContent = message;
           spinMessage.classList.add("show");
           banner.classList.remove("show", "scrolling-banner");
-          bannerTimeout = setTimeout(hideSpinMessage, 5000);
+          bannerTimeout = setTimeout(hideSpinMessage, getDisplayTime() * 1000);
           updateButtonState(true);
+        }
+      }
+
+      function showImage() {
+        const file = imageInput.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            clearTimeout(bannerTimeout);
+            banner.innerHTML = `<div class="image-container"><img src="${e.target.result}" alt="Uploaded Image"></div>`;
+            banner.classList.remove("scrolling-banner");
+            banner.classList.add("show");
+            spinMessage.classList.remove("show");
+            bannerTimeout = setTimeout(hideBanner, getDisplayTime() * 1000);
+            updateButtonState(true);
+          };
+          reader.readAsDataURL(file);
+        }
+      }
+
+      function showScrollingImage() {
+        const file = imageInput.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            clearTimeout(bannerTimeout);
+            banner.innerHTML = `<div class="scrolling-banner"><div class="scrolling-banner-text"><img src="${e.target.result}" alt="Uploaded Image" style="height: 200px;"></div></div>`;
+            banner.classList.add("show", "scrolling-banner");
+            spinMessage.classList.remove("show");
+            bannerTimeout = setTimeout(hideBanner, getDisplayTime() * 1000);
+            updateButtonState(true);
+          };
+          reader.readAsDataURL(file);
+        }
+      }
+
+      function showSpinningImage() {
+        const file = imageInput.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            clearTimeout(bannerTimeout);
+            spinMessage.innerHTML = `<img src="${e.target.result}" alt="Uploaded Image" style="max-width: 200px; max-height: 200px;">`;
+            spinMessage.classList.add("show");
+            banner.classList.remove("show", "scrolling-banner");
+            bannerTimeout = setTimeout(
+              hideSpinMessage,
+              getDisplayTime() * 1000
+            );
+            updateButtonState(true);
+          };
+          reader.readAsDataURL(file);
         }
       }
 
@@ -270,7 +406,7 @@
       function hideSpinMessage() {
         spinMessage.classList.remove("show");
         setTimeout(() => {
-          spinMessage.textContent = "";
+          spinMessage.innerHTML = "";
           updateButtonState(false);
         }, 1000);
       }
@@ -280,24 +416,65 @@
         hideBanner();
         hideSpinMessage();
         messageInput.value = "";
+        imageInput.value = "";
         updateButtonState(false);
       }
 
       function updateButtonState(isDisplaying) {
-        const isEmpty = messageInput.value.trim() === "";
-        displayButton.disabled = isEmpty || isDisplaying;
-        scrollButton.disabled = isEmpty || isDisplaying;
-        spinButton.disabled = isEmpty || isDisplaying;
+        const isMessageEmpty = messageInput.value.trim() === "";
+        const isImageEmpty = imageInput.files.length === 0;
+        displayButton.disabled = isMessageEmpty || isDisplaying;
+        scrollButton.disabled = isMessageEmpty || isDisplaying;
+        spinButton.disabled = isMessageEmpty || isDisplaying;
+        displayImageButton.disabled = isImageEmpty || isDisplaying;
+        scrollImageButton.disabled = isImageEmpty || isDisplaying;
+        spinImageButton.disabled = isImageEmpty || isDisplaying;
         stopResetButton.disabled = !isDisplaying;
       }
 
       messageInput.addEventListener("input", () => updateButtonState(false));
+      imageInput.addEventListener("change", () => updateButtonState(false));
       updateButtonState(false);
 
-      // Optional: Trigger the message with Enter key
       messageInput.addEventListener("keyup", function (e) {
         if (e.key === "Enter") {
           showBanner();
+        }
+      });
+
+      let spacerHeight = 0;
+      const maxSpacerHeight = 500; // Optional upper limit for the spacer height
+      const spacers = document.querySelectorAll(".spacer");
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "i") {
+          spacerHeight = Math.min(spacerHeight + 10, maxSpacerHeight); // Increase but limit to max height
+        } else if (e.key === "d") {
+          spacerHeight = Math.max(spacerHeight - 10, 0); // Decrease but don't go below 0
+        }
+
+        spacers.forEach((spacer) => {
+          spacer.style.height = `${spacerHeight}px`;
+        });
+      });
+
+      const standalone = document.querySelector(".standalone");
+      let standaloneStatus = true;
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "s") {
+          if (!standaloneStatus) {
+            standalone.style.display = "block";
+            spacers.forEach((spacer) => {
+              spacer.style.height = "0";
+            });
+          } else {
+            standalone.style.display = "none";
+            spacers.forEach((spacer) => {
+              spacer.style.height = "200px";
+            });
+          }
+          standaloneStatus = !standaloneStatus;
         }
       });
     </script>

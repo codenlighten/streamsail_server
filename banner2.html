@@ -11,20 +11,31 @@
         margin: 0;
         padding: 0;
         color: #333;
+        overflow-y: auto; /* Allow scrolling if content overflows */
       }
 
-      .container {
+      .spacer {
+        width: 100%;
+        transition: height 0.5s ease;
+      }
+
+      .banner-container {
+        position: fixed;
+        top: 30%;
+        width: 100%;
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100vh;
-        flex-direction: column;
+        z-index: 1000;
+      }
+
+      .standalone {
+        display: none;
       }
 
       .banner {
         width: 100%;
-        position: fixed;
-        top: 30%;
+        position: relative;
         background-color: #57c1a5;
         color: white;
         text-align: center;
@@ -34,6 +45,10 @@
         box-sizing: border-box;
         opacity: 0;
         transition: all 0.5s ease-in-out;
+        max-height: calc(
+          100vh - 100px
+        ); /* Prevent the banner from overflowing */
+        overflow-y: auto; /* Allow scrolling if content exceeds banner height */
       }
 
       .banner.show {
@@ -87,6 +102,7 @@
         padding: 0 20px;
         box-sizing: border-box;
         flex-wrap: wrap;
+        z-index: 1100; /* Ensure the input box stays above the spacer */
       }
 
       input[type="text"],
@@ -156,6 +172,23 @@
       .image-container img {
         width: 100%;
         height: auto;
+        max-height: calc(100vh - 200px); /* Ensure images don't overflow */
+      }
+
+      #displayTime {
+        padding: 15px;
+        font-size: 1.2rem;
+        border-radius: 5px;
+        border: 2px solid #57c1a5;
+        margin-right: 10px;
+        margin-bottom: 10px;
+        text-align: center;
+      }
+
+      label {
+        color: #57c1a5;
+        font-size: 1.2rem;
+        margin-right: 10px;
       }
 
       @media (max-width: 768px) {
@@ -174,13 +207,25 @@
           width: 100%;
         }
       }
+
+      @media (max-height: 600px) {
+        .banner-container {
+          top: 20%; /* Adjust top position for small heights */
+        }
+
+        .spin-message {
+          top: 40%; /* Adjust top position for small heights */
+        }
+      }
     </style>
   </head>
   <body>
     <div class="container">
-      <div id="banner" class="banner"></div>
-      <div id="spinMessage" class="spin-message"></div>
-
+      <div class="banner-container">
+        <div id="banner" class="banner"></div>
+        <div id="spinMessage" class="spin-message"></div>
+      </div>
+      <div class="spacer"></div>
       <div class="input-box">
         <input
           type="text"
@@ -190,6 +235,9 @@
         />
         <input type="file" id="imageInput" accept="image/*" />
         <input type="color" id="colorPicker" value="#57c1a5" />
+        <input type="color" id="backgroundPicker" value="#f0f0f0" />
+        <input type="number" id="displayTime" placeholder="Display Time" />
+        <label for="displayTime">Display Time (seconds):</label>
 
         <button id="displayButton" class="button" onclick="showBanner()">
           Display Message
@@ -240,12 +288,22 @@
       const spinImageButton = document.getElementById("spinImageButton");
       const stopResetButton = document.getElementById("stopResetButton");
       const colorPicker = document.getElementById("colorPicker");
+      const displayTimeInput = document.getElementById("displayTime");
       let bannerTimeout;
-
+      const bg = document.body;
       colorPicker.addEventListener("input", function () {
         banner.style.backgroundColor = colorPicker.value;
         spinMessage.style.color = colorPicker.value;
       });
+      const backgroundPicker = document.getElementById("backgroundPicker");
+
+      backgroundPicker.addEventListener("input", function () {
+        bg.style.backgroundColor = backgroundPicker.value;
+      });
+      function getDisplayTime() {
+        const time = parseInt(displayTimeInput.value);
+        return isNaN(time) || time < 1 ? 5 : time;
+      }
 
       function showBanner() {
         const message = messageInput.value.trim();
@@ -255,7 +313,7 @@
           banner.classList.remove("scrolling-banner");
           banner.classList.add("show");
           spinMessage.classList.remove("show");
-          bannerTimeout = setTimeout(hideBanner, 5000);
+          bannerTimeout = setTimeout(hideBanner, getDisplayTime() * 1000);
           updateButtonState(true);
         }
       }
@@ -267,7 +325,7 @@
           banner.innerHTML = `<div class="scrolling-banner"><span class="scrolling-banner-text">${message}</span></div>`;
           banner.classList.add("show", "scrolling-banner");
           spinMessage.classList.remove("show");
-          bannerTimeout = setTimeout(hideBanner, 15000);
+          bannerTimeout = setTimeout(hideBanner, getDisplayTime() * 1000);
           updateButtonState(true);
         }
       }
@@ -279,7 +337,7 @@
           spinMessage.textContent = message;
           spinMessage.classList.add("show");
           banner.classList.remove("show", "scrolling-banner");
-          bannerTimeout = setTimeout(hideSpinMessage, 5000);
+          bannerTimeout = setTimeout(hideSpinMessage, getDisplayTime() * 1000);
           updateButtonState(true);
         }
       }
@@ -294,7 +352,7 @@
             banner.classList.remove("scrolling-banner");
             banner.classList.add("show");
             spinMessage.classList.remove("show");
-            bannerTimeout = setTimeout(hideBanner, 5000);
+            bannerTimeout = setTimeout(hideBanner, getDisplayTime() * 1000);
             updateButtonState(true);
           };
           reader.readAsDataURL(file);
@@ -310,7 +368,7 @@
             banner.innerHTML = `<div class="scrolling-banner"><div class="scrolling-banner-text"><img src="${e.target.result}" alt="Uploaded Image" style="height: 200px;"></div></div>`;
             banner.classList.add("show", "scrolling-banner");
             spinMessage.classList.remove("show");
-            bannerTimeout = setTimeout(hideBanner, 15000);
+            bannerTimeout = setTimeout(hideBanner, getDisplayTime() * 1000);
             updateButtonState(true);
           };
           reader.readAsDataURL(file);
@@ -326,7 +384,10 @@
             spinMessage.innerHTML = `<img src="${e.target.result}" alt="Uploaded Image" style="max-width: 200px; max-height: 200px;">`;
             spinMessage.classList.add("show");
             banner.classList.remove("show", "scrolling-banner");
-            bannerTimeout = setTimeout(hideSpinMessage, 5000);
+            bannerTimeout = setTimeout(
+              hideSpinMessage,
+              getDisplayTime() * 1000
+            );
             updateButtonState(true);
           };
           reader.readAsDataURL(file);
@@ -378,6 +439,42 @@
       messageInput.addEventListener("keyup", function (e) {
         if (e.key === "Enter") {
           showBanner();
+        }
+      });
+
+      let spacerHeight = 0;
+      const maxSpacerHeight = 500; // Optional upper limit for the spacer height
+      const spacers = document.querySelectorAll(".spacer");
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "i") {
+          spacerHeight = Math.min(spacerHeight + 10, maxSpacerHeight); // Increase but limit to max height
+        } else if (e.key === "d") {
+          spacerHeight = Math.max(spacerHeight - 10, 0); // Decrease but don't go below 0
+        }
+
+        spacers.forEach((spacer) => {
+          spacer.style.height = `${spacerHeight}px`;
+        });
+      });
+
+      const standalone = document.querySelector(".standalone");
+      let standaloneStatus = true;
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "s") {
+          if (!standaloneStatus) {
+            standalone.style.display = "block";
+            spacers.forEach((spacer) => {
+              spacer.style.height = "0";
+            });
+          } else {
+            standalone.style.display = "none";
+            spacers.forEach((spacer) => {
+              spacer.style.height = "200px";
+            });
+          }
+          standaloneStatus = !standaloneStatus;
         }
       });
     </script>
