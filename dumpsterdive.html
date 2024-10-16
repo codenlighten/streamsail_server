@@ -260,9 +260,11 @@
   </head>
   <body>
     <div id="game-container">
-      <h1>Dumpster Dive</h1>
-      <img src="./dumpster_images/NEW GAME STUFF(3).png" alt="" id="logo" />
-      <h2>The Trashy Treasure Hunt</h2>
+      <div class="standalone">
+        <h1>Dumpster Dive</h1>
+        <img src="./dumpster_images/NEW GAME STUFF(3).png" alt="" id="logo" />
+        <h2>The Trashy Treasure Hunt</h2>
+      </div>
       <div class="spacer"></div>
       <p id="status">
         Lives: <span id="lives">1</span> | Level: <span id="level">1</span>
@@ -605,10 +607,10 @@
       function updateGameInfo() {
         const levelInfo = levels[currentLevel];
         gameInfoElement.innerHTML = `
-        <h3>Level ${currentLevel}: ${levelInfo.name}</h3>
-        <p>Cards dealt: ${levelInfo.cards} out of ${levelInfo.set}</p>
-        <p>Current goal: ${getGoalForLevel(currentLevel)}</p>
-    `;
+          <h3>Level ${currentLevel}: ${levelInfo.name}</h3>
+          <p>Cards dealt: ${levelInfo.cards} out of ${levelInfo.set}</p>
+          <p>Current goal: ${getGoalForLevel(currentLevel)}</p>
+      `;
       }
 
       function getGoalForLevel(level) {
@@ -653,32 +655,32 @@
           cardElement.className = "card";
           cardElement.dataset.level = currentLevel;
           cardElement.innerHTML = `
-            <div class="card-inner">
-                <div class="card-front">
-                    <img src="./dumpster_images/${
-                      levelData.frontImage
-                    }" alt="Card Front">
-                </div>
-                <div class="card-back">
-                    <img src="./dumpster_images/${card.name
-                      .toLowerCase()
-                      .replace(/\s+/g, "_")}.png" alt="${card.name}">
-                    <h3>${
-                      card.name == "Backwards Benny2"
-                        ? "Backwards Benny"
-                        : card.name
-                    }</h3>
-                    <p>${card.effect}</p>
-                </div>
-            </div>
-        `;
+              <div class="card-inner">
+                  <div class="card-front">
+                      <img src="./dumpster_images/${
+                        levelData.frontImage
+                      }" alt="Card Front">
+                  </div>
+                  <div class="card-back">
+                      <img src="./dumpster_images/${card.name
+                        .toLowerCase()
+                        .replace(/\s+/g, "_")}.png" alt="${card.name}">
+                      <h3>${
+                        card.name == "Backwards Benny2"
+                          ? "Backwards Benny"
+                          : card.name
+                      }</h3>
+                      <p>${card.effect}</p>
+                  </div>
+              </div>
+          `;
 
           const actionElement = document.createElement("div");
           actionElement.className = "card-action";
           actionElement.innerHTML = `
-            <p><strong>Effect:</strong> ${card.effect}</p>
-            <p><em>${card.explanation}</em></p>
-        `;
+              <p><strong>Effect:</strong> ${card.effect}</p>
+              <p><em>${card.explanation}</em></p>
+          `;
 
           cardContainer.appendChild(cardElement);
           cardContainer.appendChild(actionElement);
@@ -788,14 +790,14 @@
         cardsContainer.appendChild(messageElement);
 
         gameInfoElement.innerHTML = `
-                <h3>Game Finished</h3>
-                <p>Final Level: ${currentLevel}</p>
-                <p>${
-                  isWinner
-                    ? "You successfully climbed the trash heap!"
-                    : "Better luck next time!"
-                }</p>
-            `;
+                  <h3>Game Finished</h3>
+                  <p>Final Level: ${currentLevel}</p>
+                  <p>${
+                    isWinner
+                      ? "You successfully climbed the trash heap!"
+                      : "Better luck next time!"
+                  }</p>
+              `;
       }
 
       claimPrizeButton.addEventListener("click", () => {
@@ -847,6 +849,27 @@
           spacers.forEach((spacer) => {
             spacer.style.height = `${spacerHeight}px`;
           });
+        }
+      });
+      const standalone = document.querySelector(".standalone");
+
+      //letter s for stand alone
+      let standaloneStatus = true;
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "s") {
+          if (!standaloneStatus) {
+            standalone.style.display = "block";
+            spacers.forEach((spacer) => {
+              spacer.style.height = "0";
+            });
+          } else {
+            standalone.style.display = "none";
+            spacers.forEach((spacer) => {
+              spacer.style.height = "200px";
+            });
+          }
+          standaloneStatus = !standaloneStatus;
         }
       });
     </script>
