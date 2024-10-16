@@ -155,6 +155,8 @@
     <div class="container">
       <div id="banner" class="banner"></div>
       <div id="spinMessage" class="spin-message"></div>
+      <!-- color chooser wheel -->
+
       <div class="input-box">
         <input
           type="text"
@@ -162,6 +164,8 @@
           placeholder="Enter message"
           maxlength="100"
         />
+        <input type="color" id="colorPicker" value="#57c1a5" />
+
         <button id="displayButton" class="button" onclick="showBanner()">
           Display Message
         </button>
@@ -190,7 +194,12 @@
       const spinButton = document.getElementById("spinButton");
       const stopResetButton = document.getElementById("stopResetButton");
       let bannerTimeout;
-
+      // color chooser wheel
+      const colorPicker = document.getElementById("colorPicker");
+      colorPicker.addEventListener("input", function () {
+        banner.style.backgroundColor = colorPicker.value;
+        spinMessage.style.color = colorPicker.value;
+      });
       function showBanner() {
         const message = messageInput.value.trim();
         if (message !== "") {
