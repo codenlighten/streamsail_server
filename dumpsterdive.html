@@ -691,12 +691,14 @@
         updateGameInfo();
         // cardRippleEffect();
       }
+      let rippling = false;
+      let interval;
       function cardRippleEffect() {
         // from left to right continuously reorder by pushing first back and last to the front. make each get bigger for half a second to look like ripple effect
         const cardContainers = Array.from(cardsContainer.children);
         let currentIndex = 0;
         cardContainers[currentIndex].style.transform = "scale(1.3)";
-        setInterval(() => {
+        interval = setInterval(() => {
           cardContainers[currentIndex].style.transform = "scale(1)";
           currentIndex = (currentIndex + 1) % cardContainers.length;
           cardContainers[currentIndex].style.transform = "scale(1.3)";
@@ -823,14 +825,19 @@
       // Start the game
       dealCards();
 
-      // event listener for card ripple effect. letter r
-      let rippling = false;
+      // event listener for card ripple effect. letter p
       document.addEventListener("keydown", (e) => {
-        if (e.key === "r" && !rippling) {
-          cardRippleEffect();
-          rippling = true;
-        } else if (e.key === "r" && rippling) {
-          rippling = false;
+        if (e.key === "p") {
+          rippling = !rippling;
+          if (rippling) {
+            cardRippleEffect();
+          } else {
+            clearInterval(interval);
+            const cardContainers = Array.from(cardsContainer.children);
+            cardContainers.forEach((cardContainer) => {
+              cardContainer.style.transform = "scale(1)";
+            });
+          }
         }
       });
       //add event listener to add height to spacer divs
