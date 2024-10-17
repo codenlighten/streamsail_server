@@ -204,7 +204,58 @@
         outputCanvas.width = canvasWidth;
         outputCanvas.height = canvasHeight;
       }
+      let isBackgroundRemoved = false;
 
+      document.addEventListener("keydown", (e) => {
+        switch (e.key) {
+          case "d":
+            updatePreviewSize(currentSize === "double" ? "normal" : "double");
+            break;
+          case "t":
+            updatePreviewSize(currentSize === "triple" ? "normal" : "triple");
+            break;
+          case "r":
+            isBackgroundRemoved = !isBackgroundRemoved;
+            console.log(
+              isBackgroundRemoved ? "Background removed" : "Background restored"
+            );
+            break;
+        }
+      });
+      //   async function processVideo() {
+      //     const segmentation = await bodyPixNet.segmentPerson(videoElement, {
+      //       flipHorizontal: false,
+      //       internalResolution: "medium",
+      //       segmentationThreshold: sensitivity,
+      //     });
+      //     const mask = bodyPix.toMask(segmentation);
+
+      //     ctx.drawImage(
+      //       videoElement,
+      //       0,
+      //       0,
+      //       outputCanvas.width,
+      //       outputCanvas.height
+      //     );
+      //     const imageData = ctx.getImageData(
+      //       0,
+      //       0,
+      //       outputCanvas.width,
+      //       outputCanvas.height
+      //     );
+      //     const data = imageData.data;
+
+      //     for (let i = 0; i < data.length; i += 4) {
+      //       if (mask.data[i / 4] === 0) {
+      //         data[i + 3] = Math.round(255 * (1 - opacity)); // Apply opacity to background
+      //       } else {
+      //         data[i + 3] = Math.round(255 * opacity); // Apply inverse opacity to foreground
+      //       }
+      //     }
+
+      //     ctx.putImageData(imageData, 0, 0);
+      //     animationId = requestAnimationFrame(processVideo);
+      //   }
       async function processVideo() {
         const segmentation = await bodyPixNet.segmentPerson(videoElement, {
           flipHorizontal: false,
@@ -230,16 +281,22 @@
 
         for (let i = 0; i < data.length; i += 4) {
           if (mask.data[i / 4] === 0) {
-            data[i + 3] = Math.round(255 * (1 - opacity)); // Apply opacity to background
+            if (isBackgroundRemoved) {
+              // Make background completely transparent
+              data[i + 3] = 0;
+            } else {
+              // Apply opacity to background
+              data[i + 3] = Math.round(255 * (1 - opacity));
+            }
           } else {
-            data[i + 3] = Math.round(255 * opacity); // Apply inverse opacity to foreground
+            // Apply inverse opacity to foreground
+            data[i + 3] = Math.round(255 * opacity);
           }
         }
 
         ctx.putImageData(imageData, 0, 0);
         animationId = requestAnimationFrame(processVideo);
       }
-
       function setBackground(url) {
         bgImage.src = url;
         backgroundPreviewImg.src = url;
