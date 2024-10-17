@@ -257,6 +257,8 @@
             restitution: 0.8,
             render: { fillStyle: getRandomColor(), label: `Ball ${i + 1}` },
           });
+          //make z-index of balls higher than pegs
+          ball.render.zIndex = 100;
           participants.push({ body: ball, name: players[i] });
           Composite.add(world, ball);
         }

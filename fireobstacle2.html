@@ -213,52 +213,32 @@
         //   });
         // };
         const createSpinningLine = (x, y) => {
-          // Thin line behind the fire gif
-          const spinner2 = Bodies.rectangle(x, y, 80, 5, {
-            isStatic: true,
-            render: { fillStyle: "#ff6347" }, // Thin red line (mirroring the fire gif)
-          });
-
-          // Fire gif that will rotate
           const spinner = Bodies.rectangle(x, y, 80, 80, {
             isStatic: true,
             render: {
               sprite: {
                 texture: "./fire.gif", // Replace with the actual link to your fire.gif
-                xScale: 0.6, // Scale for fire gif
-                yScale: 0.1, // Scale for fire gif
+                xScale: 0.6,
+                yScale: 0.1,
               },
             },
           });
-
-          // Add both to the world
-          Composite.add(world, spinner2);
           Composite.add(world, spinner);
 
-          // Rotate both the spinner (fire gif) and the spinner2 (thin line)
           Events.on(engine, "beforeUpdate", () => {
             Body.rotate(spinner, 0.05); // Rotate the fire gif
-            Body.rotate(spinner2, 0.05); // Rotate the thin line to mirror the fire gif
           });
         };
-
-        // Function to create a random number between min and max
         function createRandomNumber(min, max) {
           return Math.floor(Math.random() * (max - min + 1) + min);
         }
 
-        // Randomized positions for the spinning lines
-        const random1 = createRandomNumber(100, 500);
-        const random2 = createRandomNumber(100, 500);
-        const random3 = createRandomNumber(100, 500);
-        const random4 = createRandomNumber(100, 500);
-
-        // Create the spinning lines with fire gifs
-        createSpinningLine(random1, 300);
-        createSpinningLine(random2, 400);
-        createSpinningLine(random3, 500);
-        createSpinningLine(random4, 600);
+        createSpinningLine(createRandomNumber(100, 500), 300);
+        createSpinningLine(createRandomNumber(100, 500), 400);
+        createSpinningLine(createRandomNumber(100, 500), 500);
+        createSpinningLine(createRandomNumber(100, 500), 600);
       };
+
       createObstacles();
 
       const startRace = () => {
