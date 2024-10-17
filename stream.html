@@ -303,35 +303,39 @@
 
       // Load BodyPix model when the page loads
       loadBodyPix();
-      let isPreviewDoubleSize = false;
+      const PREVIEW_SIZES = {
+        normal: { width: 160, height: 90 },
+        double: { width: 320, height: 180 },
+        triple: { width: 480, height: 270 },
+      };
 
-      // Update the event listener for the 'd' key
+      let currentSize = "normal";
+
+      function updatePreviewSize(size) {
+        if (PREVIEW_SIZES[size]) {
+          const { width, height } = PREVIEW_SIZES[size];
+          backgroundPreview.style.width = `${width}px`;
+          backgroundPreview.style.height = `${height}px`;
+          backgroundPreviewImg.style.width = "100%";
+          backgroundPreviewImg.style.height = "100%";
+          console.log(`Preview size set to ${size}`);
+          currentSize = size;
+        }
+      }
+
       document.addEventListener("keydown", (e) => {
-        if (e.key === "d") {
-          isPreviewDoubleSize = !isPreviewDoubleSize;
-          updatePreviewSize();
+        switch (e.key) {
+          case "d":
+            updatePreviewSize(currentSize === "double" ? "normal" : "double");
+            break;
+          case "t":
+            updatePreviewSize(currentSize === "triple" ? "normal" : "triple");
+            break;
         }
       });
 
-      // Function to update the preview size
-      function updatePreviewSize() {
-        if (isPreviewDoubleSize) {
-          backgroundPreview.style.width = "320px";
-          backgroundPreview.style.height = "180px";
-          //img 100% width and height
-          backgroundPreviewImg.style.width = "100%";
-          backgroundPreviewImg.style.height = "100%";
-
-          console.log("Preview size doubled");
-        } else {
-          backgroundPreview.style.width = "160px";
-          backgroundPreview.style.height = "90px";
-          console.log("Preview size reset to normal");
-          backgroundPreviewImg.style.width = "100%";
-          backgroundPreviewImg.style.height = "100%";
-        }
-      }
-      updatePreviewSize();
+      // Initialize with normal size
+      updatePreviewSize("normal");
     </script>
   </body>
 </html>
