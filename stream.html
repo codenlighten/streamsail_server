@@ -120,6 +120,7 @@
     </div>
     <div id="backgroundPreview">
       <img
+        id="backgroundPreviewImg"
         src="https://media.giphy.com/media/3o7aCRloybJlXpNjSU/giphy.gif"
         alt="Background Preview"
       />
@@ -140,10 +141,10 @@
       const gifUrlInput = document.getElementById("gifUrlInput");
       const applyGifBtn = document.getElementById("applyGifBtn");
       const gifUpload = document.getElementById("gifUpload");
-      const backgroundPreview = document
-        .getElementById("backgroundPreview")
-        .querySelector("img");
-
+      const backgroundPreview = document.getElementById("backgroundPreview");
+      const backgroundPreviewImg = document.getElementById(
+        "backgroundPreviewImg"
+      );
       let stream;
       let bodyPixNet;
       let animationId;
@@ -241,7 +242,7 @@
 
       function setBackground(url) {
         bgImage.src = url;
-        backgroundPreview.src = url;
+        backgroundPreviewImg.src = url;
       }
 
       function updateOpacityInfo() {
@@ -302,6 +303,35 @@
 
       // Load BodyPix model when the page loads
       loadBodyPix();
+      let isPreviewDoubleSize = false;
+
+      // Update the event listener for the 'd' key
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "d") {
+          isPreviewDoubleSize = !isPreviewDoubleSize;
+          updatePreviewSize();
+        }
+      });
+
+      // Function to update the preview size
+      function updatePreviewSize() {
+        if (isPreviewDoubleSize) {
+          backgroundPreview.style.width = "320px";
+          backgroundPreview.style.height = "180px";
+          //img 100% width and height
+          backgroundPreviewImg.style.width = "100%";
+          backgroundPreviewImg.style.height = "100%";
+
+          console.log("Preview size doubled");
+        } else {
+          backgroundPreview.style.width = "160px";
+          backgroundPreview.style.height = "90px";
+          console.log("Preview size reset to normal");
+          backgroundPreviewImg.style.width = "100%";
+          backgroundPreviewImg.style.height = "100%";
+        }
+      }
+      updatePreviewSize();
     </script>
   </body>
 </html>
