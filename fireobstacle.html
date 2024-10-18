@@ -281,8 +281,10 @@
 
         const finishLine = 700;
         const checkRaceProgress = () => {
+          let winnerFound = false; // Flag to stop the race after a winner is found
+
           participants.forEach((participant) => {
-            if (participant.body.position.y >= finishLine) {
+            if (participant.body.position.y >= finishLine && !winnerFound) {
               const xPos = participant.body.position.x;
               let prize = "";
 
@@ -294,21 +296,25 @@
               } else if (xPos > 350 && xPos < 450) {
                 prize = "won Prize 3";
               } else {
-                // Participant is out of bounds, ignore them and update status
+                // Participant is out of bounds
                 document.getElementById(
                   "race-status"
                 ).innerText = `😢 ${participant.name} is out of bounds!`;
                 return; // Skip further processing for this participant
               }
 
-              // If the participant is within bounds, update the status and trigger confetti
-              document.getElementById(
-                "race-status"
-              ).innerText = `🎉 ${participant.name} ${prize}! 🏆`;
-              raceInProgress = false;
-              triggerConfetti();
+              // If the participant is within bounds and the winner hasn't been found yet
+              if (!winnerFound) {
+                document.getElementById(
+                  "race-status"
+                ).innerText = `🎉 ${participant.name} ${prize}! 🏆`;
+                raceInProgress = false; // Stop the race
+                winnerFound = true; // Set flag to indicate a winner was found
+                triggerConfetti();
+              }
             }
           });
+
           if (raceInProgress) {
             requestAnimationFrame(checkRaceProgress);
           }
