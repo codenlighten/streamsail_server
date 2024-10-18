@@ -175,10 +175,10 @@
       <div>
         <label for="game-selector">Choose a game:</label>
         <select id="game-selector">
-          <option value="Game 1">Game 1</option>
-          <option value="Game 2">Game 2</option>
-          <option value="Game 3">Game 3</option>
-          <option value="Game 4">Game 4</option>
+          <option value="Game 1">Mystery Pull</option>
+          <option value="Game 2">Dumpster Dive</option>
+          <option value="Game 3">Echo Drop</option>
+          <option value="Game 4">Emoji Racer</option>
         </select>
       </div>
 
@@ -212,8 +212,15 @@
     </div>
 
     <script>
-      let participants = {};
+      let participants = JSON.parse(localStorage.getItem("participants")) || {
+        "Game 1": [],
+        "Game 2": [],
+        "Game 3": [],
+        "Game 4": [],
+      };
+
       let leaderboard = JSON.parse(localStorage.getItem("leaderboard")) || {};
+
       const leaderboardElement = document.getElementById("leaderboard");
       const participantList = document.getElementById("participant-list");
       const feedback = document.getElementById("feedback");
@@ -222,16 +229,11 @@
       const gameSelector = document.getElementById("game-selector");
       const resetButton = document.getElementById("reset-leaderboard");
 
-      // Initialize empty arrays for each game
-      participants["Game 1"] = [];
-      participants["Game 2"] = [];
-      participants["Game 3"] = [];
-      participants["Game 4"] = [];
-
       function updateParticipantList() {
         participantList.innerHTML = "";
         const currentGame = gameSelector.value;
-        participants[currentGame].forEach((participant) => {
+        const gameParticipants = participants[currentGame] || [];
+        gameParticipants.forEach((participant) => {
           const li = document.createElement("li");
           li.textContent = participant;
           li.addEventListener("click", () => {
@@ -301,6 +303,7 @@
           nameInput.value = "";
           updateParticipantList();
           feedback.textContent = `${newName} added to ${currentGame}!`;
+          localStorage.setItem("participants", JSON.stringify(participants));
           setTimeout(() => (feedback.textContent = ""), 2000);
         }
       });
@@ -309,11 +312,9 @@
         leaderboard = {};
         updateLeaderboard();
       });
-      //add event listener for change in game
-      gameSelector.addEventListener("change", () => {
-        updateParticipantList();
-      });
+
       updateLeaderboard();
+      updateParticipantList(); // Initialize participant list for the default selected game
       checkURLParams(); // Check if there are URL params for game and name
     </script>
   </body>
