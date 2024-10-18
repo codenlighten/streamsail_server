@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EchoX Spins - Multiple Game Manager</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f9fafb;
+        margin: 0;
+        padding: 0;
+        color: #36464e;
+        line-height: 1.6;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+
+      #app {
+        text-align: center;
+        padding: 20px;
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        width: 90%;
+        max-width: 1200px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      #title {
+        font-size: 2.5em;
+        font-weight: bold;
+        color: #0bb28a;
+        margin-bottom: 20px;
+        letter-spacing: 1px;
+        text-shadow: 0 0 5px rgba(11, 178, 138, 0.2);
+      }
+
+      #main-container {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+        flex-wrap: wrap;
+      }
+
+      #spinner-container,
+      #leaderboard-container {
+        width: 48%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 10px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        background-color: #f9fafb;
+      }
+
+      .result-display {
+        margin-top: 20px;
+        font-size: 1.5em;
+        font-weight: bold;
+        color: #0bb28a;
+      }
+
+      button {
+        margin-top: 20px;
+        padding: 12px 24px;
+        font-size: 1.1em;
+        color: #ffffff;
+        background-color: #36464e;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+      }
+
+      button:hover {
+        background-color: #0bb28a;
+        transform: translateY(-2px);
+      }
+
+      #input-container {
+        margin-top: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+      }
+
+      #name-input {
+        padding: 10px;
+        font-size: 1em;
+        width: 80%;
+        max-width: 300px;
+        border: 2px solid #36464e;
+        border-radius: 5px;
+        margin-bottom: 10px;
+      }
+
+      #add-button {
+        padding: 10px 20px;
+        font-size: 1.1em;
+        color: #ffffff;
+        background-color: #0bb28a;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+
+      #participant-list {
+        list-style-type: none;
+        padding: 0;
+        font-size: 1.2em;
+        margin-top: 20px;
+        width: 100%;
+        color: #36464e;
+        display: flex;
+        flex-direction: column;
+      }
+
+      #participant-list li {
+        padding: 10px;
+        border: 1px solid #0bb28a;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        background-color: #f4f4f4;
+        transition: background-color 0.2s ease, transform 0.15s ease;
+        cursor: pointer;
+      }
+
+      #feedback {
+        color: #0bb28a;
+        margin-top: 10px;
+        font-size: 1.1em;
+        text-align: center;
+      }
+
+      #game-selector {
+        padding: 10px;
+        font-size: 1.1em;
+        margin-top: 10px;
+        border: 2px solid #36464e;
+        border-radius: 5px;
+      }
+
+      #leaderboard {
+        list-style-type: none;
+        padding: 0;
+        font-size: 1.2em;
+        margin-top: 20px;
+        width: 100%;
+      }
+
+      #leaderboard li {
+        padding: 10px;
+        border: 1px solid #0bb28a;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        background-color: #f4f4f4;
+      }
+    </style>
+
+    <!-- Include Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <div id="title">EchoX Spins</div>
+
+      <div>
+        <label for="game-selector">Choose a game:</label>
+        <select id="game-selector">
+          <option value="Game 1">Game 1</option>
+          <option value="Game 2">Game 2</option>
+          <option value="Game 3">Game 3</option>
+          <option value="Game 4">Game 4</option>
+        </select>
+      </div>
+
+      <div id="main-container">
+        <div id="spinner-container">
+          <div class="result-display" id="result">
+            Choose a game and add players!
+          </div>
+          <div id="input-container">
+            <input
+              type="text"
+              id="name-input"
+              placeholder="Enter participant name"
+            />
+            <button id="add-button">Add Name</button>
+            <div id="feedback"></div>
+          </div>
+        </div>
+
+        <div id="leaderboard-container">
+          <h3>Leaderboard</h3>
+          <ul id="leaderboard"></ul>
+          <button id="reset-leaderboard">Reset Leaderboard</button>
+        </div>
+      </div>
+
+      <div>
+        <h3>Participants</h3>
+        <ul id="participant-list"></ul>
+      </div>
+    </div>
+
+    <script>
+      let participants = {};
+      let leaderboard = JSON.parse(localStorage.getItem("leaderboard")) || {};
+      const leaderboardElement = document.getElementById("leaderboard");
+      const participantList = document.getElementById("participant-list");
+      const feedback = document.getElementById("feedback");
+      const addButton = document.getElementById("add-button");
+      const nameInput = document.getElementById("name-input");
+      const gameSelector = document.getElementById("game-selector");
+      const resetButton = document.getElementById("reset-leaderboard");
+
+      // Initialize empty arrays for each game
+      participants["Game 1"] = [];
+      participants["Game 2"] = [];
+      participants["Game 3"] = [];
+      participants["Game 4"] = [];
+
+      function updateParticipantList() {
+        participantList.innerHTML = "";
+        const currentGame = gameSelector.value;
+        participants[currentGame].forEach((participant) => {
+          const li = document.createElement("li");
+          li.textContent = participant;
+          li.addEventListener("click", () => {
+            addWin(participant);
+          });
+          participantList.appendChild(li);
+        });
+      }
+
+      function addWin(participant) {
+        if (leaderboard[participant]) {
+          leaderboard[participant]++;
+        } else {
+          leaderboard[participant] = 1;
+        }
+        triggerConfetti(); // Trigger confetti on win
+        updateLeaderboard();
+      }
+
+      function updateLeaderboard() {
+        leaderboardElement.innerHTML = "";
+        for (const participant in leaderboard) {
+          const li = document.createElement("li");
+          li.textContent = `${participant}: ${leaderboard[participant]} win(s)`;
+          leaderboardElement.appendChild(li);
+        }
+        localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
+      }
+
+      // Confetti function
+      function triggerConfetti() {
+        confetti({
+          particleCount: 150,
+          spread: 70,
+          origin: { y: 0.6 },
+        });
+      }
+
+      gameSelector.addEventListener("change", () => {
+        updateParticipantList();
+      });
+
+      addButton.addEventListener("click", () => {
+        const newName = nameInput.value.trim();
+        const currentGame = gameSelector.value;
+        if (newName && participants[currentGame].length < 16) {
+          participants[currentGame].push(newName);
+          nameInput.value = "";
+          updateParticipantList();
+          feedback.textContent = `${newName} added to ${currentGame}!`;
+          setTimeout(() => (feedback.textContent = ""), 2000);
+        }
+      });
+
+      resetButton.addEventListener("click", () => {
+        leaderboard = {};
+        updateLeaderboard();
+      });
+
+      updateLeaderboard();
+    </script>
+  </body>
+</html>
