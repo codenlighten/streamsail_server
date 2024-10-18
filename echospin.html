@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- smartledger tools -->
     <script src="https://plugins.whatsonchain.com/api/plugin/main/168d796a870dec5cc241dacf140fdbbc2212c9e1ca83614e82914fc42c6d1052"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <title>Echo Spins - A Fun and Interactive Wheel Game</title>
 
     <!-- SEO Meta Tags -->
@@ -310,6 +311,12 @@
             resultDisplay.textContent = `Winner: ${result}`;
             // Play winner sound
             winnerSound.play();
+            // Launch confetti
+            confetti({
+              particleCount: 150,
+              spread: 70,
+              origin: { y: 0.6 },
+            });
           }
         }
 
