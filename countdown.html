@@ -133,6 +133,7 @@
           type="number"
           id="countdownNumber"
           placeholder="Enter seconds"
+          class="standalone"
         />
         <button class="button" onclick="startTimer()">START</button>
         <button class="button" onclick="resetTimer()">RESET</button>
@@ -209,19 +210,25 @@
         document.getElementById("saying").textContent = sayings[index];
       }
 
-      function toggleWrapper() {
-        const wrapper = document.querySelector(".wrapper");
+      // Toggle standalone mode by hiding unnecessary elements
+      function toggleStandaloneMode() {
+        const elementsToHide = document.querySelectorAll(".wrapper");
         wrapperOff = !wrapperOff;
-        wrapper.classList.toggle("standalone", wrapperOff);
+
+        elementsToHide.forEach((element) => {
+          element.style.display = wrapperOff ? "none" : "block";
+        });
       }
 
       document.body.onkeyup = function (e) {
         if (e.keyCode === 32) startTimer(); // Start timer on spacebar
         if (e.keyCode === 13) resetTimer(); // Reset timer on enter
-        if (e.keyCode === 83) toggleWrapper(); // Toggle wrapper on 'S'
+        if (e.keyCode === 83) toggleStandaloneMode(); // Toggle standalone mode on 'S'
       };
 
       displayTime(secondsLeft); // Initial display
+      // start stand alone mode
+      toggleStandaloneMode();
     </script>
   </body>
 </html>
