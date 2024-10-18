@@ -235,13 +235,13 @@
           const li = document.createElement("li");
           li.textContent = participant;
           li.addEventListener("click", () => {
-            addWin(participant);
+            addWin(participant, currentGame);
           });
           participantList.appendChild(li);
         });
       }
 
-      function addWin(participant) {
+      function addWin(participant, game) {
         if (leaderboard[participant]) {
           leaderboard[participant]++;
         } else {
@@ -249,6 +249,7 @@
         }
         triggerConfetti(); // Trigger confetti on win
         updateLeaderboard();
+        updateURLWithParams(game, participant); // Update URL with game and participant
       }
 
       function updateLeaderboard() {
@@ -268,6 +269,24 @@
           spread: 70,
           origin: { y: 0.6 },
         });
+      }
+
+      // Update the URL with game and participant
+      function updateURLWithParams(game, name) {
+        const url = new URL(window.location);
+        url.searchParams.set("game", game);
+        url.searchParams.set("name", name);
+        window.history.pushState({}, "", url); // Update URL without reloading the page
+      }
+
+      // Function to check if URL has game and name params
+      function checkURLParams() {
+        const params = new URLSearchParams(window.location.search);
+        const game = params.get("game");
+        const name = params.get("name");
+        if (game && name && participants[game].includes(name)) {
+          addWin(name, game); // Add win if both game and participant are in the URL
+        }
       }
 
       gameSelector.addEventListener("change", () => {
@@ -290,8 +309,12 @@
         leaderboard = {};
         updateLeaderboard();
       });
-
+      //add event listener for change in game
+      gameSelector.addEventListener("change", () => {
+        updateParticipantList();
+      });
       updateLeaderboard();
+      checkURLParams(); // Check if there are URL params for game and name
     </script>
   </body>
 </html>

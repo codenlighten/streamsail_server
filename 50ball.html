@@ -37,7 +37,7 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        min-height: 100vh;
+        min-height: 100%;
         background: linear-gradient(120deg, #0b1e17, #062922);
         color: #f0f0f0;
         margin: 0;
@@ -201,6 +201,9 @@
         background: linear-gradient(145deg, #ffd700, #ffcc00);
         box-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
       }
+      .spacer2 {
+        height: 200px;
+      }
 
       @media (max-width: 600px) {
         .circle {
@@ -246,9 +249,11 @@
         style="width: 100px; height: 100px; z-index: 100"
       />
     </div>
+    <div class="spacer2"></div>
     <div id="circles-container"></div>
     <canvas id="confetti"></canvas>
     <canvas id="chaser-effect"></canvas>
+    <div class="spacer"></div>
     <div id="game-settings">
       <label for="number-of-spots">Select the number of spots:</label>
       <select id="number-of-spots">
@@ -516,6 +521,26 @@
             confettiCanvas,
             congratulationsText
           );
+        });
+        let spacerheight = 20;
+        //i for increase spacer height and d for decrease spacer height
+        document.addEventListener("keydown", function (event) {
+          if (event.key === "i") {
+            spacerheight += 10;
+            document.querySelectorAll(".spacer").forEach((spacer) => {
+              spacer.style.height = spacerheight + "px";
+            });
+          } else if (event.key === "d") {
+            spacerheight -= 10;
+            document.querySelectorAll(".spacer").forEach((spacer) => {
+              spacer.style.height = spacerheight + "px";
+            });
+          }
+        });
+
+        //automatically start with 300px spacer height
+        document.querySelectorAll(".spacer").forEach((spacer) => {
+          spacer.style.height = 300 + "px";
         });
 
         // Initial confetti animation
