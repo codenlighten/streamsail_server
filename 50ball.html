@@ -210,136 +210,6 @@
         }
       }
     </style>
-
-    <!-- 
-    <style>
-      body {
-        font-family: "Roboto", sans-serif;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        min-height: 100vh;
-        background: #ffffff;
-        color: #000000;
-        margin: 0;
-        padding: 20px;
-        transition: background 0.3s ease, color 0.3s ease;
-      }
-
-      body.dark-mode {
-        background: linear-gradient(120deg, #0b1e17, #062922);
-        color: #f0f0f0;
-      }
-
-      h1,
-      p {
-        text-align: center;
-        margin: 0 0 20px;
-      }
-
-      #title {
-        font-size: 38px;
-        color: #0bb28a;
-        letter-spacing: 1.5px;
-        text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
-      }
-
-      .description {
-        max-width: 800px;
-        font-size: 18px;
-        line-height: 1.8;
-        color: inherit;
-        margin-bottom: 20px;
-        padding: 0 20px;
-        transition: color 0.3s ease;
-      }
-
-      #congratulations-text {
-        font-size: 28px;
-        font-weight: bold;
-        color: #ffcc00;
-        text-align: center;
-        margin-bottom: 20px;
-        visibility: hidden;
-        animation: fadeInOut 4s ease-in-out;
-      }
-
-      #circles-container {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        max-width: 900px;
-        padding: 20px;
-        background-color: rgba(12, 65, 58, 0.85);
-        border-radius: 20px;
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
-      }
-
-      .circle {
-        width: 70px;
-        height: 70px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 15px;
-        background: linear-gradient(145deg, #0bb28a, #089f78);
-        box-shadow: 6px 6px 12px #064d41, -6px -6px 12px #10f1b1;
-        color: #ffffff;
-        font-size: 22px;
-        font-weight: bold;
-        cursor: pointer;
-        user-select: none;
-        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-      }
-
-      .circle:hover {
-        transform: scale(1.1);
-        box-shadow: 8px 8px 16px #064d41, -8px -8px 16px #10f1b1;
-      }
-
-      .circle.taken {
-        background: linear-gradient(145deg, #d9534f, #a94442);
-        box-shadow: 4px 4px 10px #721c24, -4px -4px 10px #d9534f;
-        cursor: not-allowed;
-      }
-
-      #confetti,
-      #chaser-effect {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        z-index: 100;
-      }
-
-      canvas {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        z-index: 100;
-      }
-
-      #theme-toggle {
-        margin-bottom: 20px;
-      }
-      #dancingman {
-        display: none;
-      }
-      @media (max-width: 600px) {
-        .circle {
-          width: 50px;
-          height: 50px;
-          font-size: 16px;
-        }
-      }
-    </style> -->
   </head>
   <body>
     <h1 id="title">
@@ -468,6 +338,25 @@
           document.body.classList.remove("dark-mode");
         }
       }
+
+      // Toggle standalone mode
+      function toggleStandaloneMode() {
+        const elementsToHide = document.querySelectorAll(
+          "#theme-toggle, .description,  #title"
+        );
+        const isStandalone = document.body.classList.toggle("standalone-mode");
+
+        elementsToHide.forEach((element) => {
+          element.style.display = isStandalone ? "none" : "block";
+        });
+      }
+
+      // Event listener for "s" key to activate standalone mode
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "s") {
+          toggleStandaloneMode();
+        }
+      });
 
       // Clear circles and render new ones based on the number of spots
       function renderCircles(
@@ -632,6 +521,10 @@
 
         // Initial confetti animation
         triggerConfetti(confettiCanvas);
+        //start with 50 spots
+        toggleStandaloneMode();
+        document.getElementById("number-of-spots").value = "50";
+        document.getElementById("start-game").click();
       });
     </script>
   </body>
