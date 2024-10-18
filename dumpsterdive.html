@@ -930,6 +930,78 @@
         }
       });
 
+      let audioContext;
+      let analyser;
+      let microphone;
+      let frequencyData;
+      let pulsing = false;
+      let animationFrameId;
+
+      async function setupMicrophone() {
+        // Create an audio context
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        analyser = audioContext.createAnalyser();
+
+        // Get access to the user's microphone
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({
+            audio: true,
+          });
+          microphone = audioContext.createMediaStreamSource(stream);
+          microphone.connect(analyser);
+
+          // Set up frequency analysis
+          analyser.fftSize = 256;
+          frequencyData = new Uint8Array(analyser.frequencyBinCount);
+
+          pulseToMicrophone(); // Start pulsing to the microphone input
+        } catch (err) {
+          console.error("Microphone access denied:", err);
+        }
+      }
+
+      function pulseToMicrophone() {
+        // Capture frequency data from the microphone
+        analyser.getByteFrequencyData(frequencyData);
+
+        // Calculate the average frequency value
+        const averageFrequency =
+          frequencyData.reduce((acc, val) => acc + val, 0) /
+          frequencyData.length;
+
+        // Apply the pulsing effect based on the frequency
+        const cardContainers = Array.from(cardsContainer.children);
+        cardContainers.forEach((cardContainer) => {
+          const cardElement = cardContainer.querySelector(".card");
+          const scale = 1 + (averageFrequency / 255) * 0.2; // Pulse between 1 and 1.2 times the original size
+          cardElement.style.transform = `scale(${scale})`;
+        });
+
+        // Continue pulsing based on the microphone input
+        animationFrameId = requestAnimationFrame(pulseToMicrophone);
+      }
+
+      function stopPulsing() {
+        cancelAnimationFrame(animationFrameId); // Stop the animation loop
+        const cardContainers = Array.from(cardsContainer.children);
+        cardContainers.forEach((cardContainer) => {
+          const cardElement = cardContainer.querySelector(".card");
+          cardElement.style.transform = "scale(1)"; // Reset card scaling
+        });
+      }
+
+      // Start pulsing effect on key press 'm'
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "m") {
+          if (!pulsing) {
+            pulsing = true;
+            setupMicrophone(); // Start using the microphone input
+          } else {
+            pulsing = false;
+            stopPulsing(); // Stop the pulsing effect
+          }
+        }
+      });
       window.onload = function () {
         automatedStandAlone();
       };
