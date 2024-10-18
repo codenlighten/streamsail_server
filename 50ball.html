@@ -241,8 +241,6 @@
       prize!
     </p>
 
-    <div id="congratulations-text"></div>
-    <div id="dancingman">
       <!-- dancer.gif -->
       <img
         src="https://plugins.whatsonchain.com/api/plugin/main/302d9dffc12e423ef674bca13af7824ba8704873cade40741c7a937cde56bb6b"
@@ -250,6 +248,9 @@
       />
     </div>
     <div class="spacer2"></div>
+
+    <div id="congratulations-text"></div>
+    <div id="dancingman">
     <div id="circles-container"></div>
     <canvas id="confetti"></canvas>
     <canvas id="chaser-effect"></canvas>
@@ -272,224 +273,241 @@
       Your browser does not support the audio element.
     </audio>
     <script>
-      // Get Chaser Count based on number of spots
-      function getChaserCount(spots) {
-        switch (spots) {
-          case 25:
-            return 2;
-          case 50:
-            return 4;
-          case 75:
-            return 6;
-          case 100:
-            return 8;
-          default:
-            return 4;
-        }
-      }
-
-      // Get random chaser indices based on the number of spots and chasers
-      function getRandomChaserIndices(spots, chaserCount) {
-        const indices = [];
-        const chaserTypes = ["A", "B", "C", "D", "E", "F", "G", "H"];
-        while (indices.length < chaserCount) {
-          const randomIndex = Math.floor(Math.random() * spots) + 1;
-          if (!indices.some((chaser) => chaser.index === randomIndex)) {
-            indices.push({
-              index: randomIndex,
-              type: chaserTypes[indices.length],
-            });
-          }
-        }
-        return indices;
-      }
-
-      // Confetti piece constructor and behavior
-      function createConfettiPiece(canvas) {
-        const piece = {};
-        piece.x = Math.random() * canvas.width;
-        piece.y = Math.random() * -canvas.height;
-        piece.size = Math.random() * 6 + 4;
-        piece.speedY = Math.random() * 3 + 2;
-        piece.color = `hsl(${Math.random() * 360}, 100%, 50%)`;
-        piece.rotation = Math.random() * 360;
-
-        piece.update = function (ctx) {
-          this.y += this.speedY;
-          this.rotation += this.speedY;
-          if (this.y > canvas.height) {
-            this.reset(canvas);
-          }
-          ctx.fillStyle = this.color;
-          ctx.beginPath();
-          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-          ctx.fill();
-        };
-
-        piece.reset = function (canvas) {
-          this.x = Math.random() * canvas.width;
-          this.y = Math.random() * -canvas.height;
-        };
-
-        return piece;
-      }
-
-      // Theme change logic
-      function applyTheme(theme) {
-        if (theme === "dark") {
-          document.body.classList.add("dark-mode");
-        } else {
-          document.body.classList.remove("dark-mode");
-        }
-      }
-
-      // Toggle standalone mode
-      function toggleStandaloneMode() {
-        const elementsToHide = document.querySelectorAll(
-          "#theme-toggle, .description,  #title"
-        );
-        const isStandalone = document.body.classList.toggle("standalone-mode");
-
-        elementsToHide.forEach((element) => {
-          element.style.display = isStandalone ? "none" : "block";
-        });
-      }
-
-      // Event listener for "s" key to activate standalone mode
-      document.addEventListener("keydown", function (event) {
-        if (event.key === "s") {
-          toggleStandaloneMode();
-        }
-      });
-
-      // Clear circles and render new ones based on the number of spots
-      function renderCircles(
-        container,
-        numberOfSpots,
-        chaserIndices,
-        confettiCanvas,
-        congratulationsText
-      ) {
-        container.innerHTML = ""; // Clear previous circles
-
-        for (let i = 1; i <= numberOfSpots; i++) {
-          const circle = document.createElement("div");
-          circle.classList.add("circle");
-          circle.textContent = i;
-          const chaserData = chaserIndices.find((chaser) => chaser.index === i);
-          if (chaserData) {
-            circle.dataset.chaser = chaserData.type;
-          }
-          circle.addEventListener("click", function () {
-            if (!circle.classList.contains("taken")) {
-              markCircleAsTaken(circle, confettiCanvas, congratulationsText);
-            }
-          });
-          container.appendChild(circle);
-        }
-      }
-
-      // Mark circle as taken and trigger effects
-      function markCircleAsTaken(circle, confettiCanvas, congratulationsText) {
-        circle.classList.add("taken");
-        if (circle.dataset.chaser) {
-          triggerChaserEffect(
-            circle.dataset.chaser,
-            confettiCanvas,
-            congratulationsText
-          );
-        } else {
-          triggerConfetti(confettiCanvas);
-        }
-      }
-
-      // Show animated congratulations text
-      function showCongratulationsText(congratulationsText, chaserType) {
-        congratulationsText.textContent = `Congratulations! You picked Chaser ${chaserType}!`;
-        congratulationsText.style.visibility = "visible";
-        setTimeout(() => {
-          congratulationsText.style.visibility = "hidden";
-        }, 4000);
-      }
-
-      // Trigger confetti effect
-      function triggerConfetti(confettiCanvas) {
-        const ctx = confettiCanvas.getContext("2d");
-        const pieces = [];
-
-        confettiCanvas.style.display = "block";
-        confettiCanvas.width = window.innerWidth;
-        confettiCanvas.height = window.innerHeight;
-
-        for (let i = 0; i < 150; i++) {
-          pieces.push(createConfettiPiece(confettiCanvas));
-        }
-
-        function update() {
-          ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
-          pieces.forEach((piece) => piece.update(ctx));
-          requestAnimationFrame(update);
-        }
-
-        update();
-        setTimeout(() => {
-          ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
-          confettiCanvas.style.display = "none";
-        }, 5000);
-      }
-
-      function markCircleAsTaken(circle, confettiCanvas, congratulationsText) {
-        circle.classList.add("taken");
-        if (circle.dataset.chaser) {
-          circle.classList.add("chaser");
-          triggerChaserEffect(
-            circle.dataset.chaser,
-            confettiCanvas,
-            congratulationsText
-          );
-        } else {
-          triggerConfetti(confettiCanvas);
-        }
-      }
-
-      // Modified triggerChaserEffect function
-      function triggerChaserEffect(
-        chaserType,
-        confettiCanvas,
-        congratulationsText
-      ) {
-        const chaserCanvas = document.getElementById("chaser-effect");
-        const chaserCtx = chaserCanvas.getContext("2d");
-        let chaserAlpha = 1;
-
-        chaserCanvas.width = window.innerWidth;
-        chaserCanvas.height = window.innerHeight;
-
-        function updateChaserEffect() {
-          chaserCtx.clearRect(0, 0, chaserCanvas.width, chaserCanvas.height);
-          chaserCtx.fillStyle = `rgba(255, 215, 0, ${chaserAlpha})`; // Golden color
-          chaserCtx.fillRect(0, 0, chaserCanvas.width, chaserCanvas.height);
-          chaserAlpha -= 0.01;
-          if (chaserAlpha > 0) {
-            requestAnimationFrame(updateChaserEffect);
-          } else {
-            chaserCtx.clearRect(0, 0, chaserCanvas.width, chaserCanvas.height);
-          }
-        }
-
-        updateChaserEffect();
-        triggerConfetti(confettiCanvas); // Additional confetti for chaser
-        showCongratulationsText(congratulationsText, chaserType);
-        const winnerSound = document.getElementById("winner-sound");
-        winnerSound.play();
-        const dancingMan = document.getElementById("dancingman");
-        dancingMan.style.display = "block";
-        setTimeout(() => {
-          dancingMan.style.display = "none";
-        }, 5000);
-      }
       // DOMContentLoaded
       document.addEventListener("DOMContentLoaded", function () {
+        // Get Chaser Count based on number of spots
+        function getChaserCount(spots) {
+          switch (spots) {
+            case 25:
+              return 2;
+            case 50:
+              return 4;
+            case 75:
+              return 6;
+            case 100:
+              return 8;
+            default:
+              return 4;
+          }
+        }
+
+        // Get random chaser indices based on the number of spots and chasers
+        function getRandomChaserIndices(spots, chaserCount) {
+          const indices = [];
+          const chaserTypes = ["A", "B", "C", "D", "E", "F", "G", "H"];
+          while (indices.length < chaserCount) {
+            const randomIndex = Math.floor(Math.random() * spots) + 1;
+            if (!indices.some((chaser) => chaser.index === randomIndex)) {
+              indices.push({
+                index: randomIndex,
+                type: chaserTypes[indices.length],
+              });
+            }
+          }
+          return indices;
+        }
+
+        // Confetti piece constructor and behavior
+        function createConfettiPiece(canvas) {
+          const piece = {};
+          piece.x = Math.random() * canvas.width;
+          piece.y = Math.random() * -canvas.height;
+          piece.size = Math.random() * 6 + 4;
+          piece.speedY = Math.random() * 3 + 2;
+          piece.color = `hsl(${Math.random() * 360}, 100%, 50%)`;
+          piece.rotation = Math.random() * 360;
+
+          piece.update = function (ctx) {
+            this.y += this.speedY;
+            this.rotation += this.speedY;
+            if (this.y > canvas.height) {
+              this.reset(canvas);
+            }
+            ctx.fillStyle = this.color;
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fill();
+          };
+
+          piece.reset = function (canvas) {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * -canvas.height;
+          };
+
+          return piece;
+        }
+
+        // Theme change logic
+        function applyTheme(theme) {
+          if (theme === "dark") {
+            document.body.classList.add("dark-mode");
+          } else {
+            document.body.classList.remove("dark-mode");
+          }
+        }
+
+        // Toggle standalone mode
+        function toggleStandaloneMode() {
+          const elementsToHide = document.querySelectorAll(
+            "#theme-toggle, .description,  #title"
+          );
+          const isStandalone =
+            document.body.classList.toggle("standalone-mode");
+
+          elementsToHide.forEach((element) => {
+            element.style.display = isStandalone ? "none" : "block";
+          });
+        }
+
+        // Event listener for "s" key to activate standalone mode
+        document.addEventListener("keydown", function (event) {
+          if (event.key === "s") {
+            toggleStandaloneMode();
+          }
+        });
+
+        // Clear circles and render new ones based on the number of spots
+        function renderCircles(
+          container,
+          numberOfSpots,
+          chaserIndices,
+          confettiCanvas,
+          congratulationsText
+        ) {
+          container.innerHTML = ""; // Clear previous circles
+
+          for (let i = 1; i <= numberOfSpots; i++) {
+            const circle = document.createElement("div");
+            circle.classList.add("circle");
+            circle.textContent = i;
+            const chaserData = chaserIndices.find(
+              (chaser) => chaser.index === i
+            );
+            if (chaserData) {
+              circle.dataset.chaser = chaserData.type;
+            }
+            circle.addEventListener("click", function () {
+              if (!circle.classList.contains("taken")) {
+                markCircleAsTaken(circle, confettiCanvas, congratulationsText);
+              }
+            });
+            container.appendChild(circle);
+          }
+        }
+
+        // Mark circle as taken and trigger effects
+        function markCircleAsTaken(
+          circle,
+          confettiCanvas,
+          congratulationsText
+        ) {
+          circle.classList.add("taken");
+          if (circle.dataset.chaser) {
+            triggerChaserEffect(
+              circle.dataset.chaser,
+              confettiCanvas,
+              congratulationsText
+            );
+          } else {
+            triggerConfetti(confettiCanvas);
+          }
+        }
+
+        // Show animated congratulations text
+        function showCongratulationsText(congratulationsText, chaserType) {
+          congratulationsText.textContent = `Congratulations! You picked Chaser ${chaserType}!`;
+          congratulationsText.style.visibility = "visible";
+          setTimeout(() => {
+            congratulationsText.style.visibility = "hidden";
+          }, 4000);
+        }
+
+        // Trigger confetti effect
+        function triggerConfetti(confettiCanvas) {
+          const ctx = confettiCanvas.getContext("2d");
+          const pieces = [];
+
+          confettiCanvas.style.display = "block";
+          confettiCanvas.width = window.innerWidth;
+          confettiCanvas.height = window.innerHeight;
+
+          for (let i = 0; i < 150; i++) {
+            pieces.push(createConfettiPiece(confettiCanvas));
+          }
+
+          function update() {
+            ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+            pieces.forEach((piece) => piece.update(ctx));
+            requestAnimationFrame(update);
+          }
+
+          update();
+          setTimeout(() => {
+            ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+            confettiCanvas.style.display = "none";
+          }, 5000);
+        }
+
+        function markCircleAsTaken(
+          circle,
+          confettiCanvas,
+          congratulationsText
+        ) {
+          circle.classList.add("taken");
+          if (circle.dataset.chaser) {
+            circle.classList.add("chaser");
+            triggerChaserEffect(
+              circle.dataset.chaser,
+              confettiCanvas,
+              congratulationsText
+            );
+          } else {
+            triggerConfetti(confettiCanvas);
+          }
+        }
+
+        // Modified triggerChaserEffect function
+        function triggerChaserEffect(
+          chaserType,
+          confettiCanvas,
+          congratulationsText
+        ) {
+          const chaserCanvas = document.getElementById("chaser-effect");
+          const chaserCtx = chaserCanvas.getContext("2d");
+          let chaserAlpha = 1;
+
+          chaserCanvas.width = window.innerWidth;
+          chaserCanvas.height = window.innerHeight;
+
+          function updateChaserEffect() {
+            chaserCtx.clearRect(0, 0, chaserCanvas.width, chaserCanvas.height);
+            chaserCtx.fillStyle = `rgba(255, 215, 0, ${chaserAlpha})`; // Golden color
+            chaserCtx.fillRect(0, 0, chaserCanvas.width, chaserCanvas.height);
+            chaserAlpha -= 0.01;
+            if (chaserAlpha > 0) {
+              requestAnimationFrame(updateChaserEffect);
+            } else {
+              chaserCtx.clearRect(
+                0,
+                0,
+                chaserCanvas.width,
+                chaserCanvas.height
+              );
+            }
+          }
+
+          updateChaserEffect();
+          triggerConfetti(confettiCanvas); // Additional confetti for chaser
+          showCongratulationsText(congratulationsText, chaserType);
+          const winnerSound = document.getElementById("winner-sound");
+          winnerSound.play();
+          const dancingMan = document.getElementById("dancingman");
+          dancingMan.style.display = "block";
+          setTimeout(() => {
+            dancingMan.style.display = "none";
+          }, 5000);
+        }
+
         const container = document.getElementById("circles-container");
         const congratulationsText = document.getElementById(
           "congratulations-text"
@@ -508,12 +526,14 @@
         });
 
         startGameButton.addEventListener("click", function () {
+          console.log("Game started!");
           const numberOfSpots = parseInt(spotsDropdown.value);
           const chaserCount = getChaserCount(numberOfSpots);
           const chaserIndices = getRandomChaserIndices(
             numberOfSpots,
             chaserCount
           );
+          console.log("Chaser indices:", chaserIndices);
           renderCircles(
             container,
             numberOfSpots,
@@ -542,7 +562,12 @@
         document.querySelectorAll(".spacer").forEach((spacer) => {
           spacer.style.height = 300 + "px";
         });
-
+        //listen for g to start the game
+        document.addEventListener("keydown", function (event) {
+          if (event.key === "g") {
+            document.getElementById("start-game").click();
+          }
+        });
         // Initial confetti animation
         triggerConfetti(confettiCanvas);
         //start with 50 spots
