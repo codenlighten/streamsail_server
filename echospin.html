@@ -171,6 +171,13 @@
         border-radius: 5px;
         margin-bottom: 10px;
         background-color: #f4f4f4;
+        transition: background-color 0.2s ease, transform 0.15s ease;
+      }
+
+      #participant-list li.active {
+        background-color: #0bb28a;
+        color: #fff;
+        transform: scale(1.05);
       }
 
       #feedback {
@@ -297,6 +304,18 @@
         });
       }
 
+      function highlightParticipant(index) {
+        const participantItems = document.querySelectorAll(
+          "#participant-list li"
+        );
+        participantItems.forEach((item, i) => {
+          item.classList.remove("active");
+          if (i === index) {
+            item.classList.add("active");
+          }
+        });
+      }
+
       function updateLeaderboard() {
         leaderboardElement.innerHTML = "";
         for (const participant in leaderboard) {
@@ -328,6 +347,8 @@
         let spinDuration = Math.random() * 2000 + 3000;
         let start = null;
         let spinNumber = 0;
+        let participantIndex = 0;
+        const switchSpeed = 100; // Speed in milliseconds for highlighting participants
 
         function animateSpin(timestamp) {
           if (!start) start = timestamp;
@@ -341,14 +362,16 @@
           wheel.style.transform = `rotate(${degrees}deg)`;
 
           if (elapsed < spinDuration) {
-            window.requestAnimationFrame(animateSpin);
-            if (spinNumber % 8 === 0) {
-              participants.reverse();
-              updateParticipantList();
+            if (elapsed - spinNumber * switchSpeed > switchSpeed) {
+              participantIndex = (participantIndex + 1) % participants.length;
+              highlightParticipant(participantIndex);
+              spinNumber++;
             }
-            spinNumber++;
+
+            window.requestAnimationFrame(animateSpin);
           } else {
-            const winner = participants[0];
+            const winner =
+              participants[Math.floor(Math.random() * participants.length)];
             resultDisplay.textContent = `Winner: ${winner}`;
             winnerSound.play();
             confetti({
