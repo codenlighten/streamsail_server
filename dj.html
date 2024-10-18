@@ -265,7 +265,18 @@
           "./winner_audio/winner6.mp3",
         ],
       };
-
+      // Category border color mapping
+      const categoryColors = {
+        SoundEffects: "#ff6347", // Tomato
+        Celebrities: "#4682b4", // SteelBlue
+        General: "#32cd32", // LimeGreen
+        Music: "#ffd700", // Gold
+        Thrones: "#ff4500", // OrangeRed
+        Champions: "#6a5acd", // SlateBlue
+        Purchase: "#00ced1", // DarkTurquoise
+        Showdown: "#db7093", // PaleVioletRed
+        Winner: "#8a2be2", // BlueViolet
+      };
       let interval = null;
       let currentIndex = 0;
 
@@ -277,13 +288,8 @@
 
       // Trigger loop for a specific audio category
       const triggerLoop = (audioArray) => {
-        // Play the first audio immediately
         playAudio(audioArray[currentIndex]);
-
-        // Clear any existing interval
         clearInterval(interval);
-
-        // Set up the loop to play the next audio every 45 seconds
         interval = setInterval(() => {
           currentIndex++;
           if (currentIndex >= audioArray.length) {
@@ -293,36 +299,35 @@
         }, 45000);
       };
 
-      // Play audio and apply effects
       const playAudio = (audioSrc) => {
         if (sourceNode) {
           sourceNode.disconnect();
         }
         const audioElement = new Audio(audioSrc);
         const track = audioContext.createMediaElementSource(audioElement);
-
-        // Connect nodes: track -> gain -> destination
         track.connect(gainNode).connect(audioContext.destination);
-
         sourceNode = track;
         audioElement.play();
       };
+
       let playing = false;
-      // Create sampler pads for each audio category
-      // Create sampler pads for each audio category
+
       const createPad = (category, audioArray) => {
         audioArray.forEach((audio, index) => {
           const pad = document.createElement("div");
           pad.classList.add("sampler-pad");
 
-          // Extract the file name and truncate it to the first 5 letters
-          const fileName = audio.split("/").pop().split(".")[0]; // Get file name without extension
-          const truncatedFileName = fileName.substring(0, 10); // Truncate to first 5 letters
-
+          // Extract the file name and truncate it
+          const fileName = audio.split("/").pop().split(".")[0];
+          const truncatedFileName = fileName.substring(0, 10);
           pad.textContent = `${truncatedFileName}`;
 
+          // Set the border color based on the category
+          pad.style.borderColor = categoryColors[category];
+          //thickness of border
+          pad.style.borderWidth = "5px";
           pad.addEventListener("click", () => {
-            clearInterval(interval); // Stop any active loop when a pad is clicked
+            clearInterval(interval);
             interval = null;
             if (!playing) {
               playAudio(audio);
@@ -331,23 +336,23 @@
             } else {
               sourceNode.disconnect();
               playing = false;
-              pad.textContent = `${truncatedFileName}`; // Reset the text back to truncated file name
+              pad.textContent = `${truncatedFileName}`;
             }
           });
 
           samplerGrid.appendChild(pad);
         });
 
-        // Only add loop control for non-"Purchase" and non-"Winner" categories
         if (category !== "Purchase" && category !== "Winner") {
           const loopPad = document.createElement("div");
           loopPad.classList.add("sampler-pad");
           loopPad.textContent = `Trigger Loop`;
+          loopPad.style.borderColor = categoryColors[category];
 
           loopPad.addEventListener("click", () => {
             if (!interval) {
               loopPad.textContent = `Stop Loop`;
-              currentIndex = 0; // Reset the index to the beginning of the array
+              currentIndex = 0;
               triggerLoop(audioArray);
             } else {
               loopPad.textContent = `Trigger Loop`;
@@ -359,6 +364,10 @@
           samplerGrid.appendChild(loopPad);
         }
       };
+
+      Object.keys(audioSamples).forEach((category) => {
+        createPad(category, audioSamples[category]);
+      });
 
       // Add effects controls (e.g., volume control)
       // Add effects controls (e.g., volume control)
@@ -437,9 +446,7 @@
       //   };
 
       // Initialize sampler pads and effects section
-      Object.keys(audioSamples).forEach((category) => {
-        createPad(category, audioSamples[category]);
-      });
+
       //   createEffectsSection();
     </script>
   </body>
