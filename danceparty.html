@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dance Party Simulator</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        background-color: black;
+        color: white;
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transition: background-color 0.3s ease-in-out;
+      }
+
+      #dance-floor {
+        width: 50vw;
+        height: 50vw;
+        background: linear-gradient(45deg, red, yellow, green, blue);
+        border-radius: 20px;
+        box-shadow: 0px 0px 40px rgba(255, 255, 255, 0.8);
+        animation: flashLights 1s infinite alternate;
+        transition: transform 0.3s, box-shadow 0.3s;
+      }
+
+      @keyframes flashLights {
+        0%,
+        100% {
+          box-shadow: 0px 0px 20px rgba(255, 0, 0, 0.8);
+        }
+        50% {
+          box-shadow: 0px 0px 40px rgba(0, 255, 0, 0.8);
+        }
+      }
+
+      .pulse-effect {
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+          box-shadow: 0px 0px 30px rgba(255, 255, 255, 0.5);
+        }
+        50% {
+          transform: scale(1.1);
+          box-shadow: 0px 0px 50px rgba(255, 255, 255, 1);
+        }
+      }
+
+      button {
+        margin-top: 20px;
+        padding: 10px 20px;
+        font-size: 18px;
+        background-color: #ff4757;
+        border: none;
+        border-radius: 5px;
+        color: white;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #e84118;
+      }
+
+      input[type="range"],
+      select {
+        margin-top: 20px;
+      }
+
+      #fullscreen-toggle {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        padding: 10px;
+        background-color: #ff4757;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      #progress-bar {
+        width: 80%;
+        margin-top: 10px;
+      }
+
+      #progress {
+        width: 0;
+        height: 10px;
+        background-color: #ff4757;
+      }
+
+      #color-controls {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+      }
+
+      .color-picker {
+        margin: 0 10px;
+      }
+
+      canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+      }
+
+      @media (max-width: 768px) {
+        #dance-floor {
+          width: 70vw;
+          height: 70vw;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="particles"></canvas>
+    <div class="party-container">
+      <h1>Dance Party Simulator</h1>
+      <div id="dance-floor"></div>
+      <button id="toggle-music">Start Music</button>
+      <br />
+      <label for="volume-control">Volume:</label>
+      <input
+        type="range"
+        id="volume-control"
+        min="0"
+        max="1"
+        step="0.01"
+        value="0.5"
+      />
+      <br />
+      <label for="track-select">Select Track:</label>
+      <select id="track-select">
+        <option value="null">Select Track</option>
+        <option value="/dj_audio/ape_it_up.mp3">Ape It up</option>
+        <option value="/dj_audio/sello_dublin.mp3">Sello Dublin</option>
+        <option value="/dj_audio/oldskool.mp3">Old Skool Jungle</option>
+        <option value="/dj_audio/edm.mp3">EDM Party</option>
+        <option value="/dj_audio/splash_babylon.mp3">Splash Babylon</option>
+        <option value="/dj_audio/conquering_lion.mp3">Conquering Lion</option>
+        <option value="/dj_audio/vallley_of_the_shadows.mp3">
+          Valley of the Shadows
+        </option>
+      </select>
+      <div id="progress-bar">
+        <div id="progress"></div>
+      </div>
+
+      <div id="color-controls">
+        <div class="color-picker">
+          <label for="bg-color">Background Color:</label>
+          <input type="color" id="bg-color" value="#000000" />
+        </div>
+        <div class="color-picker">
+          <label for="text-color">Text Color:</label>
+          <input type="color" id="text-color" value="#ffffff" />
+        </div>
+        <div class="color-picker">
+          <label for="floor-color">Dance Floor Gradient:</label>
+          <input type="color" id="floor-color" value="#ff0000" />
+        </div>
+      </div>
+    </div>
+
+    <button id="fullscreen-toggle">Fullscreen</button>
+
+    <audio id="party-music" src="/dj_audio/edm.mp3" loop></audio>
+
+    <script>
+      const musicButton = document.getElementById("toggle-music");
+      const music = document.getElementById("party-music");
+      const danceFloor = document.getElementById("dance-floor");
+      const volumeControl = document.getElementById("volume-control");
+      const trackSelect = document.getElementById("track-select");
+      const fullscreenToggle = document.getElementById("fullscreen-toggle");
+      const progressBar = document.getElementById("progress");
+      const particlesCanvas = document.getElementById("particles");
+      const bgColorInput = document.getElementById("bg-color");
+      const textColorInput = document.getElementById("text-color");
+      const floorColorInput = document.getElementById("floor-color");
+      const ctx = particlesCanvas.getContext("2d");
+      let musicPlaying = false;
+      let randomBackgroundInterval;
+
+      const particles = [];
+      function createParticles() {
+        for (let i = 0; i < 100; i++) {
+          particles.push({
+            x: Math.random() * particlesCanvas.width,
+            y: Math.random() * particlesCanvas.height,
+            speed: Math.random() * 3 + 1,
+            radius: Math.random() * 3 + 1,
+          });
+        }
+      }
+
+      function drawParticles() {
+        ctx.clearRect(0, 0, particlesCanvas.width, particlesCanvas.height);
+        particles.forEach((p) => {
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2, false);
+          ctx.fillStyle = "rgba(255, 255, 255, 0.7)";
+          ctx.fill();
+          p.y -= p.speed;
+          if (p.y < 0) p.y = particlesCanvas.height;
+        });
+      }
+
+      function animateParticles() {
+        drawParticles();
+        requestAnimationFrame(animateParticles);
+      }
+
+      createParticles();
+      animateParticles();
+
+      window.addEventListener("resize", () => {
+        particlesCanvas.width = window.innerWidth;
+        particlesCanvas.height = window.innerHeight;
+      });
+
+      // Toggle music and light effects
+      musicButton.addEventListener("click", () => {
+        if (!musicPlaying) {
+          music.play();
+          musicButton.innerText = "Stop Music";
+          danceFloor.classList.add("pulse-effect");
+          randomizeBackground();
+        } else {
+          music.pause();
+          musicButton.innerText = "Start Music";
+          danceFloor.classList.remove("pulse-effect");
+          clearInterval(randomBackgroundInterval);
+        }
+        musicPlaying = !musicPlaying;
+      });
+
+      // Volume control
+      volumeControl.addEventListener("input", () => {
+        music.volume = volumeControl.value;
+      });
+
+      // Change music track
+      trackSelect.addEventListener("change", () => {
+        music.src = trackSelect.value;
+        if (musicPlaying) {
+          music.play();
+        }
+      });
+
+      // Randomize background colors for party vibe
+      function randomizeBackground() {
+        randomBackgroundInterval = setInterval(() => {
+          if (musicPlaying) {
+            document.body.style.backgroundColor =
+              "rgb(" +
+              Math.floor(Math.random() * 256) +
+              "," +
+              Math.floor(Math.random() * 256) +
+              "," +
+              Math.floor(Math.random() * 256) +
+              ")";
+          }
+        }, 500);
+      }
+
+      // Fullscreen toggle
+      fullscreenToggle.addEventListener("click", () => {
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen();
+        } else {
+          if (document.exitFullscreen) {
+            document.exitFullscreen();
+          }
+        }
+      });
+
+      // Music progress bar update
+      music.addEventListener("timeupdate", () => {
+        const progressPercent = (music.currentTime / music.duration) * 100;
+        progressBar.style.width = progressPercent + "%";
+      });
+
+      // Color theme change
+      bgColorInput.addEventListener("input", () => {
+        document.body.style.backgroundColor = bgColorInput.value;
+      });
+
+      textColorInput.addEventListener("input", () => {
+        document.body.style.color = textColorInput.value;
+      });
+
+      floorColorInput.addEventListener("input", () => {
+        danceFloor.style.background = `linear-gradient(45deg, ${floorColorInput.value}, yellow, green, blue)`;
+      });
+    </script>
+  </body>
+</html>
