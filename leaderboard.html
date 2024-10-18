@@ -213,10 +213,10 @@
 
     <script>
       let participants = JSON.parse(localStorage.getItem("participants")) || {
-        "Game 1": [],
-        "Game 2": [],
-        "Game 3": [],
-        "Game 4": [],
+        mysterypull: [],
+        echospins: [],
+        echodrop: [],
+        emojiracer: [],
       };
 
       let leaderboard = JSON.parse(localStorage.getItem("leaderboard")) || {};
@@ -254,16 +254,19 @@
         updateURLWithParams(game, participant); // Update URL with game and participant
       }
 
+      // Function to update leaderboard display from localStorage
       function updateLeaderboard() {
+        let leaderboard = JSON.parse(localStorage.getItem("leaderboard")) || {};
         leaderboardElement.innerHTML = "";
         for (const participant in leaderboard) {
           const li = document.createElement("li");
           li.textContent = `${participant}: ${leaderboard[participant]} win(s)`;
           leaderboardElement.appendChild(li);
         }
-        localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
       }
 
+      // Call this function when the page loads
+      updateLeaderboard();
       // Confetti function
       function triggerConfetti() {
         confetti({
