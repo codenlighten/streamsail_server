@@ -26,7 +26,7 @@
         background-color: #f9fafb;
         margin: 0;
         padding: 0;
-        color: #36464e; /* Updated to match the new theme */
+        color: #36464e;
         line-height: 1.6;
         display: flex;
         justify-content: center;
@@ -37,17 +37,20 @@
       #app {
         text-align: center;
         padding: 20px;
-        background-color: #ffffff; /* White background for content */
+        background-color: #ffffff;
         border-radius: 10px;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        width: 100%;
-        max-width: 600px;
+        width: 90%;
+        max-width: 1200px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
       }
 
       #title {
         font-size: 2.5em;
         font-weight: bold;
-        color: #0bb28a; /* Updated to match the theme */
+        color: #0bb28a;
         margin-bottom: 20px;
         letter-spacing: 1px;
         text-shadow: 0 0 5px rgba(11, 178, 138, 0.2);
@@ -55,29 +58,35 @@
 
       #main-container {
         display: flex;
-        flex-direction: column;
-        align-items: center;
+        justify-content: space-between;
         margin-top: 20px;
+        flex-wrap: wrap;
       }
 
-      #spinner-container {
+      #spinner-container,
+      #leaderboard-container {
+        width: 48%;
         display: flex;
         flex-direction: column;
         align-items: center;
-        text-align: center;
+        padding: 10px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        background-color: #f9fafb;
       }
 
       .roulette-wheel {
         width: 300px;
         height: 300px;
-        border: 8px solid #36464e; /* Dark color for the wheel border */
+        border: 8px solid #36464e;
         border-radius: 50%;
         background: conic-gradient(
           #36464e 0% 25%,
           #ffffff 25% 50%,
           #0bb28a 50% 75%,
           #ffffff 75% 100%
-        ); /* Updated gradient to follow the pattern */
+        );
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         position: relative;
       }
@@ -89,7 +98,7 @@
         height: 0;
         border-left: 20px solid transparent;
         border-right: 20px solid transparent;
-        border-bottom: 40px solid #0bb28a; /* Updated to match theme */
+        border-bottom: 40px solid #0bb28a;
         filter: drop-shadow(0 0 5px #0bb28a);
       }
 
@@ -97,7 +106,7 @@
         margin-top: 20px;
         font-size: 1.5em;
         font-weight: bold;
-        color: #0bb28a; /* Updated for consistency */
+        color: #0bb28a;
       }
 
       button {
@@ -105,7 +114,7 @@
         padding: 12px 24px;
         font-size: 1.1em;
         color: #ffffff;
-        background-color: #36464e; /* Dark button color */
+        background-color: #36464e;
         border: none;
         border-radius: 6px;
         cursor: pointer;
@@ -113,7 +122,7 @@
       }
 
       button:hover {
-        background-color: #0bb28a; /* Hover effect matches theme */
+        background-color: #0bb28a;
         transform: translateY(-2px);
       }
 
@@ -130,7 +139,7 @@
         font-size: 1em;
         width: 80%;
         max-width: 300px;
-        border: 2px solid #36464e; /* Dark color for input border */
+        border: 2px solid #36464e;
         border-radius: 5px;
         margin-bottom: 10px;
       }
@@ -139,7 +148,7 @@
         padding: 10px 20px;
         font-size: 1.1em;
         color: #ffffff;
-        background-color: #0bb28a; /* Button color updated */
+        background-color: #0bb28a;
         border: none;
         border-radius: 6px;
         cursor: pointer;
@@ -151,24 +160,40 @@
         font-size: 1.2em;
         margin-top: 20px;
         width: 100%;
-        color: #36464e; /* Consistent color */
+        color: #36464e;
         display: flex;
-        justify-content: space-between;
+        flex-direction: column;
       }
 
       #participant-list li {
         padding: 10px;
-        border: 1px solid #0bb28a; /* Updated to match theme */
+        border: 1px solid #0bb28a;
         border-radius: 5px;
         margin-bottom: 10px;
         background-color: #f4f4f4;
       }
 
       #feedback {
-        color: #0bb28a; /* Feedback color matches theme */
+        color: #0bb28a;
         margin-top: 10px;
         font-size: 1.1em;
         text-align: center;
+      }
+
+      #leaderboard {
+        list-style-type: none;
+        padding: 0;
+        font-size: 1.2em;
+        margin-top: 20px;
+        width: 100%;
+      }
+
+      #leaderboard li {
+        padding: 10px;
+        border: 1px solid #0bb28a;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        background-color: #f4f4f4;
       }
     </style>
   </head>
@@ -191,23 +216,32 @@
           </div>
           <button id="spin-button">Spin the Wheel!</button>
         </div>
-        <div>
-          <h3>Participants</h3>
-          <ul id="participant-list"></ul>
+
+        <div id="leaderboard-container">
+          <h3>Leaderboard</h3>
+          <ul id="leaderboard"></ul>
+          <button id="reset-leaderboard">Reset Leaderboard</button>
         </div>
-        <!-- Audio element to play the winner sound -->
-        <audio id="winner-sound">
-          <source
-            src="https://plugins.whatsonchain.com/api/plugin/main/b2b08de6e69598572c0fe4a5ae7501da21c81c47d9d5fce297739b8ff32f5022/0"
-            type="audio/mpeg"
-          />
-          Your browser does not support the audio element.
-        </audio>
       </div>
+
+      <div>
+        <h3>Participants</h3>
+        <ul id="participant-list"></ul>
+      </div>
+
+      <audio id="winner-sound">
+        <source
+          src="https://plugins.whatsonchain.com/api/plugin/main/b2b08de6e69598572c0fe4a5ae7501da21c81c47d9d5fce297739b8ff32f5022/0"
+          type="audio/mpeg"
+        />
+        Your browser does not support the audio element.
+      </audio>
     </div>
+
     <script>
       let participants = [];
-      const winnerSound = document.getElementById("winner-sound"); // Audio element
+      let leaderboard = JSON.parse(localStorage.getItem("leaderboard")) || {};
+      const winnerSound = document.getElementById("winner-sound");
       const wheel = document.getElementById("wheel");
       const resultDisplay = document.getElementById("result");
       const participantList = document.getElementById("participant-list");
@@ -215,37 +249,35 @@
       const spinButton = document.getElementById("spin-button");
       const addButton = document.getElementById("add-button");
       const nameInput = document.getElementById("name-input");
+      const leaderboardElement = document.getElementById("leaderboard");
+      const resetButton = document.getElementById("reset-leaderboard");
 
       function easeOutCubic(t) {
         return 1 - Math.pow(1 - t, 3);
       }
 
       function updateWheel(numSections) {
-        // Expanded colors array
         const colors = [
-          "#36464e", // non-white
-          "#ffffff", // white
-          "#0bb28a", // non-white
-          "#ffffff", // white
-          "#36464e", // non-white
-          "#ffffff", // white
-          "#0bb28a", // non-white
-          "#ffffff", // white
-          "#36464e", // non-white
-          "#ffffff", // white
-          "#0bb28a", // non-white
-          "#ffffff", // white
-          "#36464e", // non-white
-          "#ffffff", // white
-          "#0bb28a", // non-white
+          "#36464e",
+          "#ffffff",
+          "#0bb28a",
+          "#ffffff",
+          "#36464e",
+          "#ffffff",
+          "#0bb28a",
+          "#ffffff",
+          "#36464e",
+          "#ffffff",
+          "#0bb28a",
+          "#ffffff",
+          "#36464e",
+          "#ffffff",
+          "#0bb28a",
         ];
-
-        // Ensure the number of sections does not exceed the available colors
         const totalColors = Math.min(numSections, colors.length);
-
         const anglePerSection = 360 / numSections;
         const gradient = colors
-          .slice(0, totalColors) // Use only the needed colors
+          .slice(0, totalColors)
           .map(
             (color, i) =>
               `${color} ${i * anglePerSection}deg ${
@@ -253,7 +285,6 @@
               }deg`
           )
           .join(", ");
-
         wheel.style.background = `conic-gradient(${gradient})`;
       }
 
@@ -264,6 +295,16 @@
           li.textContent = participant;
           participantList.appendChild(li);
         });
+      }
+
+      function updateLeaderboard() {
+        leaderboardElement.innerHTML = "";
+        for (const participant in leaderboard) {
+          const li = document.createElement("li");
+          li.textContent = `${participant}: ${leaderboard[participant]} win(s)`;
+          leaderboardElement.appendChild(li);
+        }
+        localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
       }
 
       addButton.addEventListener("click", () => {
@@ -287,6 +328,7 @@
         let spinDuration = Math.random() * 2000 + 3000;
         let start = null;
         let spinNumber = 0;
+
         function animateSpin(timestamp) {
           if (!start) start = timestamp;
           let elapsed = timestamp - start;
@@ -300,30 +342,40 @@
 
           if (elapsed < spinDuration) {
             window.requestAnimationFrame(animateSpin);
-            // Reverse the participant list and display the winner
             if (spinNumber % 8 === 0) {
               participants.reverse();
               updateParticipantList();
             }
             spinNumber++;
           } else {
-            const result = participants[0];
-            resultDisplay.textContent = `Winner: ${result}`;
-            // Play winner sound
+            const winner = participants[0];
+            resultDisplay.textContent = `Winner: ${winner}`;
             winnerSound.play();
-            // Launch confetti
             confetti({
               particleCount: 150,
               spread: 70,
               origin: { y: 0.6 },
             });
+
+            if (leaderboard[winner]) {
+              leaderboard[winner]++;
+            } else {
+              leaderboard[winner] = 1;
+            }
+            updateLeaderboard();
           }
         }
 
         window.requestAnimationFrame(animateSpin);
       });
 
-      updateWheel(8); /// Initialize with 8 sections as a starting point
+      resetButton.addEventListener("click", () => {
+        leaderboard = {};
+        updateLeaderboard();
+      });
+
+      updateLeaderboard();
+      updateWheel(8);
     </script>
   </body>
 </html>
