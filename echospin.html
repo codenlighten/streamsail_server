@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- smartledger tools -->
+    <script src="https://plugins.whatsonchain.com/api/plugin/main/168d796a870dec5cc241dacf140fdbbc2212c9e1ca83614e82914fc42c6d1052"></script>
+    <title>Echo Spins - A Fun and Interactive Wheel Game</title>
+
+    <!-- SEO Meta Tags -->
+    <meta
+      name="description"
+      content="Play Echo X Spins, a fun and interactive wheel game for entertainment. Spin the colorful roulette wheel and see where it lands. Enjoy the thrill of winning virtual prizes!"
+    />
+    <meta
+      name="keywords"
+      content="Echo X Spins, roulette spinner, wheel game, entertainment, fun, interactive game, virtual prizes, spin the wheel, exciting game"
+    />
+    <meta name="author" content="Echo X" />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#00ffab" />
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f9fafb;
+        margin: 0;
+        padding: 0;
+        color: #36464e; /* Updated to match the new theme */
+        line-height: 1.6;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+
+      #app {
+        text-align: center;
+        padding: 20px;
+        background-color: #ffffff; /* White background for content */
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 600px;
+      }
+
+      #title {
+        font-size: 2.5em;
+        font-weight: bold;
+        color: #0bb28a; /* Updated to match the theme */
+        margin-bottom: 20px;
+        letter-spacing: 1px;
+        text-shadow: 0 0 5px rgba(11, 178, 138, 0.2);
+      }
+
+      #main-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 20px;
+      }
+
+      #spinner-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .roulette-wheel {
+        width: 300px;
+        height: 300px;
+        border: 8px solid #36464e; /* Dark color for the wheel border */
+        border-radius: 50%;
+        background: conic-gradient(
+          #36464e 0% 25%,
+          #ffffff 25% 50%,
+          #0bb28a 50% 75%,
+          #ffffff 75% 100%
+        ); /* Updated gradient to follow the pattern */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        position: relative;
+      }
+
+      .arrow {
+        position: absolute;
+        top: -40px;
+        width: 0;
+        height: 0;
+        border-left: 20px solid transparent;
+        border-right: 20px solid transparent;
+        border-bottom: 40px solid #0bb28a; /* Updated to match theme */
+        filter: drop-shadow(0 0 5px #0bb28a);
+      }
+
+      .result-display {
+        margin-top: 20px;
+        font-size: 1.5em;
+        font-weight: bold;
+        color: #0bb28a; /* Updated for consistency */
+      }
+
+      button {
+        margin-top: 20px;
+        padding: 12px 24px;
+        font-size: 1.1em;
+        color: #ffffff;
+        background-color: #36464e; /* Dark button color */
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+      }
+
+      button:hover {
+        background-color: #0bb28a; /* Hover effect matches theme */
+        transform: translateY(-2px);
+      }
+
+      #input-container {
+        margin-top: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+      }
+
+      #name-input {
+        padding: 10px;
+        font-size: 1em;
+        width: 80%;
+        max-width: 300px;
+        border: 2px solid #36464e; /* Dark color for input border */
+        border-radius: 5px;
+        margin-bottom: 10px;
+      }
+
+      #add-button {
+        padding: 10px 20px;
+        font-size: 1.1em;
+        color: #ffffff;
+        background-color: #0bb28a; /* Button color updated */
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+
+      #participant-list {
+        list-style-type: none;
+        padding: 0;
+        font-size: 1.2em;
+        margin-top: 20px;
+        width: 100%;
+        color: #36464e; /* Consistent color */
+        display: flex;
+        justify-content: space-between;
+      }
+
+      #participant-list li {
+        padding: 10px;
+        border: 1px solid #0bb28a; /* Updated to match theme */
+        border-radius: 5px;
+        margin-bottom: 10px;
+        background-color: #f4f4f4;
+      }
+
+      #feedback {
+        color: #0bb28a; /* Feedback color matches theme */
+        margin-top: 10px;
+        font-size: 1.1em;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div id="title">EchoX Spins</div>
+      <div id="main-container">
+        <div id="spinner-container">
+          <div class="arrow"></div>
+          <div class="roulette-wheel" id="wheel"></div>
+          <div class="result-display" id="result">Good luck!</div>
+          <div id="input-container">
+            <input
+              type="text"
+              id="name-input"
+              placeholder="Enter participant name"
+            />
+            <button id="add-button">Add Name</button>
+            <div id="feedback"></div>
+          </div>
+          <button id="spin-button">Spin the Wheel!</button>
+        </div>
+        <div>
+          <h3>Participants</h3>
+          <ul id="participant-list"></ul>
+        </div>
+        <!-- Audio element to play the winner sound -->
+        <audio id="winner-sound">
+          <source
+            src="https://plugins.whatsonchain.com/api/plugin/main/b2b08de6e69598572c0fe4a5ae7501da21c81c47d9d5fce297739b8ff32f5022/0"
+            type="audio/mpeg"
+          />
+          Your browser does not support the audio element.
+        </audio>
+      </div>
+    </div>
+    <script>
+      let participants = [];
+      const winnerSound = document.getElementById("winner-sound"); // Audio element
+      const wheel = document.getElementById("wheel");
+      const resultDisplay = document.getElementById("result");
+      const participantList = document.getElementById("participant-list");
+      const feedback = document.getElementById("feedback");
+      const spinButton = document.getElementById("spin-button");
+      const addButton = document.getElementById("add-button");
+      const nameInput = document.getElementById("name-input");
+
+      function easeOutCubic(t) {
+        return 1 - Math.pow(1 - t, 3);
+      }
+
+      function updateWheel(numSections) {
+        // Expanded colors array
+        const colors = [
+          "#36464e", // non-white
+          "#ffffff", // white
+          "#0bb28a", // non-white
+          "#ffffff", // white
+          "#36464e", // non-white
+          "#ffffff", // white
+          "#0bb28a", // non-white
+          "#ffffff", // white
+          "#36464e", // non-white
+          "#ffffff", // white
+          "#0bb28a", // non-white
+          "#ffffff", // white
+          "#36464e", // non-white
+          "#ffffff", // white
+          "#0bb28a", // non-white
+        ];
+
+        // Ensure the number of sections does not exceed the available colors
+        const totalColors = Math.min(numSections, colors.length);
+
+        const anglePerSection = 360 / numSections;
+        const gradient = colors
+          .slice(0, totalColors) // Use only the needed colors
+          .map(
+            (color, i) =>
+              `${color} ${i * anglePerSection}deg ${
+                (i + 1) * anglePerSection
+              }deg`
+          )
+          .join(", ");
+
+        wheel.style.background = `conic-gradient(${gradient})`;
+      }
+
+      function updateParticipantList() {
+        participantList.innerHTML = "";
+        participants.forEach((participant) => {
+          const li = document.createElement("li");
+          li.textContent = participant;
+          participantList.appendChild(li);
+        });
+      }
+
+      addButton.addEventListener("click", () => {
+        const newName = nameInput.value.trim();
+        if (newName && participants.length < 16) {
+          participants.push(newName);
+          nameInput.value = "";
+          updateParticipantList();
+          feedback.textContent = `${newName} added!`;
+          setTimeout(() => (feedback.textContent = ""), 2000);
+          updateWheel(participants.length);
+        }
+      });
+
+      spinButton.addEventListener("click", () => {
+        if (participants.length < 2) {
+          alert("Please add at least 2 participants!");
+          return;
+        }
+        let totalSpins = Math.floor(Math.random() * 3) + 3;
+        let spinDuration = Math.random() * 2000 + 3000;
+        let start = null;
+        let spinNumber = 0;
+        function animateSpin(timestamp) {
+          if (!start) start = timestamp;
+          let elapsed = timestamp - start;
+
+          let progress = elapsed / spinDuration;
+          if (progress > 1) progress = 1;
+          let easedProgress = easeOutCubic(progress);
+
+          let degrees = easedProgress * totalSpins * 360;
+          wheel.style.transform = `rotate(${degrees}deg)`;
+
+          if (elapsed < spinDuration) {
+            window.requestAnimationFrame(animateSpin);
+            // Reverse the participant list and display the winner
+            if (spinNumber % 8 === 0) {
+              participants.reverse();
+              updateParticipantList();
+            }
+            spinNumber++;
+          } else {
+            const result = participants[0];
+            resultDisplay.textContent = `Winner: ${result}`;
+            // Play winner sound
+            winnerSound.play();
+          }
+        }
+
+        window.requestAnimationFrame(animateSpin);
+      });
+
+      updateWheel(8); /// Initialize with 8 sections as a starting point
+    </script>
+  </body>
+</html>
