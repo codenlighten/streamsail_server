@@ -300,11 +300,17 @@
       };
       let playing = false;
       // Create sampler pads for each audio category
+      // Create sampler pads for each audio category
       const createPad = (category, audioArray) => {
         audioArray.forEach((audio, index) => {
           const pad = document.createElement("div");
           pad.classList.add("sampler-pad");
-          pad.textContent = `${category} ${index + 1}`;
+
+          // Extract the file name and truncate it to the first 5 letters
+          const fileName = audio.split("/").pop().split(".")[0]; // Get file name without extension
+          const truncatedFileName = fileName.substring(0, 10); // Truncate to first 5 letters
+
+          pad.textContent = `${truncatedFileName}`;
 
           pad.addEventListener("click", () => {
             clearInterval(interval); // Stop any active loop when a pad is clicked
@@ -316,7 +322,7 @@
             } else {
               sourceNode.disconnect();
               playing = false;
-              pad.textContent = `${category} ${index + 1}`;
+              pad.textContent = `${truncatedFileName}`; // Reset the text back to truncated file name
             }
           });
 
