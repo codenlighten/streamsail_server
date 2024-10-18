@@ -57,15 +57,13 @@
       }
 
       #main-container {
-        display: flex;
-        justify-content: space-between;
+        display: block;
         margin-top: 20px;
         flex-wrap: wrap;
       }
 
-      #spinner-container,
-      #leaderboard-container {
-        width: 48%;
+      #spinner-container {
+        width: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -186,22 +184,6 @@
         font-size: 1.1em;
         text-align: center;
       }
-
-      #leaderboard {
-        list-style-type: none;
-        padding: 0;
-        font-size: 1.2em;
-        margin-top: 20px;
-        width: 100%;
-      }
-
-      #leaderboard li {
-        padding: 10px;
-        border: 1px solid #0bb28a;
-        border-radius: 5px;
-        margin-bottom: 10px;
-        background-color: #f4f4f4;
-      }
     </style>
   </head>
   <body>
@@ -223,12 +205,6 @@
           </div>
           <button id="spin-button">Spin the Wheel!</button>
         </div>
-
-        <div id="leaderboard-container">
-          <h3>Leaderboard</h3>
-          <ul id="leaderboard"></ul>
-          <button id="reset-leaderboard">Reset Leaderboard</button>
-        </div>
       </div>
 
       <div>
@@ -247,7 +223,6 @@
 
     <script>
       let participants = [];
-      let leaderboard = JSON.parse(localStorage.getItem("leaderboard")) || {};
       const winnerSound = document.getElementById("winner-sound");
       const wheel = document.getElementById("wheel");
       const resultDisplay = document.getElementById("result");
@@ -256,13 +231,13 @@
       const spinButton = document.getElementById("spin-button");
       const addButton = document.getElementById("add-button");
       const nameInput = document.getElementById("name-input");
-      const leaderboardElement = document.getElementById("leaderboard");
-      const resetButton = document.getElementById("reset-leaderboard");
 
+      // Function to ease out the cubic spin animation
       function easeOutCubic(t) {
         return 1 - Math.pow(1 - t, 3);
       }
 
+      // Function to update the wheel's appearance based on the number of sections
       function updateWheel(numSections) {
         const colors = [
           "#36464e",
@@ -295,6 +270,7 @@
         wheel.style.background = `conic-gradient(${gradient})`;
       }
 
+      // Function to update the participant list UI
       function updateParticipantList() {
         participantList.innerHTML = "";
         participants.forEach((participant) => {
@@ -304,6 +280,7 @@
         });
       }
 
+      // Function to highlight the currently selected participant
       function highlightParticipant(index) {
         const participantItems = document.querySelectorAll(
           "#participant-list li"
@@ -316,16 +293,7 @@
         });
       }
 
-      function updateLeaderboard() {
-        leaderboardElement.innerHTML = "";
-        for (const participant in leaderboard) {
-          const li = document.createElement("li");
-          li.textContent = `${participant}: ${leaderboard[participant]} win(s)`;
-          leaderboardElement.appendChild(li);
-        }
-        localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
-      }
-
+      // Event listener for adding a new participant
       addButton.addEventListener("click", () => {
         const newName = nameInput.value.trim();
         if (newName && participants.length < 16) {
@@ -338,6 +306,7 @@
         }
       });
 
+      // Event listener for spinning the wheel and selecting a winner
       spinButton.addEventListener("click", () => {
         if (participants.length < 2) {
           alert("Please add at least 2 participants!");
@@ -370,8 +339,7 @@
 
             window.requestAnimationFrame(animateSpin);
           } else {
-            const winner =
-              participants[Math.floor(Math.random() * participants.length)];
+            const winner = participants[participantIndex];
             resultDisplay.textContent = `Winner: ${winner}`;
             winnerSound.play();
             confetti({
@@ -380,24 +348,32 @@
               origin: { y: 0.6 },
             });
 
+            // Store the winner in local storage for the leaderboard
+            let leaderboard =
+              JSON.parse(localStorage.getItem("leaderboard")) || {};
             if (leaderboard[winner]) {
               leaderboard[winner]++;
             } else {
               leaderboard[winner] = 1;
             }
-            updateLeaderboard();
+            localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
+            //confetti effect
+            //wait for 2 seconds before redirecting to leaderboard
+            //promises
+            setTimeout(() => {
+              const game = "echospins"; // Game name
+              window.location.href = `leaderboard.html?game=${encodeURIComponent(
+                game
+              )}&name=${encodeURIComponent(winner)}`;
+            }, 3500);
+            // Redirect to leaderboard page with game and winner's name in URL params
           }
         }
 
         window.requestAnimationFrame(animateSpin);
       });
 
-      resetButton.addEventListener("click", () => {
-        leaderboard = {};
-        updateLeaderboard();
-      });
-
-      updateLeaderboard();
+      // Initialize the wheel with 8 sections
       updateWheel(8);
     </script>
   </body>
