@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>EchoX Spins - Multiple Game Manager</title>
     <style>
-      /* Layout & Structure */
       body {
         font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
         background-color: #f9fafb;
@@ -17,13 +16,6 @@
         justify-content: center;
         align-items: center;
         min-height: 100vh;
-      }
-
-      #main {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
       }
 
       #app {
@@ -39,7 +31,6 @@
         justify-content: center;
       }
 
-      /* Typography */
       #title {
         font-size: 2.5em;
         font-weight: bold;
@@ -49,14 +40,16 @@
         text-shadow: 0 0 5px rgba(11, 178, 138, 0.2);
       }
 
-      /* Containers & Components */
       #main-container {
+        display: flex;
+        justify-content: space-between;
         margin-top: 20px;
+        flex-wrap: wrap;
       }
 
       #spinner-container,
       #leaderboard-container {
-        width: 100%;
+        width: 48%;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -74,7 +67,6 @@
         color: #0bb28a;
       }
 
-      /* Buttons */
       button {
         margin-top: 20px;
         padding: 12px 24px;
@@ -92,7 +84,6 @@
         transform: translateY(-2px);
       }
 
-      /* Input Fields */
       #input-container {
         margin-top: 20px;
         display: flex;
@@ -121,19 +112,18 @@
         cursor: pointer;
       }
 
-      /* Lists */
-      #participant-list,
-      #leaderboard {
+      #participant-list {
         list-style-type: none;
         padding: 0;
         font-size: 1.2em;
         margin-top: 20px;
         width: 100%;
         color: #36464e;
+        display: flex;
+        flex-direction: column;
       }
 
-      #participant-list li,
-      #leaderboard li {
+      #participant-list li {
         padding: 10px;
         border: 1px solid #0bb28a;
         border-radius: 5px;
@@ -150,7 +140,6 @@
         text-align: center;
       }
 
-      /* Select Dropdown */
       #game-selector {
         padding: 10px;
         font-size: 1.1em;
@@ -158,42 +147,43 @@
         border: 2px solid #36464e;
         border-radius: 5px;
       }
+
+      #leaderboard {
+        list-style-type: none;
+        padding: 0;
+        font-size: 1.2em;
+        margin-top: 20px;
+        width: 100%;
+      }
+
+      #leaderboard li {
+        padding: 10px;
+        border: 1px solid #0bb28a;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        background-color: #f4f4f4;
+      }
     </style>
 
     <!-- Include Canvas Confetti -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
   </head>
-
   <body>
-    <main id="main">
-      <section id="app">
-        <div id="leaderboard-container">
-          <h3>Leaderboard</h3>
-          <ul id="leaderboard"></ul>
-          <button id="reset-leaderboard" aria-label="Reset Leaderboard">
-            Reset Leaderboard
-          </button>
-        </div>
-      </section>
+    <div id="app">
+      <div id="title">EchoX Spins</div>
 
-      <section>
-        <h3>Participants</h3>
-        <ul id="participant-list"></ul>
-      </section>
-
-      <section>
+      <div>
         <label for="game-selector">Choose a game:</label>
         <select id="game-selector">
-          <option value="">Select a game</option>
           <option value="Game 1">Mystery Pull</option>
           <option value="Game 2">Dumpster Dive</option>
           <option value="Game 3">Echo Drop</option>
           <option value="Game 4">Emoji Racer</option>
           <option value="Game 5">Echo Spins</option>
         </select>
-      </section>
+      </div>
 
-      <section id="main-container">
+      <div id="main-container">
         <div id="spinner-container">
           <div class="result-display" id="result">
             Choose a game and add players!
@@ -203,19 +193,140 @@
               type="text"
               id="name-input"
               placeholder="Enter participant name"
-              aria-label="Participant Name"
             />
-            <button id="add-button" aria-label="Add Participant">
-              Add Name
-            </button>
+            <button id="add-button">Add Name</button>
             <div id="feedback"></div>
           </div>
         </div>
-      </section>
-    </main>
+
+        <div id="leaderboard-container">
+          <h3>Leaderboard</h3>
+          <ul id="leaderboard"></ul>
+          <button id="reset-leaderboard">Reset Leaderboard</button>
+        </div>
+      </div>
+
+      <div>
+        <h3>Participants</h3>
+        <ul id="participant-list"></ul>
+      </div>
+    </div>
 
     <script>
-      // JavaScript logic here
+      let participants = JSON.parse(localStorage.getItem("participants")) || {
+        mysterypull: [],
+        echospins: [],
+        echodrop: [],
+        emojiracer: [],
+        dumpsterdive: [],
+      };
+
+      let leaderboard = JSON.parse(localStorage.getItem("leaderboard")) || {};
+
+      const leaderboardElement = document.getElementById("leaderboard");
+      const participantList = document.getElementById("participant-list");
+      const feedback = document.getElementById("feedback");
+      const addButton = document.getElementById("add-button");
+      const nameInput = document.getElementById("name-input");
+      const gameSelector = document.getElementById("game-selector");
+      const resetButton = document.getElementById("reset-leaderboard");
+
+      function updateParticipantList() {
+        participantList.innerHTML = "";
+        const currentGame = gameSelector.value;
+
+        // Ensure participants[currentGame] is defined
+        if (!participants[currentGame]) {
+          participants[currentGame] = [];
+        }
+
+        const gameParticipants = participants[currentGame] || [];
+        gameParticipants.forEach((participant) => {
+          const li = document.createElement("li");
+          li.textContent = participant;
+          li.addEventListener("click", () => {
+            addWin(participant, currentGame);
+          });
+          participantList.appendChild(li);
+        });
+      }
+
+      function addWin(participant, game) {
+        if (leaderboard[participant]) {
+          leaderboard[participant]++;
+        } else {
+          leaderboard[participant] = 1;
+        }
+        triggerConfetti(); // Trigger confetti on win
+        updateLeaderboard();
+        updateURLWithParams(game, participant); // Update URL with game and participant
+      }
+
+      // Function to update leaderboard display from localStorage
+      function updateLeaderboard() {
+        let leaderboard = JSON.parse(localStorage.getItem("leaderboard")) || {};
+        leaderboardElement.innerHTML = "";
+        for (const participant in leaderboard) {
+          const li = document.createElement("li");
+          li.textContent = `${participant}: ${leaderboard[participant]} win(s)`;
+          leaderboardElement.appendChild(li);
+        }
+      }
+
+      // Call this function when the page loads
+      updateLeaderboard();
+      // Confetti function
+      function triggerConfetti() {
+        confetti({
+          particleCount: 150,
+          spread: 70,
+          origin: { y: 0.6 },
+        });
+      }
+
+      // Update the URL with game and participant
+      function updateURLWithParams(game, name) {
+        const url = new URL(window.location);
+        url.searchParams.set("game", game);
+        url.searchParams.set("name", name);
+        window.history.pushState({}, "", url); // Update URL without reloading the page
+      }
+
+      // Function to check if URL has game and name params
+      function checkURLParams() {
+        const params = new URLSearchParams(window.location.search);
+        const game = params.get("game");
+        const name = params.get("name");
+        if (game && name && participants[game].includes(name)) {
+          addWin(name, game); // Add win if both game and participant are in the URL
+        }
+      }
+
+      gameSelector.addEventListener("change", () => {
+        updateParticipantList();
+      });
+
+      addButton.addEventListener("click", () => {
+        const newName = nameInput.value.trim();
+        const currentGame = gameSelector.value;
+        if (newName && participants[currentGame].length < 16) {
+          participants[currentGame].push(newName);
+          nameInput.value = "";
+          updateParticipantList();
+          feedback.textContent = `${newName} added to ${currentGame}!`;
+          localStorage.setItem("participants", JSON.stringify(participants));
+          setTimeout(() => (feedback.textContent = ""), 2000);
+        }
+      });
+
+      resetButton.addEventListener("click", () => {
+        leaderboard = {};
+        updateLeaderboard();
+      });
+
+      updateLeaderboard();
+      updateParticipantList(); // Initialize participant list for the default selected game
+      checkURLParams(); // Check if there are URL params for game and name
     </script>
   </body>
 </html>
