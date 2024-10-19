@@ -323,6 +323,15 @@
       resetButton.addEventListener("click", () => {
         leaderboard = {};
         localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
+        //clear participant list
+        participants = {
+          mysterypull: [],
+          echospins: [],
+          echodrop: [],
+          emojiracer: [],
+          dumpsterdive: [],
+        };
+        localStorage.setItem("participants", JSON.stringify(participants));
         updateLeaderboard();
       });
 
