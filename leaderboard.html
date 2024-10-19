@@ -221,6 +221,15 @@
         dumpsterdive: [],
       };
 
+      // Map the game selector value to the participant key
+      const gameMapping = {
+        "Game 1": "mysterypull",
+        "Game 2": "dumpsterdive",
+        "Game 3": "echodrop",
+        "Game 4": "emojiracer",
+        "Game 5": "echospins",
+      };
+
       let leaderboard = JSON.parse(localStorage.getItem("leaderboard")) || {};
 
       const leaderboardElement = document.getElementById("leaderboard");
@@ -233,13 +242,13 @@
 
       function updateParticipantList() {
         participantList.innerHTML = "";
-        const currentGame = gameSelector.value;
-        const gameParticipants = participants[currentGame] || [];
+        const currentGameKey = gameMapping[gameSelector.value]; // Get the correct key for the selected game
+        const gameParticipants = participants[currentGameKey] || [];
         gameParticipants.forEach((participant) => {
           const li = document.createElement("li");
           li.textContent = participant;
           li.addEventListener("click", () => {
-            addWin(participant, currentGame);
+            addWin(participant, currentGameKey);
           });
           participantList.appendChild(li);
         });
@@ -302,12 +311,12 @@
 
       addButton.addEventListener("click", () => {
         const newName = nameInput.value.trim();
-        const currentGame = gameSelector.value;
-        if (newName && participants[currentGame].length < 16) {
-          participants[currentGame].push(newName);
+        const currentGameKey = gameMapping[gameSelector.value]; // Get the correct key for the selected game
+        if (newName && participants[currentGameKey].length < 16) {
+          participants[currentGameKey].push(newName);
           nameInput.value = "";
           updateParticipantList();
-          feedback.textContent = `${newName} added to ${currentGame}!`;
+          feedback.textContent = `${newName} added to ${gameSelector.value}!`;
           localStorage.setItem("participants", JSON.stringify(participants));
           setTimeout(() => (feedback.textContent = ""), 2000);
         }
