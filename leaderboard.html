@@ -342,6 +342,7 @@
         };
         localStorage.setItem("participants", JSON.stringify(participants));
         document.getElementById("title").innerText = "";
+        updateParticipantList();
         updateLeaderboard();
       });
       const captializeGame =
