@@ -257,6 +257,7 @@
         } else {
           leaderboard[participant] = 1;
         }
+        localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
         triggerConfetti(); // Trigger confetti on win
         updateLeaderboard();
         updateURLWithParams(game, participant); // Update URL with game and participant
@@ -321,6 +322,7 @@
 
       resetButton.addEventListener("click", () => {
         leaderboard = {};
+        localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
         updateLeaderboard();
       });
 
