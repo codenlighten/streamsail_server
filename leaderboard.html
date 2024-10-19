@@ -177,8 +177,7 @@
   </head>
   <body>
     <div id="app">
-      <!-- <div id="title">Leaderboard</div> -->
-
+      <div id="title"></div>
       <div id="main-container">
         <div id="spinner-container">
           <div class="result-display" id="result">
@@ -311,6 +310,10 @@
 
       gameSelector.addEventListener("change", () => {
         updateParticipantList();
+        const captializeGame =
+          gameSelector.value.charAt(0).toUpperCase() +
+          gameSelector.value.slice(1);
+        document.getElementById("title").innerText = captializeGame;
       });
 
       addButton.addEventListener("click", () => {
@@ -338,9 +341,13 @@
           dumpsterdive: [],
         };
         localStorage.setItem("participants", JSON.stringify(participants));
+        document.getElementById("title").innerText = "";
         updateLeaderboard();
       });
-
+      const captializeGame =
+        gameSelector.value.charAt(0).toUpperCase() +
+        gameSelector.value.slice(1);
+      document.getElementById("title").innerText = captializeGame;
       updateLeaderboard();
       updateParticipantList(); // Initialize participant list for the default selected game
       checkURLParams(); // Check if there are URL params for game and name
