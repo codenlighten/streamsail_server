@@ -146,7 +146,6 @@
   <body>
     <canvas id="particles"></canvas>
     <div class="party-container">
-      <h1>Dance Party Simulator</h1>
       <div id="dance-floor"></div>
       <button id="toggle-music">Start Music</button>
       <br />
@@ -185,8 +184,6 @@
       </div>
     </div>
 
-    <button id="fullscreen-toggle">Fullscreen</button>
-
     <audio id="party-music" src="/dj_audio/ape_it_up.mp3" loop></audio>
 
     <script>
@@ -196,7 +193,6 @@
       const danceFloor = document.getElementById("dance-floor");
       const volumeControl = document.getElementById("volume-control");
       const trackSelect = document.getElementById("track-select");
-      const fullscreenToggle = document.getElementById("fullscreen-toggle");
       const progressBar = document.getElementById("progress");
       const particlesCanvas = document.getElementById("particles");
       const bgColorInput = document.getElementById("bg-color");
@@ -288,17 +284,6 @@
         }, 500);
       }
 
-      // Fullscreen toggle
-      fullscreenToggle.addEventListener("click", () => {
-        if (!document.fullscreenElement) {
-          document.documentElement.requestFullscreen();
-        } else {
-          if (document.exitFullscreen) {
-            document.exitFullscreen();
-          }
-        }
-      });
-
       // Music progress bar update
       music.addEventListener("timeupdate", () => {
         const progressPercent = (music.currentTime / music.duration) * 100;
@@ -316,6 +301,19 @@
 
       floorColorInput.addEventListener("input", () => {
         danceFloor.style.background = `linear-gradient(45deg, ${floorColorInput.value}, yellow, green, blue)`;
+      });
+
+      //key f for fullscreen
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "f") {
+          if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen();
+          } else {
+            if (document.exitFullscreen) {
+              document.exitFullscreen();
+            }
+          }
+        }
       });
     </script>
   </body>
