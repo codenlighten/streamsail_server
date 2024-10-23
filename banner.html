@@ -7,20 +7,26 @@
     <style>
       body {
         font-family: "Arial", sans-serif;
-        background-color: #f0f0f0;
+        background-color: #f1f3f6;
         margin: 0;
         padding: 0;
         color: #333;
-        overflow-y: auto; /* Allow scrolling if content overflows */
+        overflow-y: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
       }
 
       .container {
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100vh;
-        /* background-color: #f0f0f0; */
         flex-direction: column;
+        width: 90%;
+        max-width: 800px;
+        padding: 20px;
+        box-sizing: border-box;
       }
 
       .spacer {
@@ -53,10 +59,9 @@
         box-sizing: border-box;
         opacity: 0;
         transition: all 0.5s ease-in-out;
-        max-height: calc(
-          100vh - 100px
-        ); /* Prevent the banner from overflowing */
-        overflow-y: auto; /* Allow scrolling if content exceeds banner height */
+        max-height: calc(100vh - 100px);
+        overflow-y: auto;
+        box-shadow: 0 0 20px rgba(87, 193, 165, 0.7);
       }
 
       .banner.show {
@@ -110,28 +115,31 @@
         padding: 0 20px;
         box-sizing: border-box;
         flex-wrap: wrap;
-        z-index: 1100; /* Ensure the input box stays above the spacer */
+        z-index: 1100;
       }
 
       input[type="text"],
-      input[type="file"] {
+      input[type="file"],
+      input[type="number"],
+      input[type="color"] {
         padding: 15px;
-        width: calc(50% - 10px);
         font-size: 1.2rem;
         border-radius: 5px;
-        border: 2px solid #57c1a5;
+        border: 2px solid white;
         margin-right: 10px;
         margin-bottom: 10px;
         text-align: center;
         color: #57c1a5;
+        background-color: #f1f3f6;
       }
 
-      input[type="text"]::placeholder {
+      input[type="text"]::placeholder,
+      label {
         color: #57c1a5;
       }
 
       .button {
-        background-color: #57c1a5;
+        background-color: #36464e;
         color: white;
         border-radius: 5px;
         padding: 15px;
@@ -146,7 +154,7 @@
       }
 
       .button:hover {
-        background-color: #45a48d;
+        background-color: #57c1a5;
       }
 
       .button:disabled {
@@ -162,40 +170,16 @@
         background-color: #ff5252;
       }
 
-      input[type="color"] {
-        padding: 15px;
-        border-radius: 5px;
-        border: 2px solid #57c1a5;
-        margin-right: 10px;
-        margin-bottom: 10px;
-        cursor: pointer;
-      }
-
       .image-container {
         max-width: 100%;
-        max-height: auto;
         overflow: hidden;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(87, 193, 165, 0.7);
       }
 
       .image-container img {
         max-width: 100%;
         max-height: calc(100vh - 200px);
-      }
-
-      #displayTime {
-        padding: 15px;
-        font-size: 1.2rem;
-        border-radius: 5px;
-        border: 2px solid #57c1a5;
-        margin-right: 10px;
-        margin-bottom: 10px;
-        text-align: center;
-      }
-
-      label {
-        color: #57c1a5;
-        font-size: 1.2rem;
-        margin-right: 10px;
       }
 
       @media (max-width: 768px) {
@@ -205,7 +189,8 @@
         }
 
         input[type="text"],
-        input[type="file"] {
+        input[type="file"],
+        input[type="color"] {
           width: 100%;
           margin-right: 0;
         }
@@ -217,11 +202,11 @@
 
       @media (max-height: 600px) {
         .banner-container {
-          top: 20%; /* Adjust top position for small heights */
+          top: 20%;
         }
 
         .spin-message {
-          top: 40%; /* Adjust top position for small heights */
+          top: 40%;
         }
       }
     </style>
@@ -242,10 +227,13 @@
         />
         <input type="file" id="imageInput" accept="image/*" />
         <input type="color" id="colorPicker" value="#57c1a5" />
-        <input type="color" id="backgroundPicker" value="#f0f0f0" />
-        <input type="number" id="displayTime" placeholder="Display Time" />
+        <input type="color" id="backgroundPicker" value="#f1f3f6" />
+        <input
+          type="number"
+          id="displayTime"
+          placeholder="Display Time (seconds)"
+        />
         <label for="displayTime">Display Time (seconds):</label>
-
         <button id="displayButton" class="button" onclick="showBanner()">
           Display Message
         </button>

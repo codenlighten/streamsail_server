@@ -53,203 +53,63 @@
     <script src="https://plugins.whatsonchain.com/api/plugin/main/168d796a870dec5cc241dacf140fdbbc2212c9e1ca83614e82914fc42c6d1052"></script>
   </head>
   <style>
+    /* Global Styles */
     body {
-      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f0f8f8;
+      font-family: "Arial", sans-serif;
+      background-color: #f1f3f6;
       margin: 0;
       padding: 0;
+      color: #333;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
-      height: 100%;
+      min-height: 100vh;
     }
 
+    /* Container for centering content */
     #game-container {
-      width: 60%;
+      max-width: 1200px;
+      width: 90%;
       background-color: #ffffff;
-      border-radius: 10px;
       padding: 20px;
-      box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
-      border-top: 10px solid #0bb28a;
-      border-bottom: 5px solid #0bb28a;
+      padding-top: 250px;
+      border-radius: 10px;
+      border: 1px solid #36464e;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 100vh;
+      box-sizing: border-box;
+      position: relative;
     }
 
-    h1 {
-      text-align: center;
-      color: #0bb28a;
-      font-size: 2.5rem;
-      margin-bottom: 10px;
-      text-transform: uppercase;
-    }
-
+    /* Header styles */
+    h1,
     h2 {
       text-align: center;
       color: #333;
-      font-size: 1.8rem;
-      margin-bottom: 15px;
+      margin-bottom: 10px;
     }
 
-    #player-list,
-    #game-area,
-    #game-status {
-      margin-top: 20px;
+    h1 {
+      font-size: 2rem;
+      color: #57c1a5;
     }
 
-    #host-input {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 20px;
+    h2 {
+      font-size: 1.5rem;
     }
 
-    #host-input input {
-      padding: 10px;
-      font-size: 1rem;
-      border: 2px solid #0bb28a;
-      border-radius: 5px;
-      margin-right: 10px;
-      width: 250px;
-      outline: none;
-    }
-
-    #host-input input:focus {
-      border-color: #0bb28a;
-    }
-
-    #host-input button {
-      padding: 10px 20px;
-      font-size: 1rem;
-      background-color: #0bb28a;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-
-    #host-input button:hover {
-      background-color: #088a6f;
-    }
-
+    /* Card Container */
     #cards {
       display: flex;
       justify-content: center;
       gap: 15px;
       margin-top: 20px;
+      flex-wrap: wrap;
     }
 
-    button {
-      padding: 15px 25px;
-      font-size: 1.1rem;
-      color: #fff;
-      background-color: #0bb28a;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-      /* 1/5 width of #cards */
-      width: calc(20% - 15px);
-    }
-
-    button:hover {
-      background-color: #088a6f;
-    }
-
-    button:disabled {
-      background-color: #ccc;
-      cursor: not-allowed;
-    }
-
-    ul {
-      list-style-type: none;
-      padding: 0;
-    }
-
-    li {
-      padding: 10px 0;
-      font-size: 1.2rem;
-      color: #444;
-      border-bottom: 1px solid #eee;
-    }
-    #players {
-      max-height: 200px;
-      overflow-y: auto;
-      /* border: 1px solid #eee; */
-      padding: 10px;
-      /* border-radius: 5px; */
-    }
-    #players li {
-      color: #0bb28a;
-      font-weight: bold;
-      width: 80%;
-      font-size: 2rem;
-      margin: 0 auto;
-    }
-
-    #game-status ul {
-      max-height: 200px;
-      overflow-y: auto;
-      /* border: 1px solid #eee; */
-      padding: 10px;
-      /* border-radius: 5px; */
-    }
-
-    #game-status ul li {
-      color: #555;
-      font-size: 1.2rem;
-    }
-    #logo {
-      display: block;
-      margin: 0 auto;
-      width: 100px;
-      height: 100px;
-      border-radius: 12%;
-    }
-    #verified {
-      width: 80%;
-      margin: 0 auto;
-      word-break: break-all;
-      margin-top: 20px;
-    }
-    /* Existing CSS */
-
-    #positive-effect {
-      display: none;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 3rem;
-      font-weight: bold;
-      color: #0bb28a;
-      text-shadow: 0 0 10px #0bb28a, 0 0 20px #0bb28a;
-      animation: fadeInOut 2s ease-in-out;
-    }
-
-    #audioDiv {
-      display: none;
-    }
-    /* volume */
-    #volumeAdjust {
-      display: flex;
-      align-items: left;
-      margin-top: 20px;
-      margin-bottom: 12px;
-    }
-    @keyframes fadeInOut {
-      0% {
-        opacity: 0;
-        transform: scale(0.8) translate(-50%, -50%);
-      }
-      50% {
-        opacity: 1;
-        transform: scale(1.2) translate(-50%, -50%);
-      }
-      100% {
-        opacity: 0;
-        transform: scale(0.8) translate(-50%, -50%);
-      }
-    }
-    /* CSS for the flip animation */
     .card {
       perspective: 1000px; /* Creates 3D space for the card */
       width: 150px;
@@ -280,136 +140,44 @@
     .card-back {
       transform: rotateY(180deg); /* Back starts flipped */
     }
-    /* keep to left */
-    #resetButton {
-      width: 100%;
-      max-width: 150px;
-      padding: 15px 25px;
-      font-size: 1.1rem;
-      color: #fff;
-      background-color: #0bb28a;
-      border: none;
-      border-radius: 8px;
+
+    /* Button Styles */
+    .button {
+      background-color: #36464e;
+      color: white;
+      border-radius: 5px;
+      padding: 10px 20px;
+      text-align: center;
+      font-size: 0.9rem;
+      font-weight: bold;
+      border: 2px solid white;
       cursor: pointer;
-      transition: background-color 0.3s;
-      margin-top: 20px;
+      transition: background-color 0.3s ease;
     }
 
-    .confetti {
-      position: absolute;
-      width: 10px;
-      height: 10px;
-      background-color: #ffdd57;
-      animation: confetti-fall 3s linear;
-      opacity: 0.9;
+    .button:hover {
+      background-color: #57c1a5;
     }
-    #status {
-      max-height: 200px;
-      overflow-y: auto;
-      padding: 10px;
-      width: 80%;
-      margin: 0 auto;
-    }
-    #status li {
-      color: #555;
+
+    /* playerlist */
+    #players {
+      display: flex;
+      justify-content: left;
+      gap: 10px;
+      margin-top: 20px;
       font-size: 1.2rem;
       font-weight: bold;
     }
 
-    #walkAwayUI {
-      display: none;
-      margin-top: 20px;
-    }
-
-    .walkBtns {
-      padding: 10px 20px;
-      font-size: 1rem;
-      background-color: #0bb28a;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-      margin-top: 10px;
-    }
-
-    .walkBtns:hover {
-      background-color: #088a6f;
-    }
-    #orderHash {
-      font-size: 1.2rem;
-      color: #0bb28a;
-      margin-top: 30px;
-    }
-    #revealedOrder {
-      font-size: 1.2rem;
-      color: #0bb28a;
-      margin-top: 20px;
-    }
-
-    #spacer {
-      margin-bottom: 20px;
-    }
-
-    #finalCard {
-      width: 100%;
-      max-width: 300px;
-      margin: 0 auto;
-      border-radius: 12px;
-    }
-
-    #simulationResults {
-      /* bottom */
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      background-color: #0bb28a;
-      color: white;
-      padding: 20px;
-    }
-    #simulationResults h2 {
-      font-size: 1.5rem;
-      margin-bottom: 10px;
-    }
-    #simulationResults input {
-      padding: 5px;
-      font-size: 1rem;
-      border: 2px solid #fff;
-      border-radius: 5px;
-      margin-right: 10px;
-      width: 50px;
-      outline: none;
-    }
-    #simulationResults button {
-      padding: 5px 10px;
-      font-size: 1rem;
-      background-color: #0bb28a;
-      color: white;
-      border: 2px solid #fff;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-    #simulationResults button:hover {
-      background-color: #088a6f;
-    }
-
-    @keyframes confetti-fall {
-      0% {
-        transform: translateY(-100vh) rotate(0deg); /* Start from top */
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(100vh) rotate(360deg); /* Fall down rotating */
-        opacity: 0;
-      }
-    }
-
-    /* media */
+    /* Responsive card layout */
     @media (max-width: 768px) {
-      #game-container {
-        width: 90%;
+      #cards {
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .card {
+        width: calc(33.33% - 10px);
       }
 
       h1 {
@@ -420,22 +188,9 @@
         font-size: 1.5rem;
       }
 
-      #host-input input {
-        width: 200px;
-      }
-
-      button {
+      .button {
         padding: 10px 20px;
         font-size: 1rem;
-      }
-
-      #cards {
-        flex-wrap: wrap;
-        gap: 10px;
-      }
-
-      button {
-        width: calc(33.33% - 10px);
       }
     }
   </style>
@@ -677,147 +432,7 @@
       <!--reset button -->
       <button id="resetButton" onclick="resetAll()">Reset</button>
     </div>
-    <!-- <div id="odds-control-panel">
-      <h2>Adjust Game Odds</h2>
-      <div class="level-controls">
-        <h3>Level 0</h3>
-        <label
-          >Advance Level: <span id="level0-advance-display">33%</span></label
-        >
-        <input
-          type="range"
-          id="level0-advance"
-          min="0"
-          max="100"
-          value="33"
-          step="1"
-          oninput="updateOdds('level0', 'advance')"
-        />
-        <label>Remain: <span id="level0-remain-display">33%</span></label>
-        <input
-          type="range"
-          id="level0-remain"
-          min="0"
-          max="100"
-          value="33"
-          step="1"
-          oninput="updateOdds('level0', 'remain')"
-        />
-        <label>Game Over: <span id="level0-gameover-display">33%</span></label>
-        <input
-          type="range"
-          id="level0-gameover"
-          min="0"
-          max="100"
-          value="33"
-          step="1"
-          oninput="updateOdds('level0', 'gameover')"
-        />
-      </div>
-      <div class="level-controls">
-        <h3>Level 1</h3>
-        <label
-          >Advance Level: <span id="level1-advance-display">25%</span></label
-        >
-        <input
-          type="range"
-          id="level1-advance"
-          min="0"
-          max="100"
-          value="25"
-          step="1"
-          oninput="updateOdds('level1', 'advance')"
-        />
-        <label>Remain: <span id="level1-remain-display">25%</span></label>
-        <input
-          type="range"
-          id="level1-remain"
-          min="0"
-          max="100"
-          value="25"
-          step="1"
-          oninput="updateOdds('level1', 'remain')"
-        />
-        <label>Go Back: <span id="level1-goback-display">25%</span></label>
-        <input
-          type="range"
-          id="level1-goback"
-          min="0"
-          max="100"
-          value="25"
-          step="1"
-          oninput="updateOdds('level1', 'goback')"
-        />
-        <label>Game Over: <span id="level1-gameover-display">25%</span></label>
-        <input
-          type="range"
-          id="level1-gameover"
-          min="0"
-          max="100"
-          value="25"
-          step="1"
-          oninput="updateOdds('level1', 'gameover')"
-        />
-      </div>
-      <div class="level-controls">
-        <h3>Level 2</h3>
-        <label
-          >Advance Level: <span id="level2-advance-display">33%</span></label
-        >
-        <input
-          type="range"
-          id="level2-advance"
-          min="0"
-          max="100"
-          value="33"
-          step="1"
-          oninput="updateOdds('level2', 'advance')"
-        />
-        <label>Remain: <span id="level2-remain-display">33%</span></label>
-        <input
-          type="range"
-          id="level2-remain"
-          min="0"
-          max="100"
-          value="33"
-          step="1"
-          oninput="updateOdds('level2', 'remain')"
-        />
-        <label>Go Back: <span id="level2-goback-display">33%</span></label>
-        <input
-          type="range"
-          id="level2-goback"
-          min="0"
-          max="100"
-          value="33"
-          step="1"
-          oninput="updateOdds('level2', 'goback')"
-        />
-      </div>
-      <div class="level-controls">
-        <h3>Level 3</h3>
-        <label>Win All Prizes: <span id="level3-win-display">50%</span></label>
-        <input
-          type="range"
-          id="level3-win"
-          min="0"
-          max="100"
-          value="50"
-          step="1"
-          oninput="updateOdds('level3', 'win')"
-        />
-        <label>Game Over: <span id="level3-gameover-display">50%</span></label>
-        <input
-          type="range"
-          id="level3-gameover"
-          min="0"
-          max="100"
-          value="50"
-          step="1"
-          oninput="updateOdds('level3', 'gameover')"
-        />
-      </div>
-    </div> -->
+
     <div id="simulationResults" class="standalone">
       <h2>Simulation Results</h2>
       <!-- number of plays to simulate -->

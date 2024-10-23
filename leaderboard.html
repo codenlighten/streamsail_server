@@ -5,170 +5,171 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>EchoX Spins - Multiple Game Manager</title>
     <style>
+      /* Global Styles */
       body {
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        background-color: #f9fafb;
+        font-family: "Arial", sans-serif;
+        background-color: #f1f3f6;
         margin: 0;
         padding: 0;
-        color: #36464e;
-        line-height: 1.6;
+        color: #333;
         display: flex;
         justify-content: center;
         align-items: center;
         min-height: 100vh;
+        position: relative;
       }
 
-      #app {
-        text-align: center;
+      /* Main Content Container */
+      .container {
+        width: 90%;
+        max-width: 800px;
         padding: 20px;
         background-color: #ffffff;
+        box-shadow: 0 0 20px rgba(87, 193, 165, 0.7);
         border-radius: 10px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        width: 90%;
-        max-width: 1200px;
+        text-align: center;
+        box-sizing: border-box;
+        margin: 0 auto;
+      }
+
+      /* User Controls Positioned at the Bottom */
+      .user-controls {
+        position: absolute;
+        bottom: 20px;
+        left: 0;
+        right: 0;
+        width: 100%;
         display: flex;
-        flex-direction: column;
         justify-content: center;
+        padding: 10px 20px;
+        box-sizing: border-box;
       }
 
-      #title {
-        font-size: 2.5em;
-        font-weight: bold;
-        color: #0bb28a;
-        margin-bottom: 20px;
-        letter-spacing: 1px;
-        text-shadow: 0 0 5px rgba(11, 178, 138, 0.2);
-      }
-
-      #main-container {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 20px;
-        flex-wrap: wrap;
-      }
-
-      #spinner-container,
-      #leaderboard-container {
-        width: 48%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 10px;
-        margin-bottom: 20px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        border-radius: 10px;
-        background-color: #f9fafb;
-      }
-
-      .result-display {
-        margin-top: 20px;
-        font-size: 1.5em;
-        font-weight: bold;
-        color: #0bb28a;
-      }
-
-      button {
-        margin-top: 20px;
-        padding: 12px 24px;
-        font-size: 1.1em;
-        color: #ffffff;
+      /* Primary Button Style */
+      .button {
         background-color: #36464e;
-        border: none;
-        border-radius: 6px;
+        color: #ffffff;
+        border-radius: 5px;
+        padding: 14px 28px;
+        font-size: 1.2rem;
+        font-weight: 600;
         cursor: pointer;
-        transition: background-color 0.3s ease, transform 0.2s ease;
+        border: none;
+        transition: background-color 0.3s ease;
       }
 
-      button:hover {
-        background-color: #0bb28a;
+      .button:hover {
+        background-color: #57c1a5;
+      }
+
+      /* Input Field Style */
+      input {
+        width: 100%;
+        padding: 14px;
+        font-size: 1.1rem;
+        border-radius: 5px;
+        border: 2px solid #57c1a5;
+        margin-bottom: 20px;
+        outline: none;
+      }
+
+      input:focus {
+        border-color: #36464e;
+      }
+
+      /* Card/Section Design */
+      .card {
+        background-color: #ffffff;
+        box-shadow: 0 0 20px rgba(87, 193, 165, 0.7);
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+      }
+
+      /* Accent Text or Highlighted Elements */
+      .accent-text {
+        color: #57c1a5;
+        font-weight: 500;
+      }
+
+      /* Consistent Padding and Margin */
+      section,
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      /* Headings and Text Consistency */
+      h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #36464e;
+        margin-bottom: 10px;
+      }
+
+      h2 {
+        font-size: 2rem;
+        font-weight: 600;
+        color: #36464e;
+        margin-bottom: 10px;
+      }
+
+      h3 {
+        font-size: 1.75rem;
+        font-weight: 600;
+        color: #36464e;
+        margin-bottom: 10px;
+      }
+
+      p {
+        font-size: 1.1rem;
+        font-weight: 400;
+        color: #333;
+        margin: 10px 0;
+      }
+
+      /* Leaderboard and List Styling */
+      ul {
+        list-style-type: none;
+        padding: 0;
+      }
+
+      li {
+        padding: 12px;
+        border: 1px solid #57c1a5;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        background-color: #ffffff;
+        color: #333;
+        font-size: 1.2rem;
+        font-weight: 500;
+        transition: background-color 0.2s ease, transform 0.15s ease;
+      }
+
+      li:hover {
+        background-color: #e3f6f0;
         transform: translateY(-2px);
       }
-
-      #input-container {
-        margin-top: 20px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-      }
-
-      #name-input {
-        padding: 10px;
-        font-size: 1em;
-        width: 80%;
-        max-width: 300px;
-        border: 2px solid #36464e;
-        border-radius: 5px;
-        margin-bottom: 10px;
-      }
-
-      #add-button {
-        padding: 10px 20px;
-        font-size: 1.1em;
-        color: #ffffff;
-        background-color: #0bb28a;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-      }
-
-      #participant-list {
-        list-style-type: none;
-        padding: 0;
-        font-size: 1.2em;
-        margin-top: 20px;
-        width: 100%;
+      #result {
+        font-size: 1.5rem;
+        font-style: italic;
+        margin-bottom: 15px;
+        font-weight: bold;
         color: #36464e;
-        display: flex;
-        flex-direction: column;
       }
-
-      #participant-list li {
-        padding: 10px;
-        border: 1px solid #0bb28a;
-        border-radius: 5px;
-        margin-bottom: 10px;
-        background-color: #f4f4f4;
-        transition: background-color 0.2s ease, transform 0.15s ease;
-        cursor: pointer;
+      .result-display {
+        font-size: 1rem;
+        font-style: italic;
+        margin-bottom: 15px;
+        font-weight: bold;
+        color: #36464e;
       }
-
-      #feedback {
-        color: #0bb28a;
-        margin-top: 10px;
-        font-size: 1.1em;
-        text-align: center;
-      }
-
-      #game-selector {
-        padding: 10px;
-        font-size: 1.1em;
-        margin-top: 10px;
-        border: 2px solid #36464e;
-        border-radius: 5px;
-        cursor: pointer;
-        width: 100%;
-      }
-      #game-selector option {
-        padding: 10px;
-        font-size: 1.1em;
-        cursor: pointer;
-      }
-
-      #leaderboard {
-        list-style-type: none;
-        padding: 0;
-        font-size: 1.2em;
-        margin-top: 20px;
-        width: 100%;
-      }
-
-      #leaderboard li {
-        padding: 10px;
-        border: 1px solid #0bb28a;
-        border-radius: 5px;
-        margin-bottom: 10px;
-        background-color: #f4f4f4;
+      /* game selector title */
+      #title {
+        font-size: 2.5rem;
+        font-weight: 900;
+        text-transform: uppercase;
+        margin-bottom: 15px;
+        color: #36464e;
       }
     </style>
 

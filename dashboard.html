@@ -7,29 +7,32 @@
     <style>
       body {
         font-family: "Arial", sans-serif;
-        background-color: #57c1a5;
+        background-color: #f1f3f6; /* Updated background color */
         margin: 0;
         padding: 0;
-        color: white;
+        color: #333; /* Dark text for readability */
       }
 
       .container {
-        /* center of top and bottom */
         display: flex;
         justify-content: center;
         align-items: center;
         height: 100vh;
-        background-color: #57c1a5;
+        background-color: #f1f3f6; /* Updated background color */
+        padding: 20px;
+        box-sizing: border-box;
       }
 
       .left-section,
       .right-section {
         padding: 20px;
-        /* background-color: #fff; */
+        background-color: white;
         border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 0 10px rgba(87, 193, 165, 0.5); /* Subtle box shadows */
         width: 40%;
         margin: 0 20px;
+        max-width: 400px; /* Ensure responsiveness */
+        box-sizing: border-box;
       }
 
       .title {
@@ -37,10 +40,10 @@
         font-weight: 900;
         text-transform: uppercase;
         margin-bottom: 15px;
-        color: black;
+        color: #36464e; /* Primary color for titles */
       }
       .title span {
-        color: #fff;
+        color: #57c1a5; /* Accent color for highlights */
       }
 
       .subtitle {
@@ -48,6 +51,7 @@
         font-style: italic;
         margin-bottom: 25px;
         font-weight: bold;
+        color: #333; /* Ensure text is dark for readability */
       }
 
       .description {
@@ -55,10 +59,10 @@
         line-height: 1.5;
         margin-bottom: 40px;
         font-weight: bold;
+        color: #333; /* Ensure text is dark for readability */
       }
 
       .link-box {
-        /* darker grey bg */
         background-color: #ddd;
         color: black;
         padding: 20px;
@@ -81,10 +85,12 @@
         margin-bottom: 10px;
         margin-left: 10px;
         background-color: white;
+        transition: background-color 0.3s ease;
       }
 
       .link-box a:hover {
-        background-color: #ddd;
+        background-color: #57c1a5; /* Hover effect for links */
+        color: white;
       }
 
       .games-tools {
@@ -101,11 +107,12 @@
         margin-bottom: 20px;
         font-weight: bold;
         text-align: center;
+        color: #36464e; /* Primary title color */
       }
 
       .button {
         display: block;
-        background-color: #57c1a5;
+        background-color: #36464e; /* Primary button color */
         color: white;
         border-radius: 5px;
         padding: 15px;
@@ -115,7 +122,13 @@
         font-size: 16px;
         font-weight: bold;
         border: 2px solid #fff;
+        transition: background-color 0.3s ease;
       }
+
+      .button:hover {
+        background-color: #57c1a5; /* Button hover effect */
+      }
+
       .gametitle {
         display: block;
         background-color: white;
@@ -130,15 +143,13 @@
         border: 2px solid #fff;
       }
 
-      .button:hover {
-        background-color: #ddd;
-      }
-      /* left side */
+      /* Left side online status */
       .online {
         position: fixed;
         top: 20px;
         left: 20px;
       }
+
       .online #dot {
         width: 20px;
         height: 20px;
@@ -147,27 +158,51 @@
         box-shadow: 0 0 10px red, 0 0 20px red, 0 0 30px red;
         animation: pulse 1s infinite;
       }
+
+      @keyframes pulse {
+        0% {
+          box-shadow: 0 0 5px red, 0 0 10px red;
+        }
+        100% {
+          box-shadow: 0 0 10px red, 0 0 20px red;
+        }
+      }
+
       #topLeft {
         display: flex;
         align-items: center;
       }
+
       #tl-title {
         font-size: 24px;
         font-weight: bold;
         margin-left: 10px;
+        color: #333;
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          flex-direction: column;
+        }
+
+        .left-section,
+        .right-section {
+          width: 90%;
+          margin-bottom: 20px;
+        }
       }
     </style>
   </head>
   <body>
     <div class="container">
       <!-- glowing red dot to show online -->
-
       <div class="online">
         <div id="topLeft">
           <div id="dot"></div>
           <span id="tl-title">EchoX Live</span>
         </div>
       </div>
+
       <div class="left-section">
         <div class="title">LIVESTREAM <span>TOOLBOX</span></div>
         <div class="subtitle">
@@ -184,7 +219,6 @@
         <div class="link-box">
           <p>
             REFERRAL LINK (BUY):
-            <!-- capitalize url -->
             <a class="link" href="https://whatnot.com/invite/echo_x_era"
               >HTTPS://WHATNOT.COM/INVITE/ECHO_X_ERA</a
             >
