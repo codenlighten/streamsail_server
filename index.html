@@ -7,10 +7,10 @@
     <style>
       body {
         font-family: "Arial", sans-serif;
-        background-color: #f1f3f6; /* Updated background color */
+        background-color: #f1f3f6;
         margin: 0;
         padding: 0;
-        color: #333; /* Dark text for readability */
+        color: #333;
       }
 
       .container {
@@ -18,7 +18,7 @@
         justify-content: center;
         align-items: center;
         height: 100vh;
-        background-color: #f1f3f6; /* Updated background color */
+        background-color: #f1f3f6;
         padding: 20px;
         box-sizing: border-box;
       }
@@ -28,10 +28,10 @@
         padding: 20px;
         background-color: white;
         border-radius: 10px;
-        box-shadow: 0 0 10px rgba(87, 193, 165, 0.5); /* Subtle box shadows */
+        border: 1px solid #36464e;
         width: 40%;
         margin: 0 20px;
-        max-width: 400px; /* Ensure responsiveness */
+        max-width: 400px;
         box-sizing: border-box;
       }
 
@@ -40,10 +40,10 @@
         font-weight: 900;
         text-transform: uppercase;
         margin-bottom: 15px;
-        color: #36464e; /* Primary color for titles */
+        color: #36464e;
       }
       .title span {
-        color: #57c1a5; /* Accent color for highlights */
+        color: #57c1a5;
       }
 
       .subtitle {
@@ -51,7 +51,7 @@
         font-style: italic;
         margin-bottom: 25px;
         font-weight: bold;
-        color: #333; /* Ensure text is dark for readability */
+        color: #333;
       }
 
       .description {
@@ -59,7 +59,7 @@
         line-height: 1.5;
         margin-bottom: 40px;
         font-weight: bold;
-        color: #333; /* Ensure text is dark for readability */
+        color: #333;
       }
 
       .link-box {
@@ -89,7 +89,7 @@
       }
 
       .link-box a:hover {
-        background-color: #57c1a5; /* Hover effect for links */
+        background-color: #57c1a5;
         color: white;
       }
 
@@ -107,12 +107,12 @@
         margin-bottom: 20px;
         font-weight: bold;
         text-align: center;
-        color: #36464e; /* Primary title color */
+        color: #36464e;
       }
 
       .button {
         display: block;
-        background-color: #36464e; /* Primary button color */
+        background-color: #36464e;
         color: white;
         border-radius: 5px;
         padding: 15px;
@@ -126,7 +126,7 @@
       }
 
       .button:hover {
-        background-color: #57c1a5; /* Button hover effect */
+        background-color: #57c1a5;
       }
 
       .gametitle {
@@ -191,7 +191,19 @@
           margin-bottom: 20px;
         }
       }
+
+      /* QR Code Styles */
+      .qr-code {
+        display: flex;
+        justify-content: center;
+        margin-top: 15px;
+      }
+      .qr-code img {
+        width: 100px; /* Adjust the size as needed */
+        height: 100px;
+      }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
   </head>
   <body>
     <div class="container">
@@ -223,12 +235,16 @@
               >HTTPS://WHATNOT.COM/INVITE/ECHO_X_ERA</a
             >
           </p>
+          <div class="qr-code" id="qr-buy"></div>
+          <!-- QR Code for BUY link -->
           <p>
             REFERRAL LINK (SELL):
             <a class="link" href="https://whatnot.com/invite/seller/echo_x_era"
               >HTTPS://WHATNOT.COM/INVITE/SELLER/ECHO_X_ERA</a
             >
           </p>
+          <div class="qr-code" id="qr-sell"></div>
+          <!-- QR Code for SELL link -->
           <p>COUPON CODE: <span class="link">SAVEFIVE</span></p>
         </div>
       </div>
@@ -255,6 +271,19 @@
       </div>
     </div>
     <script>
+      // QR Code generation
+      const qrBuy = new QRious({
+        element: document.getElementById("qr-buy"),
+        value: "https://whatnot.com/invite/echo_x_era",
+        size: 100, // QR code size
+      });
+
+      const qrSell = new QRious({
+        element: document.getElementById("qr-sell"),
+        value: "https://whatnot.com/invite/seller/echo_x_era",
+        size: 100, // QR code size
+      });
+
       function copyToClipboard(text) {
         var dummy = document.createElement("textarea");
         document.body.appendChild(dummy);

@@ -233,7 +233,7 @@
         const totalCost = cogs + spots * shipping;
 
         // Calculate revenue target to cover cost, platform fees, and profit
-        const revenueTarget = totalCost / (1 - profit - platform);
+        const revenueTarget = (totalCost * (1 + profit)) / (1 - platform);
 
         // Calculate the price per spot
         const spotPrice = revenueTarget / spots;
@@ -245,6 +245,7 @@
         const estimatedProfit =
           totalRevenue - totalCost - totalRevenue * platform;
 
+        // Output results
         document.getElementById("spotPrice").value = `$${spotPrice.toFixed(2)}`;
         document.getElementById(
           "totalRevenue"
