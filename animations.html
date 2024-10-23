@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Enhanced JavaScript Animations</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        height: 100vh;
+        margin: 0;
+        background-color: #f0f0f0;
+        overflow: hidden;
+      }
+
+      h1 {
+        margin-bottom: 20px;
+        color: #333;
+      }
+
+      .container {
+        text-align: center;
+      }
+
+      .box {
+        width: 100px;
+        height: 100px;
+        background-color: teal;
+        display: none;
+        margin: 10px auto;
+        border-radius: 8px;
+      }
+
+      #bounceBox {
+        background-color: coral;
+      }
+
+      #slideBox {
+        background-color: purple;
+      }
+
+      #rotateBox {
+        background-color: gold;
+      }
+
+      button {
+        padding: 10px 20px;
+        margin: 5px;
+        border: none;
+        border-radius: 4px;
+        background-color: #007bff;
+        color: white;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      button:hover {
+        background-color: #0056b3;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>JavaScript Animations Demo</h1>
+
+    <div class="container">
+      <button onclick="createConfetti()">Show Confetti</button>
+      <button onclick="fadeIn(document.getElementById('fadeBox'), 1500)">
+        Fade In Box
+      </button>
+      <button
+        onclick="bounceElement(document.getElementById('bounceBox'), 60, 1500)"
+      >
+        Bounce Box
+      </button>
+      <button onclick="slideIn(document.getElementById('slideBox'), 1500)">
+        Slide In Box
+      </button>
+      <button
+        onclick="rotateElement(document.getElementById('rotateBox'), 3000)"
+      >
+        Rotate Box
+      </button>
+    </div>
+
+    <div id="fadeBox" class="box"></div>
+    <div id="bounceBox" class="box"></div>
+    <div id="slideBox" class="box"></div>
+    <div id="rotateBox" class="box"></div>
+
+    <script>
+      // Confetti Animation
+      function createConfetti() {
+        const confettiContainer = document.createElement("div");
+        confettiContainer.style.position = "fixed";
+        confettiContainer.style.top = 0;
+        confettiContainer.style.left = 0;
+        confettiContainer.style.width = "100%";
+        confettiContainer.style.height = "100%";
+        confettiContainer.style.pointerEvents = "none";
+        confettiContainer.style.zIndex = "9999";
+        document.body.appendChild(confettiContainer);
+
+        for (let i = 0; i < 150; i++) {
+          const confetti = document.createElement("div");
+          confetti.style.position = "absolute";
+          confetti.style.width = `${Math.random() * 10 + 5}px`;
+          confetti.style.height = `${Math.random() * 10 + 5}px`;
+          confetti.style.backgroundColor = `hsl(${
+            Math.random() * 360
+          }, 100%, 50%)`;
+          confetti.style.top = `${Math.random() * 100}%`;
+          confetti.style.left = `${Math.random() * 100}%`;
+          confetti.style.opacity = Math.random();
+          confetti.style.borderRadius = "50%";
+          confettiContainer.appendChild(confetti);
+
+          animateConfetti(confetti);
+        }
+
+        setTimeout(() => {
+          confettiContainer.remove();
+        }, 5000);
+      }
+
+      function animateConfetti(confetti) {
+        const x = Math.random() * 200 - 100;
+        const y = Math.random() * 300 + 300;
+        const rotation = Math.random() * 720;
+
+        const animation = confetti.animate(
+          [
+            { transform: `translate(0, 0) rotate(0deg)`, opacity: 1 },
+            {
+              transform: `translate(${x}px, ${y}px) rotate(${rotation}deg)`,
+              opacity: 0,
+            },
+          ],
+          {
+            duration: Math.random() * 3000 + 2000,
+            easing: "ease-out",
+          }
+        );
+
+        animation.onfinish = () => confetti.remove();
+      }
+
+      // Fade In Animation
+      function fadeIn(element, duration = 1000) {
+        element.style.opacity = 0;
+        element.style.display = "block";
+        let last = +new Date();
+        const tick = function () {
+          element.style.opacity =
+            +element.style.opacity + (new Date() - last) / duration;
+          last = +new Date();
+
+          if (+element.style.opacity < 1) {
+            (window.requestAnimationFrame && requestAnimationFrame(tick)) ||
+              setTimeout(tick, 16);
+          }
+        };
+        tick();
+      }
+
+      // Bounce Animation
+      function bounceElement(element, height = 100, duration = 1500) {
+        element.style.position = "relative";
+        const keyframes = [
+          { transform: "translateY(0)" },
+          { transform: `translateY(${height}px)` },
+          { transform: "translateY(0)" },
+        ];
+        element.animate(keyframes, {
+          duration: duration,
+          iterations: Infinity,
+          easing: "ease-in-out",
+        });
+      }
+
+      // Slide In Animation
+      function slideIn(element, duration = 1000) {
+        element.style.position = "absolute";
+        element.style.left = "-100%";
+        element.style.transition = `left ${duration}ms ease-in-out`;
+
+        setTimeout(() => {
+          element.style.left = "0";
+        }, 100);
+      }
+
+      // Rotate Animation
+      function rotateElement(element, duration = 2000) {
+        const keyframes = [
+          { transform: "rotate(0deg)" },
+          { transform: "rotate(360deg)" },
+        ];
+        element.animate(keyframes, {
+          duration: duration,
+          iterations: Infinity,
+          easing: "linear",
+        });
+      }
+    </script>
+  </body>
+</html>
