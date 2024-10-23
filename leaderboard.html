@@ -10,160 +10,31 @@
         font-family: "Arial", sans-serif;
         background-color: #f1f3f6;
         margin: 0;
-        padding: 0;
+        padding: 20px;
         color: #333;
-        display: flex;
-        justify-content: center;
-        align-items: center;
         min-height: 100vh;
-        position: relative;
       }
 
-      /* Main Content Container */
-      .container {
-        width: 90%;
-        max-width: 800px;
-        padding: 20px;
-        background-color: #ffffff;
-        border: 1px solid #36464e;
-        border-radius: 10px;
-        text-align: center;
-        box-sizing: border-box;
+      /* Grid Layout */
+      #app {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto auto 1fr;
+        gap: 20px;
+        max-width: 1200px;
         margin: 0 auto;
       }
 
-      /* User Controls Positioned at the Bottom */
-      .user-controls {
-        position: absolute;
-        bottom: 20px;
-        left: 0;
-        right: 0;
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        padding: 10px 20px;
-        box-sizing: border-box;
-      }
-
-      /* Primary Button Style */
-      .button {
-        background-color: #36464e;
-        color: #ffffff;
-        border-radius: 5px;
-        padding: 14px 28px;
-        font-size: 1.2rem;
-        font-weight: 600;
-        cursor: pointer;
-        border: none;
-        transition: background-color 0.3s ease;
-      }
-
-      .button:hover {
-        background-color: #57c1a5;
-      }
-
-      /* Input Field Style */
-      input {
-        width: 100%;
-        padding: 14px;
-        font-size: 1.1rem;
-        border-radius: 5px;
-        border: 2px solid #57c1a5;
-        margin-bottom: 20px;
-        outline: none;
-      }
-
-      input:focus {
-        border-color: #36464e;
-      }
-
-      /* Card/Section Design */
-      .card {
-        background-color: #ffffff;
-        box-shadow: 0 0 20px rgba(87, 193, 165, 0.7);
-        border-radius: 10px;
+      /* Header Section */
+      #header-section {
+        grid-column: 1 / -1;
+        text-align: center;
         padding: 20px;
-        margin-bottom: 20px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       }
 
-      /* Accent Text or Highlighted Elements */
-      .accent-text {
-        color: #57c1a5;
-        font-weight: 500;
-      }
-
-      /* Consistent Padding and Margin */
-      section,
-      .form-group {
-        margin-bottom: 20px;
-      }
-
-      /* Headings and Text Consistency */
-      h1 {
-        font-size: 2.5rem;
-        font-weight: 700;
-        color: #36464e;
-        margin-bottom: 10px;
-      }
-
-      h2 {
-        font-size: 2rem;
-        font-weight: 600;
-        color: #36464e;
-        margin-bottom: 10px;
-      }
-
-      h3 {
-        font-size: 1.75rem;
-        font-weight: 600;
-        color: #36464e;
-        margin-bottom: 10px;
-      }
-
-      p {
-        font-size: 1.1rem;
-        font-weight: 400;
-        color: #333;
-        margin: 10px 0;
-      }
-
-      /* Leaderboard and List Styling */
-      ul {
-        list-style-type: none;
-        padding: 0;
-      }
-
-      li {
-        padding: 12px;
-        border: 1px solid #57c1a5;
-        border-radius: 5px;
-        margin-bottom: 10px;
-        background-color: #ffffff;
-        color: #333;
-        font-size: 1.2rem;
-        font-weight: 500;
-        transition: background-color 0.2s ease, transform 0.15s ease;
-      }
-
-      li:hover {
-        background-color: #e3f6f0;
-        transform: translateY(-2px);
-      }
-      #result {
-        font-size: 1.5rem;
-        font-style: italic;
-        margin-bottom: 15px;
-        font-weight: bold;
-        color: #36464e;
-      }
-      .result-display {
-        font-size: 1rem;
-        font-style: italic;
-        margin-bottom: 15px;
-        font-weight: bold;
-        color: #36464e;
-      }
-      /* game selector title */
       #title {
         font-size: 2.5rem;
         font-weight: 900;
@@ -171,42 +42,146 @@
         margin-bottom: 15px;
         color: #36464e;
       }
-    </style>
 
-    <!-- Include Canvas Confetti -->
+      /* Game Selection Section */
+      #game-selection {
+        grid-column: 1 / -1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      #game-selector {
+        padding: 10px;
+        font-size: 1.1rem;
+        border: 2px solid #57c1a5;
+        border-radius: 5px;
+      }
+
+      /* Left Column - Player Management */
+      #player-management {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      #input-container {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+
+      #name-input {
+        flex: 1;
+        padding: 10px;
+        font-size: 1rem;
+        border: 2px solid #57c1a5;
+        border-radius: 5px;
+      }
+
+      /* Right Column - Leaderboard */
+      #leaderboard-section {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        font-weight: bold;
+        font-size: 2rem;
+      }
+
+      /* Buttons */
+      button {
+        background-color: #36464e;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: background-color 0.3s ease;
+      }
+
+      button:hover {
+        background-color: #57c1a5;
+      }
+
+      .win-button {
+        background-color: #57c1a5;
+        padding: 8px 15px;
+        font-size: 0.9rem;
+        margin-left: 10px;
+      }
+
+      /* Lists */
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        margin-bottom: 8px;
+        background-color: #f8f9fa;
+        border-radius: 5px;
+        transition: transform 0.2s ease;
+      }
+
+      li:hover {
+        transform: translateY(-2px);
+      }
+
+      /* Status Messages */
+      #result {
+        font-size: 1.2rem;
+        font-style: italic;
+        color: #36464e;
+        margin-bottom: 15px;
+      }
+
+      #feedback {
+        color: #57c1a5;
+        font-size: 0.9rem;
+        height: 20px;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        #app {
+          grid-template-columns: 1fr;
+        }
+
+        #input-container {
+          flex-direction: column;
+        }
+
+        .win-button {
+          margin-left: 0;
+          margin-top: 5px;
+        }
+      }
+    </style>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
   </head>
   <body>
     <div id="app">
-      <div id="title"></div>
-      <div id="main-container">
-        <div id="spinner-container">
-          <div class="result-display" id="result">
-            Choose a game and add players!
-          </div>
-          <div id="input-container">
-            <input
-              type="text"
-              id="name-input"
-              placeholder="Enter participant name"
-            />
-            <button id="add-button">Add Name</button>
-            <div id="feedback"></div>
-          </div>
-        </div>
-
-        <div id="leaderboard-container">
-          <h3>Leaderboard</h3>
-          <ul id="leaderboard"></ul>
-          <button id="reset-leaderboard">Reset Leaderboard</button>
-        </div>
+      <!-- Header Section -->
+      <div id="header-section">
+        <div id="title"></div>
+        <div id="result">Choose a game and add players!</div>
       </div>
 
-      <div>
-        <h3>Participants</h3>
-        <ul id="participant-list"></ul>
-      </div>
-      <div>
+      <!-- Game Selection Section -->
+      <div id="game-selection">
         <label for="game-selector">Choose a game:</label>
         <select id="game-selector">
           <option value="mysterypull">Mystery Pull</option>
@@ -216,9 +191,33 @@
           <option value="echospins">Echo Spins</option>
         </select>
       </div>
+
+      <!-- Player Management Section -->
+      <div id="player-management">
+        <h3>Add Participants</h3>
+        <div id="input-container">
+          <input
+            type="text"
+            id="name-input"
+            placeholder="Enter participant name"
+          />
+          <button id="add-button">Add Name</button>
+        </div>
+        <div id="feedback"></div>
+        <h3>Current Participants</h3>
+        <ul id="participant-list"></ul>
+      </div>
+
+      <!-- Leaderboard Section -->
+      <div id="leaderboard-section">
+        <h3>Leaderboard</h3>
+        <ul id="leaderboard"></ul>
+        <button id="reset-leaderboard">Reset All Data</button>
+      </div>
     </div>
 
     <script>
+      // Previous JavaScript code remains unchanged
       let participants = JSON.parse(localStorage.getItem("participants")) || {
         mysterypull: [],
         echospins: [],
@@ -241,7 +240,6 @@
         participantList.innerHTML = "";
         const currentGame = gameSelector.value;
 
-        // Ensure participants[currentGame] is defined
         if (!participants[currentGame]) {
           participants[currentGame] = [];
         }
@@ -249,10 +247,19 @@
         const gameParticipants = participants[currentGame] || [];
         gameParticipants.forEach((participant) => {
           const li = document.createElement("li");
-          li.textContent = participant;
-          li.addEventListener("click", () => {
-            addWin(participant, currentGame);
-          });
+          const nameSpan = document.createElement("span");
+          const button = document.createElement("button");
+
+          nameSpan.textContent = participant.toUpperCase();
+
+          button.classList.add("win-button");
+          button.textContent = "Add Win";
+          button.addEventListener("click", () =>
+            addWin(participant, currentGame)
+          );
+
+          li.appendChild(nameSpan);
+          li.appendChild(button);
           participantList.appendChild(li);
         });
       }
@@ -264,25 +271,29 @@
           leaderboard[participant] = 1;
         }
         localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
-        triggerConfetti(); // Trigger confetti on win
+        triggerConfetti();
         updateLeaderboard();
-        updateURLWithParams(game, participant); // Update URL with game and participant
+        updateURLWithParams(game, participant);
       }
 
-      // Function to update leaderboard display from localStorage
       function updateLeaderboard() {
         let leaderboard = JSON.parse(localStorage.getItem("leaderboard")) || {};
         leaderboardElement.innerHTML = "";
-        for (const participant in leaderboard) {
+
+        // Convert to array for sorting
+        const sortedParticipants = Object.entries(leaderboard).sort(
+          ([, a], [, b]) => b - a
+        );
+
+        sortedParticipants.forEach(([participant, wins]) => {
           const li = document.createElement("li");
-          li.textContent = `${participant}: ${leaderboard[participant]} win(s)`;
+          li.textContent = `${participant.toUpperCase()}: ${wins} WIN${
+            wins !== 1 ? "S" : ""
+          }`;
           leaderboardElement.appendChild(li);
-        }
+        });
       }
 
-      // Call this function when the page loads
-      updateLeaderboard();
-      // Confetti function
       function triggerConfetti() {
         confetti({
           particleCount: 150,
@@ -291,30 +302,28 @@
         });
       }
 
-      // Update the URL with game and participant
       function updateURLWithParams(game, name) {
         const url = new URL(window.location);
         url.searchParams.set("game", game);
         url.searchParams.set("name", name);
-        window.history.pushState({}, "", url); // Update URL without reloading the page
+        window.history.pushState({}, "", url);
       }
 
-      // Function to check if URL has game and name params
       function checkURLParams() {
         const params = new URLSearchParams(window.location.search);
         const game = params.get("game");
         const name = params.get("name");
         if (game && name && participants[game].includes(name)) {
-          addWin(name, game); // Add win if both game and participant are in the URL
+          addWin(name, game);
         }
       }
 
       gameSelector.addEventListener("change", () => {
         updateParticipantList();
-        const captializeGame =
+        const capitalizeGame =
           gameSelector.value.charAt(0).toUpperCase() +
           gameSelector.value.slice(1);
-        document.getElementById("title").innerText = captializeGame;
+        document.getElementById("title").innerText = capitalizeGame;
       });
 
       addButton.addEventListener("click", () => {
@@ -331,28 +340,41 @@
       });
 
       resetButton.addEventListener("click", () => {
-        leaderboard = {};
-        localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
-        //clear participant list
-        participants = {
-          mysterypull: [],
-          echospins: [],
-          echodrop: [],
-          emojiracer: [],
-          dumpsterdive: [],
-        };
-        localStorage.setItem("participants", JSON.stringify(participants));
-        document.getElementById("title").innerText = "";
-        updateParticipantList();
-        updateLeaderboard();
+        if (
+          confirm(
+            "Are you sure you want to reset all data? This cannot be undone."
+          )
+        ) {
+          leaderboard = {};
+          participants = {
+            mysterypull: [],
+            echospins: [],
+            echodrop: [],
+            emojiracer: [],
+            dumpsterdive: [],
+          };
+          localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
+          localStorage.setItem("participants", JSON.stringify(participants));
+          document.getElementById("title").innerText = "";
+          updateParticipantList();
+          updateLeaderboard();
+        }
       });
-      const captializeGame =
+
+      const capitalizeGame =
         gameSelector.value.charAt(0).toUpperCase() +
         gameSelector.value.slice(1);
-      document.getElementById("title").innerText = captializeGame;
+      document.getElementById("title").innerText = capitalizeGame;
       updateLeaderboard();
-      updateParticipantList(); // Initialize participant list for the default selected game
-      checkURLParams(); // Check if there are URL params for game and name
+      updateParticipantList();
+      checkURLParams();
+
+      // Add enter key support for name input
+      nameInput.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") {
+          addButton.click();
+        }
+      });
     </script>
   </body>
 </html>

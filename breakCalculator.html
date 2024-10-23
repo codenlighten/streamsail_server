@@ -133,6 +133,13 @@
           width: 60%;
         }
       }
+
+      .error {
+        color: #ff4444;
+        font-size: 0.8rem;
+        margin-top: 5px;
+        display: none;
+      }
     </style>
   </head>
   <body>
@@ -143,7 +150,7 @@
           Easily calculate the optimal price per spot and track your profit.
         </div>
 
-        <form>
+        <form id="calculatorForm">
           <div class="form-group">
             <label for="cogs">COST OF GOODS (COGS)</label>
             <input
@@ -151,7 +158,13 @@
               id="cogs"
               name="cogs"
               placeholder="Total cost of items"
+              min="0"
+              step="0.01"
+              required
             />
+            <div class="error" id="cogsError">
+              Please enter a valid COGS amount
+            </div>
           </div>
 
           <div class="form-group">
@@ -161,31 +174,40 @@
               id="spots"
               name="spots"
               placeholder="How many spots?"
+              min="1"
+              step="1"
+              required
             />
+            <div class="error" id="spotsError">
+              Please enter a valid number of spots
+            </div>
           </div>
 
           <div class="form-group">
-            <label for="shipping">SHIPPING COST PER SPOT</label>
+            <label for="shipping">SHIPPING COST PER SPOT ($)</label>
             <input
               type="number"
               id="shipping"
               name="shipping"
-              placeholder="Average shipping cost"
-              value="0"
+              placeholder="Shipping cost per spot"
+              min="0"
+              step="0.01"
+              required
             />
           </div>
 
           <div class="form-group">
-            <label for="platform">PLATFORM FEES (%)</label>
+            <label for="platform">TOTAL PLATFORM FEES ($)</label>
             <input
               type="number"
               id="platform"
               name="platform"
-              placeholder="Platform cut percentage"
-              value="8"
+              placeholder="Platform fees total"
+              min="0"
+              step="0.01"
+              required
             />
           </div>
-
           <div class="form-group">
             <label for="profit">DESIRED PROFIT (%)</label>
             <input
@@ -194,14 +216,23 @@
               name="profit"
               placeholder="Desired profit percentage"
               value="30"
+              min="0"
+              max="100"
+              step="0.1"
+              required
             />
+            <div class="error" id="profitError">
+              Please enter a valid profit percentage
+            </div>
           </div>
 
           <div class="buttons">
             <button type="button" class="button" onclick="calculate()">
               CALCULATE
             </button>
-            <button type="reset" class="button">RESET</button>
+            <button type="reset" class="button" onclick="clearResults()">
+              RESET
+            </button>
           </div>
         </form>
 
@@ -219,40 +250,89 @@
     </div>
 
     <script>
+      function validateInputs() {
+        const inputs = {
+          cogs: document.getElementById("cogs"),
+          spots: document.getElementById("spots"),
+          shipping: document.getElementById("shipping"),
+          platform: document.getElementById("platform"),
+          profit: document.getElementById("profit"),
+        };
+
+        let isValid = true;
+
+        for (const [key, input] of Object.entries(inputs)) {
+          const error = document.getElementById(`${key}Error`);
+          const value = parseFloat(input.value);
+
+          if (isNaN(value) || value < 0 || (key === "spots" && value < 1)) {
+            error.style.display = "block";
+            isValid = false;
+          } else {
+            error.style.display = "none";
+          }
+        }
+
+        return isValid;
+      }
+
+      function clearResults() {
+        document.getElementById("spotPrice").value = "";
+        document.getElementById("totalRevenue").value = "";
+        document.getElementById("estimatedProfit").value = "";
+
+        // Hide all error messages
+        const errors = document.getElementsByClassName("error");
+        for (const error of errors) {
+          error.style.display = "none";
+        }
+      }
+
       function calculate() {
-        const cogs = parseFloat(document.getElementById("cogs").value) || 0;
-        const spots = parseFloat(document.getElementById("spots").value) || 1;
-        const shipping =
-          parseFloat(document.getElementById("shipping").value) || 0;
-        const platform =
-          parseFloat(document.getElementById("platform").value) / 100 || 0.08;
-        const profit =
-          parseFloat(document.getElementById("profit").value) / 100 || 0.3;
+        if (!validateInputs()) {
+          return;
+        }
 
-        // Calculate total cost (COGS + shipping per spot)
-        const totalCost = cogs + spots * shipping;
+        // Get the input values
+        const cogs = parseFloat(document.getElementById("cogs").value);
+        const spots = parseInt(document.getElementById("spots").value);
+        const shippingPerSpot = parseFloat(
+          document.getElementById("shipping").value
+        );
+        const platformFeeTotal = parseFloat(
+          document.getElementById("platform").value
+        );
+        const desiredProfit = parseFloat(
+          document.getElementById("profit").value
+        );
 
-        // Calculate revenue target to cover cost, platform fees, and profit
-        const revenueTarget = (totalCost * (1 + profit)) / (1 - platform);
+        // Calculate total shipping cost
+        const totalShipping = shippingPerSpot * spots;
 
-        // Calculate the price per spot
-        const spotPrice = revenueTarget / spots;
+        // Calculate the required spot price to achieve the desired profit
+        const spotPrice =
+          (cogs + totalShipping + platformFeeTotal + desiredProfit) / spots;
 
-        // Total revenue calculation
+        // Calculate total revenue
         const totalRevenue = spotPrice * spots;
 
-        // Estimated profit calculation
+        // Calculate the estimated profit
         const estimatedProfit =
-          totalRevenue - totalCost - totalRevenue * platform;
+          totalRevenue - cogs - totalShipping - platformFeeTotal;
 
-        // Output results
-        document.getElementById("spotPrice").value = `$${spotPrice.toFixed(2)}`;
-        document.getElementById(
-          "totalRevenue"
-        ).value = `$${totalRevenue.toFixed(2)}`;
-        document.getElementById(
-          "estimatedProfit"
-        ).value = `$${estimatedProfit.toFixed(2)}`;
+        // Format currency values
+        const formatter = new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency: "USD",
+        });
+
+        // Display the results
+        document.getElementById("spotPrice").value =
+          formatter.format(spotPrice);
+        document.getElementById("totalRevenue").value =
+          formatter.format(totalRevenue);
+        document.getElementById("estimatedProfit").value =
+          formatter.format(estimatedProfit);
       }
     </script>
   </body>
