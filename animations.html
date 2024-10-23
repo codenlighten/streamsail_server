@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Whatnot Live Stream Dashboard</title>
+    <title>JavaScript Animations Dashboard</title>
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -25,7 +25,7 @@
         display: none;
         margin: 10px auto;
         border-radius: 8px;
-        position: relative;
+        position: relative; /* Important for animations */
       }
 
       #bounceBox {
@@ -40,15 +40,16 @@
         background-color: gold;
       }
 
+      /* Fixed dashboard at the bottom */
       .dashboard {
         position: fixed;
         bottom: 0;
         left: 0;
         right: 0;
-        background-color: #36464e;
+        background-color: #36464e; /* Dark Gray-Blue Color */
         padding: 15px;
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
         align-items: center;
         z-index: 1000;
       }
@@ -58,43 +59,15 @@
         margin: 5px;
         border: none;
         border-radius: 4px;
-        background-color: #57c1a5;
+        background-color: #57c1a5; /* Teal Color */
         color: white;
         cursor: pointer;
         transition: background-color 0.3s, transform 0.2s;
       }
 
       .dashboard button:hover {
-        background-color: #3ea78b;
-        transform: scale(1.05);
-      }
-
-      /* Spot availability styling */
-      .spot-tracker {
-        display: flex;
-        flex-wrap: wrap;
-        max-width: 300px;
-        margin: 10px auto;
-      }
-
-      .spot {
-        width: 50px;
-        height: 50px;
-        background-color: #d3d3d3;
-        margin: 5px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border-radius: 50%;
-        font-size: 1.2em;
-        color: black;
-        cursor: pointer;
-      }
-
-      .spot.taken {
-        background-color: #f54242;
-        color: white;
-        cursor: not-allowed;
+        background-color: #3ea78b; /* Slightly Darker Teal for Hover */
+        transform: scale(1.05); /* Slightly enlarge on hover */
       }
     </style>
   </head>
@@ -104,11 +77,6 @@
     <div id="bounceBox" class="box"></div>
     <div id="slideBox" class="box"></div>
     <div id="rotateBox" class="box"></div>
-
-    <!-- Spot Availability Tracker -->
-    <div class="spot-tracker" id="spotTracker">
-      <!-- Spots will be generated dynamically -->
-    </div>
 
     <!-- Dashboard at the Bottom -->
     <div class="dashboard">
@@ -129,11 +97,10 @@
       >
         Rotate Box
       </button>
-      <button onclick="markSpot(25)">Mark Spot 25</button>
     </div>
 
     <script>
-      // Confetti Animation (unchanged from your version)
+      // Confetti Animation
       function createConfetti() {
         const confettiContainer = document.createElement("div");
         confettiContainer.style.position = "fixed";
@@ -189,7 +156,7 @@
         animation.onfinish = () => confetti.remove();
       }
 
-      // Fade In Animation (unchanged)
+      // Fade In Animation
       function fadeIn(element, duration = 1000) {
         element.style.opacity = 0;
         element.style.display = "block";
@@ -207,9 +174,9 @@
         tick();
       }
 
-      // Bounce Animation (unchanged)
+      // Bounce Animation
       function bounceElement(element, height = 100, duration = 1500) {
-        element.style.display = "block";
+        element.style.display = "block"; // Ensure the box is visible
         element.animate(
           [
             { transform: "translateY(0)" },
@@ -224,9 +191,9 @@
         );
       }
 
-      // Slide In Animation (unchanged)
+      // Slide In Animation
       function slideIn(element, duration = 1000) {
-        element.style.display = "block";
+        element.style.display = "block"; // Ensure the box is visible
         element.style.position = "absolute";
         element.style.left = "-100%";
         element.style.transition = `left ${duration}ms ease-in-out`;
@@ -236,9 +203,9 @@
         }, 100);
       }
 
-      // Rotate Animation (unchanged)
+      // Rotate Animation
       function rotateElement(element, duration = 2000) {
-        element.style.display = "block";
+        element.style.display = "block"; // Ensure the box is visible
         const keyframes = [
           { transform: "rotate(0deg)" },
           { transform: "rotate(360deg)" },
@@ -249,33 +216,6 @@
           easing: "linear",
         });
       }
-
-      // Spot Availability Tracker
-      function generateSpots() {
-        const spotTracker = document.getElementById("spotTracker");
-        for (let i = 1; i <= 50; i++) {
-          const spot = document.createElement("div");
-          spot.classList.add("spot");
-          spot.textContent = i;
-          spot.dataset.spotId = i;
-          spot.onclick = () => markSpot(i);
-          spotTracker.appendChild(spot);
-        }
-      }
-
-      function markSpot(spotId) {
-        const spot = document.querySelector(`[data-spot-id='${spotId}']`);
-        if (!spot.classList.contains("taken")) {
-          spot.classList.add("taken");
-        } else {
-          alert("Spot already taken!");
-        }
-      }
-
-      // Initialize Spots on Page Load
-      window.onload = () => {
-        generateSpots();
-      };
     </script>
   </body>
 </html>
