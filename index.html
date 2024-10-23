@@ -68,6 +68,7 @@
         padding: 20px;
         margin-bottom: 30px;
         border-radius: 10px;
+        text-align: center;
       }
 
       .link-box p {
@@ -194,9 +195,9 @@
 
       /* QR Code Styles */
       .qr-code {
-        display: flex;
-        justify-content: center;
-        margin-top: 15px;
+        margin: 0 auto;
+        display: block;
+        margin-bottom: 10px;
       }
       .qr-code img {
         width: 100px; /* Adjust the size as needed */
@@ -229,21 +230,25 @@
         </div>
 
         <div class="link-box">
-          <p>
-            REFERRAL LINK (BUY):
-            <a class="link" href="https://whatnot.com/invite/echo_x_era"
-              >HTTPS://WHATNOT.COM/INVITE/ECHO_X_ERA</a
-            >
-          </p>
-          <div class="qr-code" id="qr-buy"></div>
           <!-- QR Code for BUY link -->
           <p>
-            REFERRAL LINK (SELL):
-            <a class="link" href="https://whatnot.com/invite/seller/echo_x_era"
-              >HTTPS://WHATNOT.COM/INVITE/SELLER/ECHO_X_ERA</a
-            >
+            REFERRAL LINK (BUY):
+            <!-- <a class="link" href="https://whatnot.com/invite/echo_x_era"
+              >HTTPS://WHATNOT.COM/INVITE/ECHO_X_ERA</a
+            > -->
           </p>
-          <div class="qr-code" id="qr-sell"></div>
+          <canvas class="qr-code" id="qr-buy"></canvas>
+          <!-- Updated to canvas -->
+          <!-- QR Code for SELL link -->
+          <p>
+            REFERRAL LINK (SELL):
+            <!-- <a class="link" href="https://whatnot.com/invite/seller/echo_x_era"
+              >HTTPS://WHATNOT.COM/INVITE/SELLER/ECHO_X_ERA</a
+            > -->
+          </p>
+          <canvas class="qr-code" id="qr-sell"></canvas>
+          <!-- Updated to canvas -->
+
           <!-- QR Code for SELL link -->
           <p>COUPON CODE: <span class="link">SAVEFIVE</span></p>
         </div>
@@ -265,7 +270,7 @@
             <a href="talkflare.html" class="button">TALK FLARE</a>
             <a href="dj.html" class="button">AUTO HOST</a>
             <a href="countdown.html" class="button">COUNTDOWN</a>
-            <a href="#" class="button">TRACKER</a>
+            <a href="qrcodes.html" class="button">QR CODES</a>
           </div>
         </div>
       </div>
@@ -283,7 +288,13 @@
         value: "https://whatnot.com/invite/seller/echo_x_era",
         size: 100, // QR code size
       });
-
+      const generateQRCode = (message, element) => {
+        const qr = new QRious({
+          element: document.getElementById(element),
+          value: message,
+          size: 100, // QR code size
+        });
+      };
       function copyToClipboard(text) {
         var dummy = document.createElement("textarea");
         document.body.appendChild(dummy);
