@@ -320,6 +320,23 @@
           }
         }
       });
+      // s for start music
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "s") {
+          if (!musicPlaying) {
+            music.play();
+            musicButton.innerText = "Stop Music";
+            danceFloor.classList.add("pulse-effect");
+            randomizeBackground();
+          } else {
+            music.pause();
+            musicButton.innerText = "Start Music";
+            danceFloor.classList.remove("pulse-effect");
+            clearInterval(randomBackgroundInterval);
+          }
+          musicPlaying = !musicPlaying;
+        }
+      });
     </script>
   </body>
 </html>
