@@ -12,7 +12,7 @@
         color: #333; /* Dark text for readability */
         margin: 0;
         padding: 0;
-        height: 100vh;
+        height: 100%;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -135,6 +135,10 @@
         pointer-events: none;
       }
 
+      .spacer {
+        height: 200px;
+      }
+
       @media (max-width: 768px) {
         #dance-floor {
           width: 70vw;
@@ -147,6 +151,7 @@
     <canvas id="particles"></canvas>
     <div class="party-container">
       <div id="dance-floor"></div>
+      <div class="spacer"></div>
       <button id="toggle-music">Start Music</button>
       <br />
       <label for="volume-control">Volume:</label>
