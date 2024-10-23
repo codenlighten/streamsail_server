@@ -72,127 +72,99 @@
     <title>TalkFlare - Room Interaction Assistant</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
-
-      :root {
-        --primary-color: #57c1a5;
-        --primary-dark: #45a088;
-        --primary-light: #7ed2bd;
-        --secondary-color: #5c7aff;
-        --background-start: #e6f7f2;
-        --background-end: #f0f8ff;
-        --text-color: #2c3e50;
-      }
-
+      /* Global Styles */
       body {
-        font-family: "Poppins", sans-serif;
-        background: linear-gradient(
-          135deg,
-          var(--background-start),
-          var(--background-end)
-        );
+        font-family: "Arial", sans-serif;
+        background-color: #f1f3f6;
+        margin: 0;
+        padding: 0;
+        color: #333;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
         min-height: 100vh;
-        color: var(--text-color);
+        position: relative; /* Ensure the body can position children correctly */
       }
 
+      /* Container to center content */
       .container {
-        max-width: 1200px;
+        width: 90%;
+        max-width: 800px;
+        padding: 20px;
+        box-sizing: border-box;
+        text-align: center;
+        background-color: #fff;
+        border-radius: 10px;
+        border: 2px solid black;
+        box-shadow: 0 0 10px rgba(87, 193, 165, 0.5);
       }
 
-      .card {
-        background: rgba(255, 255, 255, 0.8);
-        backdrop-filter: blur(10px);
-        border-radius: 1rem;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      /* User controls positioned at the bottom of the screen */
+      .user-controls {
+        position: fixed; /* Changed to fixed */
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%); /* Center horizontally */
+        width: auto; /* Set width to auto for better alignment */
+        display: flex;
+        justify-content: center;
+        gap: 10px; /* Add some space between buttons */
       }
 
-      .card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1),
-          0 4px 6px rgba(0, 0, 0, 0.08);
-      }
-
-      h1,
-      h2 {
-        color: var(--primary-color);
-      }
-
+      /* Primary Button Style */
       .btn {
-        transition: all 0.3s ease;
-        background-color: var(--primary-color);
-        border: none;
+        background-color: #36464e;
         color: white;
-        font-weight: 600;
-        padding: 0.75rem 1.5rem;
-        border-radius: 0.5rem;
+        border-radius: 5px;
+        padding: 10px 20px;
+        text-align: center;
+        font-size: 0.9rem;
+        font-weight: bold;
+        border: 2px solid white;
         cursor: pointer;
-        box-shadow: 0 4px 6px rgba(87, 193, 165, 0.3);
+        transition: background-color 0.3s ease;
       }
 
       .btn:hover {
-        background-color: var(--primary-dark);
-        transform: translateY(-2px);
-        box-shadow: 0 7px 14px rgba(87, 193, 165, 0.4);
+        background-color: #57c1a5;
       }
 
-      .btn:active {
-        transform: translateY(1px);
-      }
-
+      /* Input Field Style */
       input[type="text"],
       input[type="password"],
       textarea,
       select {
-        transition: all 0.3s ease;
-        border: 2px solid #e5e7eb;
-        border-radius: 0.5rem;
-        padding: 0.75rem 1rem;
         width: 100%;
-        font-size: 1rem;
-        color: var(--text-color);
-        background-color: #f9fafb;
+        padding: 10px;
+        font-size: 0.9rem;
+        border-radius: 5px;
+        border: 2px solid white;
+        margin-bottom: 20px;
       }
 
-      input[type="text"]:focus,
-      input[type="password"]:focus,
-      textarea:focus,
-      select:focus {
-        outline: none;
-        border-color: var(--primary-color);
-        box-shadow: 0 0 0 3px rgba(87, 193, 165, 0.2);
-      }
-
-      @keyframes gradient {
-        0% {
-          background-position: 0% 50%;
-        }
-        50% {
-          background-position: 100% 50%;
-        }
-        100% {
-          background-position: 0% 50%;
-        }
-      }
-
-      body {
-        background-size: 200% 200%;
-        animation: gradient 15s ease infinite;
-      }
-
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(20px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
+      /* Card Design */
       .card {
-        animation: fadeIn 0.5s ease-out;
+        background-color: #fff;
+        box-shadow: 0 0 20px rgba(87, 193, 165, 0.7);
+        border-radius: 10px;
+        padding: 20px;
+      }
+
+      /* Consistent padding and margin for all sections */
+      section,
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      /* Ensure consistency for text and elements */
+      h1,
+      h2,
+      h3,
+      p {
+        margin: 0;
+        padding: 10px 0;
+        color: #333;
       }
     </style>
   </head>
@@ -234,7 +206,6 @@
               placeholder="Type your message here..."
             ></textarea>
           </div>
-          <button id="sendMessage" class="btn w-full">Send</button>
         </div>
 
         <div class="card p-6">
@@ -306,23 +277,16 @@
               placeholder="Enter your OpenAI API key"
             />
           </div>
-          <button id="saveApiKey" class="btn w-full mb-6">Save API Key</button>
-          <div class="mb-6">
-            <label
-              for="roomTheme"
-              class="block text-sm font-medium text-gray-700 mb-2"
-              >Room Theme</label
-            >
-            <textarea
-              id="roomTheme"
-              rows="4"
-              placeholder="Enter the theme of the room"
-            ></textarea>
-          </div>
-          <button id="saveRoomTheme" class="btn w-full">Save Room Theme</button>
         </div>
       </div>
+
+      <div class="user-controls">
+        <button id="sendMessage" class="btn">Send</button>
+        <button id="saveApiKey" class="btn">Save API Key</button>
+        <button id="saveRoomTheme" class="btn">Save Room Theme</button>
+      </div>
     </div>
+
     <script>
       (function () {
         let isFetching = false;
@@ -412,6 +376,7 @@
             "Make sure to follow us so you don’t miss the next game—we’ll have even more prizes, more excitement, and another shot at the grand prize. Thanks to everyone who played tonight—you guys were amazing!",
           ],
         };
+
         const championshipPitches = [
           "Alright, everyone, this is your chance! For just $25, you can get in on the Championship Series Game and compete for some incredible prizes. We’re talking about a $250 Silverback Signed & Authenticated Jersey waiting for the winner! But here’s the twist—you’ve got to decide at each level whether to take your prize or risk it all for more. Spots are limited and they’re going fast, so grab yours now before someone else takes it. Don’t miss out on your shot to win big—jump in the game right now! 🎉🔥🏆",
           "Alright, folks, listen up! For just $25, you could be walking away with some serious bragging rights—oh, and did I mention a $250 Silverback Signed & Authenticated Jersey? That’s right, you could win a piece of sports history while I sit here just trying to make sure my mic doesn’t cut out. But here’s where it gets interesting. At every level, you’ve got to make the big call—do you take the prize in hand and walk away like a champ, or do you throw caution to the wind and risk it all for the big one? Don’t worry, we won’t judge… much. Spots are limited, so grab yours now before someone else snatches it up! Jump in, grab your spot, and let’s see who’s brave enough to go all the way. Because hey, if you’re not risking it, are you even living? 🎤🔥🏅",
@@ -550,7 +515,7 @@
               throw new Error(`HTTP error! status: ${response.status}`);
 
             const blob = await response.blob();
-            const audio = document.getElementById("audio");
+            const audio = document.getElementById("mp3");
             audio.src = URL.createObjectURL(blob);
             audio.play();
           } catch (error) {
@@ -603,10 +568,11 @@
             isFetching = false;
           }
         }
-        // 3 folders for mp3s /thrones_audio general_audio championship_audio
+
+        // Audio sources
         const audioMp3 = document.getElementById("audioMp3");
         const mp3 = document.getElementById("mp3");
-        //9 generals
+
         const generalAudio = [
           "./general_audio/general1.mp3",
           "./general_audio/general2.mp3",
@@ -641,10 +607,9 @@
           "./championship_audio/champion4.mp3",
           "./championship_audio/champion5.mp3",
           "./championship_audio/champion6.mp3",
-          "./championship_audio/champion7.mp3",
           "./championship_audio/champion-slow.mp3",
         ];
-        const puchase = [
+        const purchase = [
           "./purchase_spot_audio/purchase1.mp3",
           "./purchase_spot_audio/purchase2.mp3",
           "./purchase_spot_audio/purchase3.mp3",
@@ -659,6 +624,7 @@
           "./winner_audio/winner5.mp3",
           "./winner_audio/winner6.mp3",
         ];
+
         const populateAudio = (audioArray, category) => {
           audioArray.forEach((audio, index) => {
             const option = document.createElement("option");
@@ -667,11 +633,13 @@
             audioMp3.appendChild(option);
           });
         };
+
         populateAudio(generalAudio, "general");
         populateAudio(thrones, "thrones");
         populateAudio(champions, "champions");
-        populateAudio(puchase, "purchase");
+        populateAudio(purchase, "purchase");
         populateAudio(winner, "winner");
+
         audioMp3.addEventListener("change", () => {
           const audioIndex = audioMp3.value;
           mp3.src = generalAudio[audioIndex];

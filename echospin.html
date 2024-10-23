@@ -21,151 +21,147 @@
     <meta name="robots" content="index, follow" />
     <meta name="theme-color" content="#00ffab" />
     <style>
+      /* Global Styles */
       body {
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        background-color: #f9fafb;
+        font-family: "Arial", sans-serif;
+        background-color: #f1f3f6;
         margin: 0;
         padding: 0;
-        color: #36464e;
-        line-height: 1.6;
+        color: #333;
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
         min-height: 100vh;
       }
 
-      #app {
-        text-align: center;
-        padding: 20px;
-        background-color: #ffffff;
-        border-radius: 10px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      /* Container to center content */
+      .container {
         width: 90%;
-        max-width: 1200px;
+        max-width: 800px;
+        padding: 20px;
+        box-sizing: border-box;
+        text-align: center;
+        background-color: #fff;
+        box-shadow: 0 0 20px rgba(87, 193, 165, 0.7);
+        border-radius: 10px;
+      }
+
+      /* Main content and controls positioning */
+      #main-container {
         display: flex;
         flex-direction: column;
         justify-content: center;
+        align-items: center;
+        min-height: 60vh;
       }
 
-      #title {
-        font-size: 2.5em;
-        font-weight: bold;
-        color: #0bb28a;
-        margin-bottom: 20px;
-        letter-spacing: 1px;
-        text-shadow: 0 0 5px rgba(11, 178, 138, 0.2);
-      }
-
-      #main-container {
-        display: block;
-        margin-top: 20px;
-        flex-wrap: wrap;
-      }
-
-      #spinner-container {
+      /* User controls positioned at the bottom of the screen */
+      .user-controls {
+        position: absolute;
+        bottom: 20px;
+        left: 0;
+        right: 0;
         width: 100%;
         display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 10px;
-        margin-bottom: 20px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        border-radius: 10px;
-        background-color: #f9fafb;
+        justify-content: center;
       }
 
+      /* Primary Button Style */
+      .button {
+        background-color: #36464e;
+        color: white;
+        border-radius: 5px;
+        padding: 10px 20px;
+        text-align: center;
+        font-size: 0.9rem;
+        font-weight: bold;
+        border: 2px solid white;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      .button:hover {
+        background-color: #57c1a5;
+      }
+
+      /* Input Field Style */
+      input {
+        width: 100%;
+        padding: 10px;
+        font-size: 0.9rem;
+        border-radius: 5px;
+        border: 2px solid white;
+        margin-bottom: 20px;
+      }
+
+      /* Card Design */
+      .card {
+        background-color: #f1f3f6;
+        box-shadow: 0 0 20px rgba(87, 193, 165, 0.7);
+        border-radius: 10px;
+        padding: 20px;
+      }
+
+      /* Consistent padding and margin for all sections */
+      section,
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      /* Heading and text styling */
+      h1,
+      h2,
+      h3,
+      p {
+        margin: 0;
+        padding: 10px 0;
+        color: #333;
+      }
+
+      /* Styling for form feedback */
+      #feedback {
+        color: #57c1a5;
+        font-size: 1.1em;
+        margin-top: 10px;
+      }
+
+      /* Spinner wheel style */
       .roulette-wheel {
         width: 300px;
         height: 300px;
         border: 8px solid #36464e;
         border-radius: 50%;
+        box-shadow: 0 4px 10px rgba(87, 193, 165, 0.7);
         background: conic-gradient(
           #36464e 0% 25%,
           #ffffff 25% 50%,
-          #0bb28a 50% 75%,
+          #57c1a5 50% 75%,
           #ffffff 75% 100%
         );
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        position: relative;
       }
 
-      .arrow {
-        position: absolute;
-        top: -40px;
-        width: 0;
-        height: 0;
-        border-left: 20px solid transparent;
-        border-right: 20px solid transparent;
-        border-bottom: 40px solid #0bb28a;
-        filter: drop-shadow(0 0 5px #0bb28a);
-      }
-
+      /* Styling for result display */
       .result-display {
-        margin-top: 20px;
         font-size: 1.5em;
         font-weight: bold;
-        color: #0bb28a;
-      }
-
-      button {
+        color: #57c1a5;
         margin-top: 20px;
-        padding: 12px 24px;
-        font-size: 1.1em;
-        color: #ffffff;
-        background-color: #36464e;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-        transition: background-color 0.3s ease, transform 0.2s ease;
       }
 
-      button:hover {
-        background-color: #0bb28a;
-        transform: translateY(-2px);
-      }
-
-      #input-container {
-        margin-top: 20px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-      }
-
-      #name-input {
-        padding: 10px;
-        font-size: 1em;
-        width: 80%;
-        max-width: 300px;
-        border: 2px solid #36464e;
-        border-radius: 5px;
-        margin-bottom: 10px;
-      }
-
-      #add-button {
-        padding: 10px 20px;
-        font-size: 1.1em;
-        color: #ffffff;
-        background-color: #0bb28a;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-      }
-
+      /* Participant List Style */
       #participant-list {
         list-style-type: none;
         padding: 0;
         font-size: 1.2em;
         margin-top: 20px;
         width: 100%;
-        color: #36464e;
-        display: flex;
-        flex-direction: column;
+        color: #333;
       }
 
       #participant-list li {
         padding: 10px;
-        border: 1px solid #0bb28a;
+        border: 1px solid #57c1a5;
         border-radius: 5px;
         margin-bottom: 10px;
         background-color: #f4f4f4;
@@ -173,16 +169,16 @@
       }
 
       #participant-list li.active {
-        background-color: #0bb28a;
-        color: #fff;
+        background-color: #57c1a5;
+        color: white;
         transform: scale(1.05);
       }
-
-      #feedback {
-        color: #0bb28a;
-        margin-top: 10px;
-        font-size: 1.1em;
-        text-align: center;
+      #title {
+        font-size: 2.5rem;
+        font-weight: 900;
+        text-transform: uppercase;
+        margin-bottom: 15px;
+        color: #36464e;
       }
     </style>
   </head>

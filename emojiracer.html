@@ -58,143 +58,102 @@
       content="black-translucent"
     />
     <style>
+      /* Global Styles */
       body {
-        font-family: "Poppins", Arial, sans-serif;
-        text-align: center;
+        font-family: "Arial", sans-serif;
+        background-color: #f1f3f6;
         margin: 0;
         padding: 0;
-        background-color: #1b1b1b; /* Dark theme background */
-        color: #f9f9f9;
-        background-image: radial-gradient(circle, #0bb28a, #1b1b1b);
-        background-size: cover;
-        overflow: hidden;
-      }
-
-      h1 {
-        color: #0bb28a; /* Main color */
-        font-size: 3rem;
-        margin-top: 20px;
-        text-shadow: 0 0 10px #0bb28a, 0 0 20px #ff00ff;
-        letter-spacing: 3px;
-        text-transform: uppercase;
-      }
-
-      .track {
+        color: #333;
         display: flex;
-        justify-content: space-between;
-        margin: 20px auto;
-        width: 90%;
-        max-width: 500px;
-        border: 2px solid #333;
-        padding: 10px;
-        background-color: #333; /* Dark track background */
-        border-radius: 10px;
-        box-shadow: 0 0 15px rgba(11, 178, 138, 0.6); /* Glowing track effect */
-      }
-
-      .player {
-        display: flex;
+        flex-direction: column;
+        justify-content: center;
         align-items: center;
-        margin-bottom: 15px;
+        min-height: 100vh;
       }
 
-      .emoji {
-        font-size: 3rem;
-        margin-right: 15px;
-        transition: transform 0.3s ease;
-      }
-
-      .emoji:hover {
-        transform: scale(1.3);
-        animation: glow 1.5s infinite alternate;
-      }
-
-      @keyframes glow {
-        0% {
-          text-shadow: 0 0 10px #0bb28a, 0 0 20px #ff00ff;
-        }
-        100% {
-          text-shadow: 0 0 20px #0bb28a, 0 0 40px #ff00ff;
-        }
-      }
-
-      .track-line {
-        display: block;
-        width: 100%;
-        height: 8px;
-        background-color: #666; /* Darker gray for the track */
-        position: relative;
-        margin-left: 15px;
-        border-radius: 4px;
-        overflow: hidden;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
-      }
-
-      .progress {
-        background-color: #0bb28a; /* Main color for progress */
-        height: 100%;
-        position: absolute;
-        transition: width 0.3s ease;
-        box-shadow: 0 0 15px rgba(11, 178, 138, 0.6);
-      }
-
-      button {
-        padding: 15px 30px;
-        font-size: 1.5rem;
-        margin-top: 30px;
-        border: none;
+      /* Main content container */
+      .container {
+        width: 90%;
+        max-width: 800px;
+        padding: 20px;
+        box-sizing: border-box;
+        text-align: center;
+        background-color: #fff;
+        box-shadow: 0 0 20px rgba(87, 193, 165, 0.7);
         border-radius: 10px;
-        background-color: #0bb28a; /* Main color */
+        margin: auto;
+      }
+
+      /* Centered heading styles */
+      h1,
+      h2,
+      h3 {
+        color: #333;
+        padding: 10px 0;
+      }
+
+      /* Button Styles */
+      .button {
+        background-color: #36464e;
         color: white;
-        cursor: pointer;
-        transition: background-color 0.3s ease, box-shadow 0.3s ease;
-        text-transform: uppercase;
-        box-shadow: 0 0 15px rgba(11, 178, 138, 0.7);
-      }
-
-      button:disabled {
-        background-color: #555;
-        cursor: not-allowed;
-        box-shadow: none;
-      }
-
-      button:hover:not(:disabled) {
-        background-color: #089c7a; /* Darker shade of main color */
-        box-shadow: 0 0 25px rgba(8, 156, 122, 0.8);
-        transform: scale(1.05);
-      }
-
-      #playerForm {
-        margin-bottom: 25px;
-      }
-
-      #playerForm input {
-        padding: 12px;
-        font-size: 18px;
-        margin-right: 15px;
         border-radius: 5px;
-        border: 1px solid #0bb28a;
-        background-color: #333;
-        color: #fff;
-        box-shadow: 0 0 10px rgba(11, 178, 138, 0.6);
+        padding: 10px 20px;
+        font-size: 1rem;
+        font-weight: bold;
+        border: 2px solid white;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      .button:hover {
+        background-color: #57c1a5;
+      }
+
+      /* Input Field Styles */
+      input {
+        width: 100%;
+        padding: 10px;
+        font-size: 1rem;
+        border-radius: 5px;
+        border: 2px solid white;
+        margin-bottom: 20px;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(87, 193, 165, 0.7);
         outline: none;
-        transition: box-shadow 0.3s ease;
       }
 
-      #playerForm input:focus {
-        box-shadow: 0 0 20px rgba(11, 178, 138, 0.8);
+      /* User controls positioned at the bottom */
+      .user-controls {
+        position: absolute;
+        bottom: 20px;
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: center;
+        padding: 0 20px;
       }
 
-      /* Leaderboard Styles */
-      .leaderboard {
-        margin-top: 30px;
+      /* Card Design */
+      .card {
+        background-color: #f1f3f6;
+        box-shadow: 0 0 20px rgba(87, 193, 165, 0.7);
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
       }
 
-      .leaderboard h2 {
-        font-size: 2rem;
-        color: #0bb28a; /* Main color */
-        text-shadow: 0 0 15px rgba(11, 178, 138, 0.7);
-        text-transform: uppercase;
+      /* Consistent padding and margin for all sections */
+      section,
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      /* Leaderboard and other sections */
+      .leaderboard h2,
+      .leaderboard ul {
+        color: #333;
+        text-align: center;
       }
 
       .leaderboard ul {
@@ -205,189 +164,71 @@
       .leaderboard li {
         font-size: 1.5rem;
         margin: 10px 0;
-        color: #fff;
-        text-shadow: 0 0 10px #0bb28a;
+        color: #333;
       }
-
-      #logo {
+      /* Track Line Styles */
+      .track-line {
         display: block;
-        margin: 20px auto;
-        width: 120px;
-        height: 120px;
-        border-radius: 50%;
-        box-shadow: 0 0 15px rgba(11, 178, 138, 0.6);
-        animation: spin 4s linear infinite;
+        width: 100%;
+        height: 8px;
+        background-color: #d1d3d4; /* Lighter gray for the track to contrast the progress */
+        position: relative;
+        margin-left: 15px;
+        border-radius: 4px;
+        overflow: hidden;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Subtle shadow for better visibility */
       }
 
-      @keyframes spin {
-        from {
-          transform: rotate(0deg);
-        }
-        to {
-          transform: rotate(360deg);
-        }
+      /* Progress Bar Styles */
+      .progress {
+        background-color: #57c1a5; /* Accent color for progress */
+        height: 100%;
+        position: absolute;
+        transition: width 0.3s ease;
+        box-shadow: 0 0 15px rgba(87, 193, 165, 0.7); /* Glowing progress effect */
+        border-radius: 4px;
       }
-
+      #title {
+        font-size: 3rem;
+        font-weight: 900;
+        text-transform: uppercase;
+        margin-bottom: 15px;
+        color: #36464e;
+      }
+      .emoji {
+        font-size: 2rem;
+        margin-right: 10px;
+      }
+      /* Adjust media queries for responsiveness */
       @media (max-width: 768px) {
         h1 {
           font-size: 2.5rem;
         }
 
-        button {
+        .button {
           padding: 12px 24px;
           font-size: 1.2rem;
         }
 
-        .emoji {
-          font-size: 2.5rem;
+        input {
+          padding: 8px;
+          font-size: 0.9rem;
         }
+      }
 
-        .track {
-          width: 100%;
-        }
+      /* Ensure the main content is centered vertically and horizontally */
+      .container,
+      .card {
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
       }
     </style>
-
-    <!-- 
-    <style>
-      body {
-        font-family: "Poppins", Arial, sans-serif;
-        text-align: center;
-        margin: 0;
-        padding: 0;
-        background-color: #1b1b1b; /* Dark theme background */
-        color: #f9f9f9;
-      }
-
-      h1 {
-        color: #0bb28a; /* Main color */
-        font-size: 3rem;
-        margin-top: 20px;
-        text-shadow: 2px 2px 8px rgba(11, 178, 138, 0.7); /* Glowing effect using main color */
-      }
-
-      .track {
-        display: flex;
-        justify-content: space-between;
-        margin: 20px auto;
-        width: 90%;
-        max-width: 500px;
-        border: 2px solid #333;
-        padding: 10px;
-        background-color: #333; /* Dark track background */
-        border-radius: 10px;
-        box-shadow: 0 0 15px rgba(11, 178, 138, 0.6); /* Glowing track effect using main color */
-      }
-
-      .player {
-        display: flex;
-        align-items: center;
-        margin-bottom: 15px;
-      }
-
-      .emoji {
-        font-size: 2.5rem;
-        margin-right: 15px;
-      }
-
-      .track-line {
-        display: block;
-        width: 100%;
-        height: 8px;
-        background-color: #666; /* Darker gray for the track */
-        position: relative;
-        margin-left: 15px;
-        border-radius: 4px;
-        overflow: hidden;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
-      }
-
-      .progress {
-        background-color: #0bb28a; /* Main color for progress */
-        height: 100%;
-        position: absolute;
-        transition: width 0.3s ease;
-      }
-
-      button {
-        padding: 12px 24px;
-        font-size: 18px;
-        margin-top: 20px;
-        border: none;
-        border-radius: 5px;
-        background-color: #0bb28a; /* Main color */
-        color: white;
-        cursor: pointer;
-        transition: background-color 0.3s ease, box-shadow 0.3s ease;
-        box-shadow: 0 4px 10px rgba(11, 178, 138, 0.6);
-      }
-
-      button:disabled {
-        background-color: #555;
-        cursor: not-allowed;
-        box-shadow: none;
-      }
-
-      button:hover:not(:disabled) {
-        background-color: #089c7a; /* Darker shade of main color */
-        box-shadow: 0 6px 12px rgba(8, 156, 122, 0.8);
-      }
-
-      #playerForm {
-        margin-bottom: 25px;
-      }
-
-      #playerForm input {
-        padding: 10px;
-        font-size: 16px;
-        margin-right: 10px;
-        border-radius: 5px;
-        border: 1px solid #ccc;
-        background-color: #333;
-        color: #fff;
-      }
-
-      /* Leaderboard Styles */
-      .leaderboard {
-        margin-top: 30px;
-      }
-
-      .leaderboard h2 {
-        font-size: 2rem;
-        color: #0bb28a; /* Main color */
-        text-shadow: 1px 1px 5px rgba(11, 178, 138, 0.7);
-      }
-
-      .leaderboard ul {
-        list-style-type: none;
-        padding: 0;
-      }
-
-      .leaderboard li {
-        font-size: 1.4rem;
-        margin: 10px 0;
-        color: #fff;
-      }
-      #logo {
-        display: block;
-        margin: 0 auto;
-        margin-top: 20px;
-        border-radius: 50%;
-        box-shadow: 0 0 15px rgba(11, 178, 138, 0.6);
-      }
-    </style> -->
   </head>
   <body>
-    <!-- logo -->
-    <img
-      id="logo"
-      src="https://plugins.whatsonchain.com/api/plugin/main/915b1510ef9ae326212a83871949279df504e7dc66fc19c6f608feef2ca64eb4"
-      alt="logo"
-      width="100px"
-      height="100px"
-    />
-    <h1>Emoji Race Game</h1>
-
+    <h1 id="title">Emoji Race Game</h1>
     <div id="playerForm">
       <input type="text" id="playerName" placeholder="Enter player name" />
       <button id="addPlayer">Add Player</button>

@@ -3,27 +3,19 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Enhanced JavaScript Animations</title>
+    <title>Whatnot Live Stream Dashboard</title>
     <style>
       body {
         font-family: Arial, sans-serif;
+        background-color: #f1f3f6;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        position: relative;
+        height: 100vh;
         display: flex;
         justify-content: center;
         align-items: center;
-        flex-direction: column;
-        height: 100vh;
-        margin: 0;
-        background-color: #f0f0f0;
-        overflow: hidden;
-      }
-
-      h1 {
-        margin-bottom: 20px;
-        color: #333;
-      }
-
-      .container {
-        text-align: center;
       }
 
       .box {
@@ -33,6 +25,7 @@
         display: none;
         margin: 10px auto;
         border-radius: 8px;
+        position: relative;
       }
 
       #bounceBox {
@@ -47,26 +40,78 @@
         background-color: gold;
       }
 
-      button {
+      .dashboard {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: #36464e;
+        padding: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 1000;
+      }
+
+      .dashboard button {
         padding: 10px 20px;
         margin: 5px;
         border: none;
         border-radius: 4px;
-        background-color: #007bff;
+        background-color: #57c1a5;
         color: white;
         cursor: pointer;
-        transition: background-color 0.3s;
+        transition: background-color 0.3s, transform 0.2s;
       }
 
-      button:hover {
-        background-color: #0056b3;
+      .dashboard button:hover {
+        background-color: #3ea78b;
+        transform: scale(1.05);
+      }
+
+      /* Spot availability styling */
+      .spot-tracker {
+        display: flex;
+        flex-wrap: wrap;
+        max-width: 300px;
+        margin: 10px auto;
+      }
+
+      .spot {
+        width: 50px;
+        height: 50px;
+        background-color: #d3d3d3;
+        margin: 5px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        font-size: 1.2em;
+        color: black;
+        cursor: pointer;
+      }
+
+      .spot.taken {
+        background-color: #f54242;
+        color: white;
+        cursor: not-allowed;
       }
     </style>
   </head>
   <body>
-    <h1>JavaScript Animations Demo</h1>
+    <!-- Animation Boxes (Hidden by Default) -->
+    <div id="fadeBox" class="box"></div>
+    <div id="bounceBox" class="box"></div>
+    <div id="slideBox" class="box"></div>
+    <div id="rotateBox" class="box"></div>
 
-    <div class="container">
+    <!-- Spot Availability Tracker -->
+    <div class="spot-tracker" id="spotTracker">
+      <!-- Spots will be generated dynamically -->
+    </div>
+
+    <!-- Dashboard at the Bottom -->
+    <div class="dashboard">
       <button onclick="createConfetti()">Show Confetti</button>
       <button onclick="fadeIn(document.getElementById('fadeBox'), 1500)">
         Fade In Box
@@ -84,15 +129,11 @@
       >
         Rotate Box
       </button>
+      <button onclick="markSpot(25)">Mark Spot 25</button>
     </div>
 
-    <div id="fadeBox" class="box"></div>
-    <div id="bounceBox" class="box"></div>
-    <div id="slideBox" class="box"></div>
-    <div id="rotateBox" class="box"></div>
-
     <script>
-      // Confetti Animation
+      // Confetti Animation (unchanged from your version)
       function createConfetti() {
         const confettiContainer = document.createElement("div");
         confettiContainer.style.position = "fixed";
@@ -148,7 +189,7 @@
         animation.onfinish = () => confetti.remove();
       }
 
-      // Fade In Animation
+      // Fade In Animation (unchanged)
       function fadeIn(element, duration = 1000) {
         element.style.opacity = 0;
         element.style.display = "block";
@@ -166,23 +207,26 @@
         tick();
       }
 
-      // Bounce Animation
+      // Bounce Animation (unchanged)
       function bounceElement(element, height = 100, duration = 1500) {
-        element.style.position = "relative";
-        const keyframes = [
-          { transform: "translateY(0)" },
-          { transform: `translateY(${height}px)` },
-          { transform: "translateY(0)" },
-        ];
-        element.animate(keyframes, {
-          duration: duration,
-          iterations: Infinity,
-          easing: "ease-in-out",
-        });
+        element.style.display = "block";
+        element.animate(
+          [
+            { transform: "translateY(0)" },
+            { transform: `translateY(${height}px)` },
+            { transform: "translateY(0)" },
+          ],
+          {
+            duration: duration,
+            iterations: Infinity,
+            easing: "ease-in-out",
+          }
+        );
       }
 
-      // Slide In Animation
+      // Slide In Animation (unchanged)
       function slideIn(element, duration = 1000) {
+        element.style.display = "block";
         element.style.position = "absolute";
         element.style.left = "-100%";
         element.style.transition = `left ${duration}ms ease-in-out`;
@@ -192,8 +236,9 @@
         }, 100);
       }
 
-      // Rotate Animation
+      // Rotate Animation (unchanged)
       function rotateElement(element, duration = 2000) {
+        element.style.display = "block";
         const keyframes = [
           { transform: "rotate(0deg)" },
           { transform: "rotate(360deg)" },
@@ -204,6 +249,33 @@
           easing: "linear",
         });
       }
+
+      // Spot Availability Tracker
+      function generateSpots() {
+        const spotTracker = document.getElementById("spotTracker");
+        for (let i = 1; i <= 50; i++) {
+          const spot = document.createElement("div");
+          spot.classList.add("spot");
+          spot.textContent = i;
+          spot.dataset.spotId = i;
+          spot.onclick = () => markSpot(i);
+          spotTracker.appendChild(spot);
+        }
+      }
+
+      function markSpot(spotId) {
+        const spot = document.querySelector(`[data-spot-id='${spotId}']`);
+        if (!spot.classList.contains("taken")) {
+          spot.classList.add("taken");
+        } else {
+          alert("Spot already taken!");
+        }
+      }
+
+      // Initialize Spots on Page Load
+      window.onload = () => {
+        generateSpots();
+      };
     </script>
   </body>
 </html>

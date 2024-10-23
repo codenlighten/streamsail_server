@@ -49,71 +49,113 @@
     <!-- onchain matterjs -->
     <script src="https://plugins.whatsonchain.com/api/plugin/main/b31497a752772a8f9fdfab066fd0cdb0980a1e1150221e1b8ee4e88427f2e16b"></script>
     <style>
+      /* Global Styles */
       body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f4f4;
+        font-family: "Arial", sans-serif;
+        background-color: #f1f3f6;
         margin: 0;
         padding: 0;
+        color: #333;
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
-        height: 100vh;
+        min-height: 100vh;
       }
 
-      #app {
+      /* Container to center content */
+      .container {
+        width: 90%;
+        max-width: 800px;
+        padding: 20px;
+        box-sizing: border-box;
         text-align: center;
-        width: 80%;
+        background-color: #fff;
+        box-shadow: 0 0 20px rgba(87, 193, 165, 0.7);
+        border-radius: 10px;
       }
 
-      #game-container {
-        margin: 20px auto;
-        position: relative;
-        width: 500px;
-        height: 700px;
-        border: 2px solid #57c1a5;
-      }
-
-      #plinko-board {
-        width: 100%;
-        height: 100%;
-      }
-
-      button {
-        padding: 10px 20px;
-        font-size: 18px;
-        background-color: #57c1a5;
-        color: white;
-        border: none;
-        cursor: pointer;
-        margin: 10px;
-      }
-
-      button:hover {
-        background-color: #4a9c7d;
-      }
-
-      #scoreboard {
-        margin-top: 20px;
-        font-size: 24px;
-      }
-
-      .confetti {
+      /* User controls positioned at the bottom of the screen */
+      .user-controls {
         position: absolute;
-        left: 50%;
-        top: 50%;
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        background-color: red;
-        animation: confetti 1s linear infinite;
+        bottom: 20px;
+        left: 0;
+        right: 0;
+        width: 100%;
+        display: flex;
+        justify-content: center;
       }
 
-      @keyframes confetti {
-        0% {
-          transform: translateY(0) translateX(0);
-        }
-        100% {
-          transform: translateY(200px) translateX(200px);
+      /* Primary Button Style */
+      .button {
+        background-color: #36464e;
+        color: white;
+        border-radius: 5px;
+        padding: 10px 20px;
+        text-align: center;
+        font-size: 0.9rem;
+        font-weight: bold;
+        border: 2px solid white;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      .button:hover {
+        background-color: #57c1a5;
+      }
+
+      /* Input Field Style */
+      input,
+      textarea,
+      select {
+        width: 100%;
+        padding: 10px;
+        font-size: 0.9rem;
+        border-radius: 5px;
+        border: 2px solid white;
+        margin-bottom: 20px;
+        box-sizing: border-box;
+      }
+
+      /* Card Design */
+      .card {
+        background-color: #f1f3f6;
+        box-shadow: 0 0 20px rgba(87, 193, 165, 0.7);
+        border-radius: 10px;
+        padding: 20px;
+      }
+
+      /* Consistent padding and margin for all sections */
+      section,
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      /* Ensure consistency for text and elements */
+      h1,
+      h2,
+      h3,
+      p {
+        margin: 0;
+        padding: 10px 0;
+        color: #333;
+      }
+
+      /* Accent Color for Highlights */
+      .accent {
+        color: #57c1a5;
+      }
+
+      /* Subtle shadows for buttons and cards */
+      .shadow {
+        box-shadow: 0 0 10px rgba(87, 193, 165, 0.5);
+      }
+
+      /* Responsiveness */
+      @media (max-width: 768px) {
+        .container {
+          width: 100%;
+          padding: 10px;
         }
       }
     </style>

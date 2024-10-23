@@ -32,14 +32,14 @@
     />
     <style>
       body {
-        font-family: "Arial", sans-serif;
+        font-family: "Roboto", sans-serif;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         min-height: 100%;
-        background-color: #f1f3f6;
-        color: #333;
+        background: linear-gradient(120deg, #0b1e17, #062922);
+        color: #f0f0f0;
         margin: 0;
         padding: 20px;
         transition: background 0.3s ease, color 0.3s ease;
@@ -53,8 +53,8 @@
 
       #title {
         font-size: 3rem;
-        color: #36464e;
-        text-shadow: 0 0 10px #36464e, 0 0 20px #57c1a5;
+        color: #ffcc00;
+        text-shadow: 0 0 10px #ffcc00, 0 0 20px #ff00ff;
         letter-spacing: 2px;
         text-transform: uppercase;
         animation: titleGlow 2s infinite alternate;
@@ -62,10 +62,10 @@
 
       @keyframes titleGlow {
         0% {
-          text-shadow: 0 0 10px #36464e, 0 0 20px #57c1a5;
+          text-shadow: 0 0 10px #ffcc00, 0 0 20px #ff00ff;
         }
         100% {
-          text-shadow: 0 0 20px #36464e, 0 0 40px #57c1a5;
+          text-shadow: 0 0 20px #ffcc00, 0 0 40px #ff00ff;
         }
       }
 
@@ -83,7 +83,7 @@
       #congratulations-text {
         font-size: 2.5rem;
         font-weight: bold;
-        color: #57c1a5;
+        color: #ffcc00;
         text-align: center;
         margin-bottom: 20px;
         visibility: hidden;
@@ -96,9 +96,9 @@
         justify-content: center;
         max-width: 900px;
         padding: 20px;
-        background-color: rgba(255, 255, 255, 0.85);
+        background-color: rgba(12, 65, 58, 0.85);
         border-radius: 20px;
-        box-shadow: 0 0 30px rgba(87, 193, 165, 0.8);
+        box-shadow: 0 0 30px rgba(0, 255, 255, 0.8);
       }
 
       .circle {
@@ -109,8 +109,8 @@
         align-items: center;
         justify-content: center;
         margin: 15px;
-        background-color: #57c1a5;
-        box-shadow: 0 0 15px rgba(87, 193, 165, 0.7);
+        background: linear-gradient(145deg, #0bb28a, #089f78);
+        box-shadow: 0 0 15px rgba(0, 255, 255, 0.7);
         color: #ffffff;
         font-size: 22px;
         font-weight: bold;
@@ -122,11 +122,11 @@
 
       .circle:hover {
         transform: scale(1.2);
-        box-shadow: 0 0 30px rgba(87, 193, 165, 1);
+        box-shadow: 0 0 30px rgba(0, 255, 255, 1);
       }
 
       .circle.taken {
-        background-color: #d9534f;
+        background: linear-gradient(145deg, #d9534f, #a94442);
         box-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
         cursor: not-allowed;
       }
@@ -163,13 +163,13 @@
 
       #theme-toggle {
         margin-bottom: 20px;
-        text-shadow: 0 0 10px rgba(87, 193, 165, 0.3);
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
       }
 
       #game-settings label,
       #game-settings select {
-        color: #333;
-        text-shadow: 0 0 5px rgba(87, 193, 165, 0.5);
+        color: #fff;
+        text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
       }
 
       #start-game {
@@ -177,32 +177,30 @@
         font-size: 1.2rem;
         border: none;
         border-radius: 10px;
-        background-color: #36464e;
-        color: #f1f3f6;
+        background-color: #ffcc00;
+        color: #000;
         cursor: pointer;
         transition: background-color 0.3s ease, transform 0.3s ease;
-        box-shadow: 0 0 15px rgba(87, 193, 165, 0.7);
+        box-shadow: 0 0 15px rgba(255, 255, 0, 0.7);
       }
 
       #start-game:hover {
-        background-color: #57c1a5;
+        background-color: #e6b800;
         transform: scale(1.1);
       }
 
       #start-game:active {
-        background-color: #45a48d;
+        background-color: #ccb200;
         transform: scale(0.98);
       }
 
       #dancingman {
         display: none;
       }
-
       .circle.chaser {
-        background-color: #ffd700;
+        background: linear-gradient(145deg, #ffd700, #ffcc00);
         box-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
       }
-
       .spacer2 {
         height: 200px;
       }
@@ -258,10 +256,6 @@
     <canvas id="chaser-effect"></canvas>
     <div class="spacer"></div>
     <div id="game-settings">
-      <p id="showKeyboadShortcuts">
-        Press "i" to increase spacer height and "d" to decrease spacer height.
-        Press "g" to start the game.
-      </p>
       <label for="number-of-spots">Select the number of spots:</label>
       <select id="number-of-spots">
         <option value="25">25 Spots (2 Chasers)</option>
@@ -272,7 +266,10 @@
       <button id="start-game">Start Game</button>
     </div>
     <audio id="winner-sound">
-      <source src="./general_audio/airhorn.mp3" type="audio/mpeg" />
+      <source
+        src="https://plugins.whatsonchain.com/api/plugin/main/b2b08de6e69598572c0fe4a5ae7501da21c81c47d9d5fce297739b8ff32f5022/0"
+        type="audio/mpeg"
+      />
       Your browser does not support the audio element.
     </audio>
     <script>
@@ -571,19 +568,6 @@
             document.getElementById("start-game").click();
           }
         });
-
-        //reset game
-        document.addEventListener("keydown", function (event) {
-          if (event.key === "r") {
-            document.querySelectorAll(".circle").forEach((circle) => {
-              circle.classList.remove("taken");
-              circle.classList.remove("chaser");
-            });
-            document.getElementById("congratulations-text").textContent = "";
-            document.getElementById("dancingman").style.display = "none";
-          }
-        });
-
         // Initial confetti animation
         triggerConfetti(confettiCanvas);
         //start with 50 spots

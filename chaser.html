@@ -7,7 +7,7 @@
     <title>Echo X Live Card Break - Pick Your Spot & Unlock a Chaser!</title>
     <style>
       body {
-        font-family: "Roboto", sans-serif;
+        font-family: "Arial", sans-serif;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -16,11 +16,13 @@
         margin: 0;
         padding: 20px;
         transition: background 0.3s ease, color 0.3s ease;
+        background-color: #f1f3f6;
+        color: #333;
       }
 
       body.light-mode {
-        background: #ffffff;
-        color: #000000;
+        background: #f1f3f6;
+        color: #333;
       }
 
       body.dark-mode {
@@ -36,8 +38,8 @@
 
       #title {
         font-size: 2.5rem;
-        color: #089f78;
-        text-shadow: 0 0 10px #000, 0 0 20px #0bb28a;
+        color: #57c1a5;
+        text-shadow: 0 0 10px #36464e;
         letter-spacing: 2px;
         text-transform: uppercase;
         animation: titleGlow 2s infinite alternate;
@@ -45,10 +47,10 @@
 
       @keyframes titleGlow {
         0% {
-          text-shadow: 0 0 10px #ffcc00, 0 0 20px #ff00ff;
+          text-shadow: 0 0 10px #36464e, 0 0 20px #57c1a5;
         }
         100% {
-          text-shadow: 0 0 20px #ffcc00, 0 0 40px #ff00ff;
+          text-shadow: 0 0 20px #36464e, 0 0 40px #57c1a5;
         }
       }
 
@@ -68,7 +70,7 @@
         padding: 20px;
         background-color: rgba(12, 65, 58, 0.85);
         border-radius: 20px;
-        box-shadow: 0 0 30px rgba(0, 255, 255, 0.8);
+        box-shadow: 0 0 30px rgba(87, 193, 165, 0.7);
       }
 
       .circle {
@@ -79,8 +81,8 @@
         align-items: center;
         justify-content: center;
         margin: 15px;
-        background: linear-gradient(145deg, #0bb28a, #089f78);
-        box-shadow: 0 0 15px rgba(0, 255, 255, 0.7);
+        background: linear-gradient(145deg, #57c1a5, #36464e);
+        box-shadow: 0 0 15px rgba(87, 193, 165, 0.7);
         color: #ffffff;
         font-size: 22px;
         font-weight: bold;
@@ -92,7 +94,7 @@
 
       .circle:hover {
         transform: scale(1.2);
-        box-shadow: 0 0 30px rgba(0, 255, 255, 1);
+        box-shadow: 0 0 30px rgba(87, 193, 165, 1);
       }
 
       .circle.taken {
@@ -124,15 +126,15 @@
         font-size: 1rem;
         border: none;
         border-radius: 5px;
-        background-color: #ffcc00;
-        color: #000;
+        background-color: #36464e;
+        color: #fff;
         cursor: pointer;
         transition: background-color 0.3s ease, transform 0.3s ease;
         margin-top: 10px;
       }
 
       #start-game:hover {
-        background-color: #e6b800;
+        background-color: #57c1a5;
         transform: scale(1.05);
       }
 
