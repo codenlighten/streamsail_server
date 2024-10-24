@@ -251,26 +251,37 @@
 
     <script>
       function validateInputs() {
-        const inputs = {
-          cogs: document.getElementById("cogs"),
-          spots: document.getElementById("spots"),
-          shipping: document.getElementById("shipping"),
-          platform: document.getElementById("platform"),
-          profit: document.getElementById("profit"),
-        };
-
         let isValid = true;
 
-        for (const [key, input] of Object.entries(inputs)) {
-          const error = document.getElementById(`${key}Error`);
-          const value = parseFloat(input.value);
+        // Validate COGS
+        const cogs = document.getElementById("cogs").value;
+        if (cogs === "" || parseFloat(cogs) <= 0) {
+          document.getElementById("cogsError").style.display = "block";
+          isValid = false;
+        } else {
+          document.getElementById("cogsError").style.display = "none";
+        }
 
-          if (isNaN(value) || value < 0 || (key === "spots" && value < 1)) {
-            error.style.display = "block";
-            isValid = false;
-          } else {
-            error.style.display = "none";
-          }
+        // Validate Number of Spots
+        const spots = document.getElementById("spots").value;
+        if (spots === "" || parseInt(spots) <= 0) {
+          document.getElementById("spotsError").style.display = "block";
+          isValid = false;
+        } else {
+          document.getElementById("spotsError").style.display = "none";
+        }
+
+        // Validate Desired Profit
+        const profit = document.getElementById("profit").value;
+        if (
+          profit === "" ||
+          parseFloat(profit) < 0 ||
+          parseFloat(profit) > 100
+        ) {
+          document.getElementById("profitError").style.display = "block";
+          isValid = false;
+        } else {
+          document.getElementById("profitError").style.display = "none";
         }
 
         return isValid;
