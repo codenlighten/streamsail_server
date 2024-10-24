@@ -735,12 +735,9 @@ ${summary.openQuestions.map((question) => `- ${question}`).join("\n")}
       let tweetArray = [];
 
       if (this.globalTweets.length === 0) {
-        // Fetch from database if no cached tweets
-        const tweetDocs = await tweets
-          .find()
-          .sort({ timestamp: -1 })
-          .limit(MAX_TWEETS_CACHE)
-          .toArray();
+        let tweetDocs = [];
+        tweetDocs =
+          (await tweets.find({}, { sort: { timestamp: -1 }, limit: 5 })) || [];
 
         tweetArray = tweetDocs.map((doc) => doc.tweet);
       } else {
