@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- Primary Meta Tags -->
+    <title>Echo X Live Card Break - Pick Your Spot & Unlock a Chaser!</title>
+    <meta
+      name="title"
+      content="Echo X Live Card Break - Pick Your Spot & Unlock a Chaser!"
+    />
+    <meta
+      name="description"
+      content="Join the excitement! Pick your spot in the Echo X Live Card Break and unlock special Chaser cards with awesome prizes. Celebrate with confetti and more!"
+    />
+    <meta
+      name="keywords"
+      content="Echo X, card break, chaser cards, collectible cards, live stream, prizes, confetti, card break game"
+    />
+    <meta name="author" content="Your Name or Company" />
+    <meta name="robots" content="index, follow" />
+    <meta name="language" content="English" />
+    <meta name="theme-color" content="#ffcc00" />
+
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      href="https://echoxera.com/wp-content/uploads/2023/10/ECHO-X-ERA-LOGO6.png"
+      type="image/x-icon"
+    />
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100%;
+        background-color: #f1f3f6;
+        color: #333;
+        margin: 0;
+        padding: 20px;
+        transition: background 0.3s ease, color 0.3s ease;
+      }
+
+      h1,
+      p {
+        text-align: center;
+        margin: 0 0 20px;
+      }
+
+      #title {
+        font-size: 3rem;
+        color: #36464e;
+        text-shadow: 0 0 10px #36464e, 0 0 20px #57c1a5;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        animation: titleGlow 2s infinite alternate;
+      }
+
+      @keyframes titleGlow {
+        0% {
+          text-shadow: 0 0 10px #36464e, 0 0 20px #57c1a5;
+        }
+        100% {
+          text-shadow: 0 0 20px #36464e, 0 0 40px #57c1a5;
+        }
+      }
+
+      .description {
+        max-width: 800px;
+        font-size: 1.2rem;
+        line-height: 1.8;
+        color: inherit;
+        margin-bottom: 20px;
+        padding: 0 20px;
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        transition: color 0.3s ease;
+      }
+
+      #congratulations-text {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #57c1a5;
+        text-align: center;
+        margin-bottom: 20px;
+        visibility: hidden;
+        animation: fadeInOut 4s ease-in-out;
+      }
+
+      #circles-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        max-width: 900px;
+        padding: 20px;
+        background-color: rgba(255, 255, 255, 0.85);
+        border-radius: 20px;
+        border: 1px solid #36464e;
+      }
+
+      .circle {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 15px;
+        background-color: #57c1a5;
+        box-shadow: 0 0 15px rgba(87, 193, 165, 0.7);
+        color: #ffffff;
+        font-size: 22px;
+        font-weight: bold;
+        cursor: pointer;
+        user-select: none;
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        animation: bounce 1.5s infinite alternate;
+      }
+
+      .circle:hover {
+        transform: scale(1.2);
+        box-shadow: 0 0 30px rgba(87, 193, 165, 1);
+      }
+
+      .circle.taken {
+        background-color: #d9534f;
+        box-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
+        cursor: not-allowed;
+      }
+
+      @keyframes bounce {
+        0% {
+          transform: translateY(0);
+        }
+        100% {
+          transform: translateY(-5px);
+        }
+      }
+
+      #confetti,
+      #chaser-effect {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 100;
+      }
+
+      canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 100;
+      }
+
+      #theme-toggle {
+        margin-bottom: 20px;
+        text-shadow: 0 0 10px rgba(87, 193, 165, 0.3);
+      }
+
+      #game-settings label,
+      #game-settings select {
+        color: #333;
+        text-shadow: 0 0 5px rgba(87, 193, 165, 0.5);
+      }
+
+      #start-game {
+        padding: 15px 30px;
+        font-size: 1.2rem;
+        border: none;
+        border-radius: 10px;
+        background-color: #36464e;
+        color: #f1f3f6;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+        box-shadow: 0 0 15px rgba(87, 193, 165, 0.7);
+      }
+
+      #start-game:hover {
+        background-color: #57c1a5;
+        transform: scale(1.1);
+      }
+
+      #start-game:active {
+        background-color: #45a48d;
+        transform: scale(0.98);
+      }
+
+      #dancingman {
+        display: none;
+      }
+
+      .circle.chaser {
+        background-color: #ffd700;
+        box-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+      }
+
+      .spacer2 {
+        height: 200px;
+      }
+
+      @media (max-width: 600px) {
+        .circle {
+          width: 50px;
+          height: 50px;
+          font-size: 16px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1 id="title">
+      Echo X Live Card Break - Pick Your Spot & Unlock a Chaser!
+    </h1>
+
+    <div id="theme-toggle">
+      <label for="theme-selector">Choose Theme:</label>
+      <select id="theme-selector">
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+      </select>
+    </div>
+
+    <p class="description">
+      Select any circle to reserve your spot in tonight’s card break! Each pick
+      adds excitement and a chance to discover something special.
+    </p>
+    <p class="description">
+      Pick a regular card and enjoy the celebration with vibrant, falling
+      confetti!
+    </p>
+    <p class="description">
+      If you're lucky enough to choose a Chaser card, get ready for a golden
+      explosion of confetti and an extra-special celebration as you unlock a
+      prize!
+    </p>
+
+    <div id="dancingman">
+      <!-- dancer.gif -->
+      <img
+        src="https://plugins.whatsonchain.com/api/plugin/main/302d9dffc12e423ef674bca13af7824ba8704873cade40741c7a937cde56bb6b"
+        style="width: 100px; height: 100px; z-index: 100"
+      />
+    </div>
+    <div class="spacer2"></div>
+    <div id="congratulations-text"></div>
+
+    <div id="circles-container"></div>
+    <canvas id="confetti"></canvas>
+    <canvas id="chaser-effect"></canvas>
+    <div class="spacer"></div>
+    <div id="game-settings">
+      <p id="showKeyboadShortcuts">
+        Press "i" to increase spacer height and "d" to decrease spacer height.
+        Press "g" to start the game.
+      </p>
+      <label for="number-of-spots">Select the number of spots:</label>
+      <select id="number-of-spots">
+        <option value="25">25 Spots (2 Chasers)</option>
+        <option value="50">50 Spots (4 Chasers)</option>
+        <option value="75">75 Spots (6 Chasers)</option>
+        <option value="100">100 Spots (8 Chasers)</option>
+      </select>
+      <button id="start-game">Start Game</button>
+    </div>
+    <audio id="winner-sound">
+      <source src="./general_audio/airhorn.mp3" type="audio/mpeg" />
+      Your browser does not support the audio element.
+    </audio>
+    <script>
+      // DOMContentLoaded
+      document.addEventListener("DOMContentLoaded", function () {
+        // Get Chaser Count based on number of spots
+        function getChaserCount(spots) {
+          switch (spots) {
+            case 25:
+              return 2;
+            case 50:
+              return 4;
+            case 75:
+              return 6;
+            case 100:
+              return 8;
+            default:
+              return 4;
+          }
+        }
+
+        // Get random chaser indices based on the number of spots and chasers
+        function getRandomChaserIndices(spots, chaserCount) {
+          const indices = [];
+          const chaserTypes = ["A", "B", "C", "D", "E", "F", "G", "H"];
+          while (indices.length < chaserCount) {
+            const randomIndex = Math.floor(Math.random() * spots) + 1;
+            if (!indices.some((chaser) => chaser.index === randomIndex)) {
+              indices.push({
+                index: randomIndex,
+                type: chaserTypes[indices.length],
+              });
+            }
+          }
+          return indices;
+        }
+
+        // Confetti piece constructor and behavior
+        function createConfettiPiece(canvas) {
+          const piece = {};
+          piece.x = Math.random() * canvas.width;
+          piece.y = Math.random() * -canvas.height;
+          piece.size = Math.random() * 6 + 4;
+          piece.speedY = Math.random() * 3 + 2;
+          piece.color = `hsl(${Math.random() * 360}, 100%, 50%)`;
+          piece.rotation = Math.random() * 360;
+
+          piece.update = function (ctx) {
+            this.y += this.speedY;
+            this.rotation += this.speedY;
+            if (this.y > canvas.height) {
+              this.reset(canvas);
+            }
+            ctx.fillStyle = this.color;
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fill();
+          };
+
+          piece.reset = function (canvas) {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * -canvas.height;
+          };
+
+          return piece;
+        }
+
+        // Theme change logic
+        function applyTheme(theme) {
+          if (theme === "dark") {
+            document.body.classList.add("dark-mode");
+          } else {
+            document.body.classList.remove("dark-mode");
+          }
+        }
+
+        // Toggle standalone mode
+        function toggleStandaloneMode() {
+          const elementsToHide = document.querySelectorAll(
+            "#theme-toggle, .description,  #title"
+          );
+          const isStandalone =
+            document.body.classList.toggle("standalone-mode");
+
+          elementsToHide.forEach((element) => {
+            element.style.display = isStandalone ? "none" : "block";
+          });
+        }
+
+        // Event listener for "s" key to activate standalone mode
+        document.addEventListener("keydown", function (event) {
+          if (event.key === "s") {
+            toggleStandaloneMode();
+          }
+        });
+
+        // Clear circles and render new ones based on the number of spots
+        function renderCircles(
+          container,
+          numberOfSpots,
+          chaserIndices,
+          confettiCanvas,
+          congratulationsText
+        ) {
+          container.innerHTML = ""; // Clear previous circles
+
+          for (let i = 1; i <= numberOfSpots; i++) {
+            const circle = document.createElement("div");
+            circle.classList.add("circle");
+            circle.textContent = i;
+            const chaserData = chaserIndices.find(
+              (chaser) => chaser.index === i
+            );
+            if (chaserData) {
+              circle.dataset.chaser = chaserData.type;
+            }
+            circle.addEventListener("click", function () {
+              if (!circle.classList.contains("taken")) {
+                markCircleAsTaken(circle, confettiCanvas, congratulationsText);
+              }
+            });
+            container.appendChild(circle);
+          }
+        }
+
+        // Mark circle as taken and trigger effects
+        function markCircleAsTaken(
+          circle,
+          confettiCanvas,
+          congratulationsText
+        ) {
+          circle.classList.add("taken");
+          if (circle.dataset.chaser) {
+            triggerChaserEffect(
+              circle.dataset.chaser,
+              confettiCanvas,
+              congratulationsText
+            );
+          } else {
+            triggerConfetti(confettiCanvas);
+          }
+        }
+
+        // Show animated congratulations text
+        function showCongratulationsText(congratulationsText, chaserType) {
+          congratulationsText.textContent = `Congratulations! You picked Chaser ${chaserType}!`;
+          congratulationsText.style.visibility = "visible";
+          setTimeout(() => {
+            congratulationsText.style.visibility = "hidden";
+          }, 4000);
+        }
+
+        // Trigger confetti effect
+        function triggerConfetti(confettiCanvas) {
+          const ctx = confettiCanvas.getContext("2d");
+          const pieces = [];
+
+          confettiCanvas.style.display = "block";
+          confettiCanvas.width = window.innerWidth;
+          confettiCanvas.height = window.innerHeight;
+
+          for (let i = 0; i < 150; i++) {
+            pieces.push(createConfettiPiece(confettiCanvas));
+          }
+
+          function update() {
+            ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+            pieces.forEach((piece) => piece.update(ctx));
+            requestAnimationFrame(update);
+          }
+
+          update();
+          setTimeout(() => {
+            ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+            confettiCanvas.style.display = "none";
+          }, 5000);
+        }
+
+        function markCircleAsTaken(
+          circle,
+          confettiCanvas,
+          congratulationsText
+        ) {
+          circle.classList.add("taken");
+          if (circle.dataset.chaser) {
+            circle.classList.add("chaser");
+            triggerChaserEffect(
+              circle.dataset.chaser,
+              confettiCanvas,
+              congratulationsText
+            );
+          } else {
+            triggerConfetti(confettiCanvas);
+          }
+        }
+
+        // Modified triggerChaserEffect function
+        function triggerChaserEffect(
+          chaserType,
+          confettiCanvas,
+          congratulationsText
+        ) {
+          const chaserCanvas = document.getElementById("chaser-effect");
+          const chaserCtx = chaserCanvas.getContext("2d");
+          let chaserAlpha = 1;
+
+          chaserCanvas.width = window.innerWidth;
+          chaserCanvas.height = window.innerHeight;
+
+          function updateChaserEffect() {
+            chaserCtx.clearRect(0, 0, chaserCanvas.width, chaserCanvas.height);
+            chaserCtx.fillStyle = `rgba(255, 215, 0, ${chaserAlpha})`; // Golden color
+            chaserCtx.fillRect(0, 0, chaserCanvas.width, chaserCanvas.height);
+            chaserAlpha -= 0.01;
+            if (chaserAlpha > 0) {
+              requestAnimationFrame(updateChaserEffect);
+            } else {
+              chaserCtx.clearRect(
+                0,
+                0,
+                chaserCanvas.width,
+                chaserCanvas.height
+              );
+            }
+          }
+
+          updateChaserEffect();
+          triggerConfetti(confettiCanvas); // Additional confetti for chaser
+          showCongratulationsText(congratulationsText, chaserType);
+          const winnerSound = document.getElementById("winner-sound");
+          winnerSound.play();
+          const dancingMan = document.getElementById("dancingman");
+          dancingMan.style.display = "block";
+          setTimeout(() => {
+            dancingMan.style.display = "none";
+          }, 5000);
+        }
+
+        const container = document.getElementById("circles-container");
+        const congratulationsText = document.getElementById(
+          "congratulations-text"
+        );
+        const startGameButton = document.getElementById("start-game");
+        const spotsDropdown = document.getElementById("number-of-spots");
+        const themeSelector = document.getElementById("theme-selector");
+        const confettiCanvas = document.getElementById("confetti");
+        if (!confettiCanvas) {
+          console.error("Confetti canvas not found");
+          return;
+        }
+
+        themeSelector.addEventListener("change", function () {
+          applyTheme(themeSelector.value);
+        });
+
+        startGameButton.addEventListener("click", function () {
+          console.log("Game started!");
+          const numberOfSpots = parseInt(spotsDropdown.value);
+          const chaserCount = getChaserCount(numberOfSpots);
+          const chaserIndices = getRandomChaserIndices(
+            numberOfSpots,
+            chaserCount
+          );
+
+          renderCircles(
+            container,
+            numberOfSpots,
+            chaserIndices,
+            confettiCanvas,
+            congratulationsText
+          );
+        });
+        let spacerheight = 20;
+        //i for increase spacer height and d for decrease spacer height
+        document.addEventListener("keydown", function (event) {
+          if (event.key === "i") {
+            spacerheight += 10;
+            document.querySelectorAll(".spacer").forEach((spacer) => {
+              spacer.style.height = spacerheight + "px";
+            });
+          } else if (event.key === "d") {
+            spacerheight -= 10;
+            document.querySelectorAll(".spacer").forEach((spacer) => {
+              spacer.style.height = spacerheight + "px";
+            });
+          }
+        });
+
+        //automatically start with 300px spacer height
+        document.querySelectorAll(".spacer").forEach((spacer) => {
+          spacer.style.height = 300 + "px";
+        });
+        //listen for g to start the game
+        document.addEventListener("keydown", function (event) {
+          if (event.key === "g") {
+            document.getElementById("start-game").click();
+          }
+        });
+
+        //reset game
+        document.addEventListener("keydown", function (event) {
+          if (event.key === "r") {
+            document.querySelectorAll(".circle").forEach((circle) => {
+              circle.classList.remove("taken");
+              circle.classList.remove("chaser");
+            });
+            document.getElementById("congratulations-text").textContent = "";
+            document.getElementById("dancingman").style.display = "none";
+          }
+        });
+
+        // Initial confetti animation
+        triggerConfetti(confettiCanvas);
+        //start with 50 spots
+        toggleStandaloneMode();
+        document.getElementById("number-of-spots").value = "50";
+        document.getElementById("start-game").click();
+      });
+    </script>
+  </body>
+</html>
