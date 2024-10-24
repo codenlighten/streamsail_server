@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Echo X Live - Spinning Message</title>
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        background-color: white;
+        margin: 0;
+        padding: 0;
+        color: black;
+      }
+
+      .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        flex-direction: column;
+      }
+
+      .spin-message {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0) rotate(0deg);
+        font-size: 4rem;
+        font-weight: bold;
+        color: #57c1a5;
+        white-space: nowrap;
+        opacity: 0;
+        transition: all 1s ease-in-out;
+      }
+
+      .spin-message.show {
+        transform: translate(-50%, -50%) scale(1.5) rotate(1440deg);
+        opacity: 1;
+      }
+
+      .input-box {
+        position: fixed;
+        bottom: 20px;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+      }
+
+      input[type="text"] {
+        padding: 15px;
+        width: 70%;
+        font-size: 1.2rem;
+        border-radius: 5px;
+        border: 2px solid #57c1a5;
+        margin-right: 10px;
+        text-align: center;
+        color: #57c1a5;
+      }
+
+      input[type="text"]::placeholder {
+        color: #57c1a5;
+      }
+
+      .button {
+        background-color: #57c1a5;
+        color: white;
+        border-radius: 5px;
+        padding: 15px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        border: 2px solid white;
+      }
+
+      .button:hover {
+        background-color: #45a48d;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div id="spinMessage" class="spin-message">
+        Your message will appear here!
+      </div>
+      <div class="input-box">
+        <input type="text" id="messageInput" placeholder="Enter message" />
+        <button class="button" onclick="showSpinMessage()">
+          Display Message
+        </button>
+      </div>
+    </div>
+
+    <script>
+      function showSpinMessage() {
+        const spinMessage = document.getElementById("spinMessage");
+        const message = document.getElementById("messageInput").value;
+
+        if (message.trim() !== "") {
+          spinMessage.textContent = message;
+          spinMessage.classList.add("show");
+
+          // Hide the message after 5 seconds
+          setTimeout(() => {
+            spinMessage.classList.remove("show");
+          }, 5000);
+        }
+      }
+
+      // Optional: Trigger the message with Enter key
+      document
+        .getElementById("messageInput")
+        .addEventListener("keyup", function (e) {
+          if (e.key === "Enter") {
+            showSpinMessage();
+          }
+        });
+    </script>
+  </body>
+</html>

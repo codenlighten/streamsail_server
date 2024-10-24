@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trash Climb Game Simulator</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        margin: 0;
+        padding: 20px;
+        background-color: #f4f4f4;
+      }
+      .container {
+        max-width: 800px;
+        margin: auto;
+        background: white;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      h1,
+      h2 {
+        color: #333;
+      }
+      #results {
+        margin-top: 20px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        background-color: #f2f2f2;
+      }
+      #runSimulation {
+        background-color: #4caf50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+      }
+      #runSimulation:hover {
+        background-color: #45a049;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Trash Climb Game Simulator</h1>
+      <div>
+        <label for="numSimulations">Number of simulations:</label>
+        <input
+          type="number"
+          id="numSimulations"
+          value="10000"
+          min="1"
+          max="1000000"
+        />
+        <button id="runSimulation">Run Simulation</button>
+      </div>
+      <div id="results"></div>
+    </div>
+
+    <script>
+      const levels = {
+        0: { cards: 3, set: 3 },
+        1: { cards: 5, set: 8 },
+        2: { cards: 4, set: 7 },
+        3: { cards: 3, set: 5 },
+        4: { cards: 2, set: 2 },
+      };
+
+      const cardSets = {
+        0: [
+          { name: "Slick Shawn", effect: "advance" },
+          { name: "Busted Bryan", effect: "stay" },
+          { name: "Chalk Line Charli", effect: "lose" },
+        ],
+        1: [
+          { name: "Dumpster Danny", effect: "advance" },
+          { name: "Grimy Greta", effect: "advance" },
+          { name: "Stale Sally", effect: "stay" },
+          { name: "Moldy Mike", effect: "stay" },
+          { name: "Backwards Benny", effect: "back" },
+          { name: "Rewind Ralph", effect: "back" },
+          { name: "Dumpster Doom", effect: "lose" },
+          { name: "Game Over Greg", effect: "lose" },
+        ],
+        2: [
+          { name: "Rotten Rick", effect: "advance" },
+          { name: "Filthy Fran", effect: "advance" },
+          { name: "Moldy Molly", effect: "stay" },
+          { name: "Sloppy Sue", effect: "stay" },
+          { name: "Sludge Sam", effect: "back" },
+          { name: "Backwards Benny", effect: "back" },
+          { name: "Game Over Greg", effect: "lose" },
+        ],
+        3: [
+          { name: "Trash Can Trap", effect: "lose" },
+          { name: "Trash Heap Hank", effect: "lose" },
+          { name: "Braven the Bold", effect: "win" },
+          { name: "Moldy Marie", effect: "stay" },
+          { name: "Game Over Gus", effect: "lose" },
+        ],
+        4: [
+          { name: "Grand Prize Gary", effect: "win" },
+          { name: "Slimey Samuel", effect: "lose" },
+        ],
+      };
+
+      function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
+        }
+      }
+
+      function simulateGame() {
+        let currentLevel = 1;
+        let levelReached = 1;
+
+        while (true) {
+          const levelData = levels[currentLevel];
+          const cardSet = [...cardSets[currentLevel]];
+          shuffleArray(cardSet);
+          const selectedCards = cardSet.slice(0, levelData.cards);
+
+          for (const card of selectedCards) {
+            if (card.effect === "advance") {
+              currentLevel++;
+              levelReached = Math.max(levelReached, currentLevel);
+              break;
+            } else if (card.effect === "back") {
+              currentLevel = Math.max(0, currentLevel - 1);
+              break;
+            } else if (card.effect === "lose") {
+              return { result: "lose", levelReached };
+            } else if (card.effect === "win") {
+              return { result: "win", levelReached };
+            }
+            // "stay" effect does nothing, continue to next card
+          }
+
+          if (currentLevel >= 5) {
+            return { result: "win", levelReached: 5 };
+          }
+        }
+      }
+
+      function runSimulations(numSimulations) {
+        let wins = 0;
+        let losses = 0;
+        let levelReachedCounts = { 0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+
+        for (let i = 0; i < numSimulations; i++) {
+          const { result, levelReached } = simulateGame();
+          if (result === "win") {
+            wins++;
+          } else {
+            losses++;
+          }
+          levelReachedCounts[levelReached]++;
+        }
+
+        return {
+          wins,
+          losses,
+          levelReachedCounts,
+          totalSimulations: numSimulations,
+        };
+      }
+
+      function displayResults(results) {
+        const resultsDiv = document.getElementById("results");
+        const winRate = (
+          (results.wins / results.totalSimulations) *
+          100
+        ).toFixed(2);
+        const lossRate = (
+          (results.losses / results.totalSimulations) *
+          100
+        ).toFixed(2);
+
+        let html = `
+                <h2>Simulation Results</h2>
+                <p>Total Simulations: ${results.totalSimulations}</p>
+                <p>Wins: ${results.wins} (${winRate}%)</p>
+                <p>Losses: ${results.losses} (${lossRate}%)</p>
+                <h3>Level Progression</h3>
+                <table>
+                    <tr>
+                        <th>Level</th>
+                        <th>Count</th>
+                        <th>Percentage</th>
+                    </tr>
+            `;
+
+        for (let level = 0; level <= 5; level++) {
+          const count = results.levelReachedCounts[level];
+          const percentage = ((count / results.totalSimulations) * 100).toFixed(
+            2
+          );
+          html += `
+                    <tr>
+                        <td>${level}</td>
+                        <td>${count}</td>
+                        <td>${percentage}%</td>
+                    </tr>
+                `;
+        }
+
+        html += "</table>";
+        resultsDiv.innerHTML = html;
+      }
+
+      document.getElementById("runSimulation").addEventListener("click", () => {
+        const numSimulations = parseInt(
+          document.getElementById("numSimulations").value
+        );
+        const results = runSimulations(numSimulations);
+        displayResults(results);
+      });
+    </script>
+  </body>
+</html>

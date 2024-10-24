@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>STREAM DJ</title>
+    <style>
+      /* Global Styles */
+      body {
+        background-color: #f1f3f6;
+        font-family: "Arial", sans-serif;
+        color: #333;
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+        margin-top: 250px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      header {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      h1 {
+        color: #333;
+        font-size: 24px;
+        margin-bottom: 10px;
+      }
+
+      .tabs {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+      }
+
+      .tab-button {
+        background-color: #36464e;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        cursor: pointer;
+        font-size: 1.5rem;
+        border-radius: 5px;
+        flex: 1;
+        margin: 0 5px;
+        transition: background-color 0.3s;
+      }
+
+      .tab-button:hover {
+        background-color: #57c1a5;
+      }
+
+      .tab-content {
+        display: none;
+        flex-wrap: wrap;
+        justify-content: space-between;
+      }
+
+      .audio-column {
+        width: 48%;
+      }
+
+      .audio-control {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+
+      button {
+        background-color: #36464e;
+        color: white;
+        border: none;
+        padding: 10px;
+        margin-right: 10px;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+        font-size: 1.5rem;
+        font-weight: bold;
+      }
+
+      button:hover {
+        background-color: #57c1a5;
+      }
+
+      .slider {
+        flex-grow: 1;
+        appearance: none;
+        height: 8px;
+        border-radius: 5px;
+        background: #ddd;
+        outline: none;
+        margin: 0;
+      }
+
+      .slider::-webkit-slider-thumb {
+        appearance: none;
+        width: 15px;
+        height: 15px;
+        background-color: #57c1a5;
+        border-radius: 50%;
+        cursor: pointer;
+      }
+
+      .slider::-moz-range-thumb {
+        width: 15px;
+        height: 15px;
+        background-color: #57c1a5;
+        border-radius: 50%;
+        cursor: pointer;
+      }
+
+      .active {
+        background-color: #57c1a5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>STREAM DJ</h1>
+      </header>
+
+      <!-- Tabs -->
+      <nav class="tabs">
+        <button class="tab-button" onclick="openTab(event, 'HypeEffects')">
+          HYPE EFFECTS
+        </button>
+        <button class="tab-button" onclick="openTab(event, 'ShowPrompts')">
+          SHOW PROMPTS
+        </button>
+        <button class="tab-button" onclick="openTab(event, 'MemeQuotes')">
+          MEME QUOTES
+        </button>
+        <button class="tab-button" onclick="openTab(event, 'GamePlay')">
+          GAME PLAY
+        </button>
+      </nav>
+
+      <!-- HYPE EFFECTS Tab Content -->
+      <section id="HypeEffects" class="tab-content">
+        <div class="audio-column">
+          <div class="audio-control">
+            <button onclick="playAudio('airhorn')">Airhorn</button>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value="50"
+              class="slider"
+              onchange="adjustVolume('airhorn', this.value)"
+            />
+          </div>
+          <div class="audio-control">
+            <button onclick="playAudio('applause')">Applause</button>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value="50"
+              class="slider"
+              onchange="adjustVolume('applause', this.value)"
+            />
+          </div>
+          <div class="audio-control">
+            <button onclick="playAudio('crowd')">Crowd</button>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value="50"
+              class="slider"
+              onchange="adjustVolume('crowd', this.value)"
+            />
+          </div>
+          <div class="audio-control">
+            <button onclick="playAudio('announcer')">Announcer</button>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value="50"
+              class="slider"
+              onchange="adjustVolume('announcer', this.value)"
+            />
+          </div>
+          <div class="audio-control">
+            <button onclick="playAudio('warHorn')">War-Horn</button>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value="50"
+              class="slider"
+              onchange="adjustVolume('warHorn', this.value)"
+            />
+          </div>
+          <div class="audio-control">
+            <button onclick="playAudio('gong')">Gong Strike</button>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value="50"
+              class="slider"
+              onchange="adjustVolume('gong', this.value)"
+            />
+          </div>
+        </div>
+
+        <div class="audio-column">
+          <div class="audio-control">
+            <button onclick="playAudio('sirens')">Sirens</button>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value="50"
+              class="slider"
+              onchange="adjustVolume('sirens', this.value)"
+            />
+          </div>
+          <div class="audio-control">
+            <button onclick="playAudio('explosion')">Explosion</button>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value="50"
+              class="slider"
+              onchange="adjustVolume('explosion', this.value)"
+            />
+          </div>
+          <div class="audio-control">
+            <button onclick="playAudio('whistle')">Ref Whistle</button>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value="50"
+              class="slider"
+              onchange="adjustVolume('whistle', this.value)"
+            />
+          </div>
+          <div class="audio-control">
+            <button onclick="playAudio('scratch')">DJ Scratch</button>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value="50"
+              class="slider"
+              onchange="adjustVolume('scratch', this.value)"
+            />
+          </div>
+          <div class="audio-control">
+            <button onclick="playAudio('heartbeat')">Heartbeat</button>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value="50"
+              class="slider"
+              onchange="adjustVolume('heartbeat', this.value)"
+            />
+          </div>
+          <div class="audio-control">
+            <button onclick="playAudio('drumroll')">Drum Roll</button>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value="50"
+              class="slider"
+              onchange="adjustVolume('drumroll', this.value)"
+            />
+          </div>
+        </div>
+      </section>
+
+      <!-- SHOW PROMPTS Tab Content -->
+      <section id="ShowPrompts" class="tab-content">
+        <div class="audio-column">
+          <div class="audio-control">
+            <button onclick="playAudio('countdown')">Countdown</button>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value="50"
+              class="slider"
+              onchange="adjustVolume('countdown', this.value)"
+            />
+          </div>
+          <div class="audio-control">
+            <button onclick="playAudio('levelUp')">Level-Up</button>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value="50"
+              class="slider"
+              onchange="adjustVolume('levelUp', this.value)"
+            />
+          </div>
+          <div class="audio-control">
+            <button onclick="playAudio('jackpot')">Jackpot</button>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value="50"
+              class="slider"
+              onchange="adjustVolume('jackpot', this.value)"
+            />
+          </div>
+          <div class="audio-control">
+            <button onclick="playAudio('drumroll2')">Drum Roll</button>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value="50"
+              class="slider"
+              onchange="adjustVolume('drumroll2', this.value)"
+            />
+          </div>
+          <div class="audio-control">
+            <button onclick="playAudio('cheering')">Cheering</button>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value="50"
+              class="slider"
+              onchange="adjustVolume('cheering', this.value)"
+            />
+          </div>
+          <div class="audio-control">
+            <button onclick="playAudio('gameOver')">Game Over</button>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value="50"
+              class="slider"
+              onchange="adjustVolume('gameOver', this.value)"
+            />
+          </div>
+        </div>
+
+        <div class="audio-column">
+          <div class="audio-control">
+            <button onclick="playAudio('themeSong')">Theme Song</button>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value="50"
+              class="slider"
+              onchange="adjustVolume('themeSong', this.value)"
+            />
+          </div>
+          <div class="audio-control">
+            <button onclick="playAudio('welcome')">Welcome</button>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value="50"
+              class="slider"
+              onchange="adjustVolume('welcome', this.value)"
+            />
+          </div>
+          <div class="audio-control">
+            <button onclick="playAudio('closing')">Closing</button>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value="50"
+              class="slider"
+              onchange="adjustVolume('closing', this.value)"
+            />
+          </div>
+          <div class="audio-control">
+            <button onclick="playAudio('promo1')">Show Promo 1</button>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value="50"
+              class="slider"
+              onchange="adjustVolume('promo1', this.value)"
+            />
+          </div>
+          <div class="audio-control">
+            <button onclick="playAudio('promo2')">Show Promo 2</button>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value="50"
+              class="slider"
+              onchange="adjustVolume('promo2', this.value)"
+            />
+          </div>
+          <div class="audio-control">
+            <button onclick="playAudio('promo3')">Show Promo 3</button>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value="50"
+              class="slider"
+              onchange="adjustVolume('promo3', this.value)"
+            />
+          </div>
+        </div>
+      </section>
+
+      <!-- MEME QUOTES Tab Content -->
+      <section id="MemeQuotes" class="tab-content">
+        <div class="audio-column">
+          <div class="audio-control">
+            <button onclick="playAudio('liam')">Liam</button>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value="50"
+              class="slider"
+              onchange="adjustVolume('liam', this.value)"
+            />
+          </div>
+          <div class="audio-control">
+            <button onclick="playAudio('liam2')">Liam 2</button>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value="50"
+              class="slider"
+              onchange="adjustVolume('liam2', this.value)"
+            />
+          </div>
+          <div class="audio-control">
+            <button onclick="playAudio('liam3')">Liam 3</button>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value="50"
+              class="slider"
+              onchange="adjustVolume('liam3', this.value)"
+            />
+          </div>
+          <div class="audio-control">
+            <button onclick="playAudio('bussey')">Bussey</button>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value="50"
+              class="slider"
+              onchange="adjustVolume('bussey', this.value)"
+            />
+          </div>
+          <div class="audio-control">
+            <button onclick="playAudio('bussey2')">Bussey 2</button>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value="50"
+              class="slider"
+              onchange="adjustVolume('bussey2', this.value)"
+            />
+          </div>
+          <div class="audio-control">
+            <button onclick="playAudio('bussey3')">Bussey 3</button>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value="50"
+              class="slider"
+              onchange="adjustVolume('bussey3', this.value)"
+            />
+          </div>
+        </div>
+
+        <div class="audio-column">
+          <div class="audio-control">
+            <button onclick="playAudio('cartman')">Cartman</button>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value="50"
+              class="slider"
+              onchange="adjustVolume('cartman', this.value)"
+            />
+          </div>
+          <!-- Additional buttons could be added or disabled with a similar structure -->
+        </div>
+      </section>
+
+      <!-- GAME PLAY Tab Content -->
+      <section id="GamePlay" class="tab-content">
+        <div class="audio-column">
+          <div class="audio-control">
+            <button disabled>X</button>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value="50"
+              class="slider"
+              disabled
+            />
+          </div>
+          <!-- Additional game play controls would go here -->
+        </div>
+
+        <div class="audio-column">
+          <div class="audio-control">
+            <button disabled>X</button>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value="50"
+              class="slider"
+              disabled
+            />
+          </div>
+          <!-- Additional game play controls would go here -->
+        </div>
+      </section>
+    </div>
+
+    <!-- Audio Tags -->
+    <audio id="airhorn" src="./sound_effects/airhorn.mp3"></audio>
+    <audio id="applause" src="./sound_effects/applause.mp3"></audio>
+    <audio id="crowd" src="./sound_effects/applause-cheer.mp3"></audio>
+    <audio id="announcer" src="./general_audio/welcomeBack.mp3"></audio>
+    <audio id="warHorn" src="./sound_effects/war-horn-blast-14760.mp3"></audio>
+    <audio
+      id="gong"
+      src="./sound_effects/large-underwater-explosion.mp3"
+    ></audio>
+    <audio id="sirens" src="./sound_effects/alarm.mp3"></audio>
+    <audio id="explosion" src="./sound_effects/bomb-blast.mp3"></audio>
+    <audio id="whistle" src="./sound_effects/emp-blast.mp3"></audio>
+    <audio id="scratch" src="./sound_effects/large-rocket-engine.mp3"></audio>
+    <audio id="heartbeat" src="./sound_effects/engine-start.mp3"></audio>
+    <audio
+      id="drumroll"
+      src="./sound_effects/sweet-game-over-sound-effect-230470.mp3"
+    ></audio>
+
+    <script>
+      function openTab(evt, tabName) {
+        var i, tabContent, tabButtons;
+
+        // Hide all tab content
+        tabContent = document.getElementsByClassName("tab-content");
+        for (i = 0; i < tabContent.length; i++) {
+          tabContent[i].style.display = "none";
+        }
+
+        // Remove active class from all buttons
+        tabButtons = document.getElementsByClassName("tab-button");
+        for (i = 0; i < tabButtons.length; i++) {
+          tabButtons[i].classList.remove("active");
+        }
+
+        // Show the clicked tab and mark the button as active
+        document.getElementById(tabName).style.display = "flex";
+        evt.currentTarget.classList.add("active");
+      }
+
+      function playAudio(id) {
+        var audio = document.getElementById(id);
+        audio.play();
+      }
+
+      function adjustVolume(id, value) {
+        var audio = document.getElementById(id);
+        audio.volume = value / 100;
+      }
+      //default to hype effects
+      document.getElementById("HypeEffects").style.display = "flex";
+    </script>
+  </body>
+</html>

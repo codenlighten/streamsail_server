@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EchoBlast - The Dynamic Live Stream Message Tool by EchoXEra</title>
+    <meta
+      name="description"
+      content="EchoBlast by EchoXEra.com is a powerful live stream tool that allows hosts to display messages to their audience in a vibrant, celebratory way with animations, confetti effects, and more."
+    />
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        background-color: #f4f4f9;
+        overflow: hidden;
+      }
+
+      .message-container {
+        display: none;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: rgba(0, 0, 0, 0.8);
+        padding: 20px;
+        border-radius: 10px;
+        color: white;
+        font-size: 2.5rem;
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
+        animation: colorFlash 5s ease-in-out infinite;
+        text-align: center;
+      }
+
+      @keyframes colorFlash {
+        0% {
+          background-color: rgba(0, 0, 0, 0.8);
+        }
+        50% {
+          background-color: #0bb28a;
+        }
+        100% {
+          background-color: rgba(0, 0, 0, 0.8);
+        }
+      }
+
+      .message-text {
+        animation: pulse 0.5s ease-in-out infinite alternate;
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        100% {
+          transform: scale(1.1);
+        }
+      }
+
+      .input-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        background-color: #0bb28a;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      #displayMessage {
+        padding: 10px 20px;
+        font-size: 1rem;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+        background-color: white;
+        color: #0bb28a;
+        margin-left: 10px;
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+
+      #displayMessage:hover {
+        background-color: #089973;
+        color: white;
+      }
+
+      input[type="text"] {
+        padding: 10px;
+        width: 300px;
+        border: 1px solid #089973;
+        border-radius: 5px;
+      }
+
+      input[type="text"]:focus {
+        outline: none;
+        border-color: white;
+      }
+
+      .host-controls {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 10px;
+        background-color: #f4f4f9;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .confetti-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        overflow: hidden;
+      }
+
+      .confetti {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background-color: #f9e935;
+        animation: fall 3s linear infinite;
+      }
+
+      #apikeys,
+      #roomThemeDiv,
+      #autoHost {
+        border: 3px solid #089973;
+        padding: 10px;
+        margin: 10px;
+      }
+
+      #saveApiKey,
+      #saveRoomTheme,
+      #runShow,
+      #stopShow {
+        padding: 10px 20px;
+        font-size: 1rem;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+        background-color: white;
+        color: #0bb28a;
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+
+      #saveApiKey:hover,
+      #saveRoomTheme:hover,
+      #runShow:hover,
+      #stopShow:hover {
+        background-color: #089973;
+        color: white;
+      }
+
+      @keyframes fall {
+        0% {
+          transform: translateY(-10vh) rotate(0);
+        }
+        100% {
+          transform: translateY(110vh) rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="message-container" id="messageContainer">
+      <span id="messageText" class="message-text"></span>
+    </div>
+
+    <div class="confetti-container" id="confettiContainer"></div>
+
+    <div class="input-container">
+      <input
+        type="text"
+        id="messageInput"
+        placeholder="Enter your message here..."
+      />
+      <button id="displayMessage">Display Message</button>
+    </div>
+
+    <!-- Host controls section aligned using flexbox -->
+    <div class="host-controls">
+      <div id="apikeys">
+        <input
+          type="text"
+          id="apiKey"
+          placeholder="Enter your OpenAI API key"
+        />
+        <button id="saveApiKey">Save API Key</button>
+      </div>
+      <div id="roomThemeDiv">
+        <input type="text" id="roomTheme" placeholder="Enter your room theme" />
+        <button id="saveRoomTheme">Save Room Theme</button>
+      </div>
+      <div id="autoHost">
+        <input type="text" id="theme" placeholder="Enter your theme" />
+        <input type="text" id="role" placeholder="Enter your role" />
+        <input type="text" id="context" placeholder="Enter your context" />
+        <button id="runShow">Run Show</button>
+        <button id="stopShow">Stop Show</button>
+      </div>
+    </div>
+
+    <script>
+      const displayMessageButton = document.getElementById("displayMessage");
+      const messageInput = document.getElementById("messageInput");
+      const messageContainer = document.getElementById("messageContainer");
+      const messageText = document.getElementById("messageText");
+      const confettiContainer = document.getElementById("confettiContainer");
+      const saveApiKeyButton = document.getElementById("saveApiKey");
+      const saveRoomThemeButton = document.getElementById("saveRoomTheme");
+      const runShowButton = document.getElementById("runShow");
+      const stopShowButton = document.getElementById("stopShow");
+
+      let interval;
+
+      // Save API Key
+      saveApiKeyButton.addEventListener("click", () => {
+        const apiKey = document.getElementById("apiKey").value.trim();
+        if (!apiKey) {
+          alert("Please enter a valid API key.");
+          return;
+        }
+        localStorage.setItem("apiKey", apiKey);
+        alert("API Key saved successfully!");
+      });
+
+      // Save Room Theme
+      saveRoomThemeButton.addEventListener("click", () => {
+        const roomTheme = document.getElementById("roomTheme").value.trim();
+        if (!roomTheme) {
+          alert("Please enter a room theme.");
+          return;
+        }
+        localStorage.setItem("roomTheme", roomTheme);
+        alert(`Room Theme '${roomTheme}' saved!`);
+      });
+
+      // GPT Interaction (run the show)
+      runShowButton.addEventListener("click", () => {
+        const theme = document.getElementById("theme").value.trim();
+        const role = document.getElementById("role").value.trim();
+        const context = document.getElementById("context").value.trim();
+
+        if (!theme || !role || !context) {
+          alert("Please fill out the theme, role, and context fields.");
+          return;
+        }
+
+        interval = setInterval(async () => {
+          const apiKey = localStorage.getItem("apiKey");
+          const roomTheme = localStorage.getItem("roomTheme") || theme;
+
+          if (!apiKey) {
+            alert("Please save your OpenAI API key first.");
+            clearInterval(interval);
+            return;
+          }
+
+          try {
+            const response = await fetch(
+              "https://api.openai.com/v1/chat/completions",
+              {
+                method: "POST",
+                headers: {
+                  Authorization: `Bearer ${apiKey}`,
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  model: "gpt-3.5-turbo",
+                  messages: [
+                    {
+                      role: "system",
+                      content: `You are a host in the ${roomTheme} room, playing the role of ${role}. Your goal is to engage the audience by providing commentary based on the current context: ${context}.`,
+                    },
+                    {
+                      role: "user",
+                      content: "What's happening right now?",
+                    },
+                  ],
+                }),
+              }
+            );
+
+            const result = await response.json();
+            console.log(result);
+            const gptMessage = result.choices[0].message;
+
+            // Display GPT-generated message
+            messageInput.value = gptMessage;
+            displayMessageButton.click();
+          } catch (error) {
+            console.error("Error fetching GPT message:", error);
+          }
+        }, 30000); // Fetch GPT messages every 30 seconds
+      });
+
+      stopShowButton.addEventListener("click", () => {
+        clearInterval(interval);
+        alert("Show stopped.");
+      });
+
+      // Display message and confetti
+      displayMessageButton.addEventListener("click", () => {
+        const message = messageInput.value.trim();
+        if (!message) return;
+
+        messageText.textContent = message;
+        messageContainer.style.display = "block";
+        messageContainer.style.opacity = 1;
+
+        // Add confetti
+        for (let i = 0; i < 100; i++) {
+          setTimeout(createConfetti, i * 50);
+        }
+
+        setTimeout(() => {
+          messageContainer.style.opacity = 0;
+          setTimeout(() => {
+            messageContainer.style.display = "none";
+          }, 500);
+        }, 5000);
+      });
+
+      function createConfetti() {
+        const confetti = document.createElement("div");
+        confetti.classList.add("confetti");
+        confetti.style.left = `${Math.random() * 100}vw`;
+        confetti.style.backgroundColor = `hsl(${
+          Math.random() * 360
+        }, 100%, 50%)`;
+        confettiContainer.appendChild(confetti);
+
+        setTimeout(() => {
+          confetti.remove();
+        }, 3000);
+      }
+    </script>
+  </body>
+</html>

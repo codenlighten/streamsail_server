@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Echo X Live - EchoDrop Game</title>
+
+    <!-- Meta Tags -->
+    <meta
+      name="description"
+      content="Join the excitement! Play the EchoDrop game and win awesome prizes. Drop the balls, score points, and trigger a confetti explosion!"
+    />
+    <meta
+      name="keywords"
+      content="Echo X, EchoDrop, interactive game, online game, prizes, plinko, fun, blockchain game, win prizes"
+    />
+    <meta name="author" content="EchoX Live" />
+    <meta name="robots" content="index, follow" />
+    <meta name="language" content="English" />
+    <meta name="theme-color" content="#57c1a5" />
+
+    <!-- Open Graph (for social media previews) -->
+    <meta property="og:title" content="EchoDrop Game - Join the Excitement!" />
+    <meta
+      property="og:description"
+      content="Play EchoDrop, an exciting interactive game where you can drop balls, score points, and win amazing prizes! Try your luck and enjoy the fun!"
+    />
+    <meta property="og:image" content="https://echoxera.com/echodrop.webp" />
+    <meta property="og:url" content="https://echoxera.com/echodrop" />
+    <meta property="og:type" content="website" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="EchoDrop Game - Win Amazing Prizes!" />
+    <meta
+      name="twitter:description"
+      content="Play EchoDrop, the thrilling game where you can drop balls, score points, and trigger confetti explosions. Perfect for fun lovers and prize winners!"
+    />
+    <meta name="twitter:image" content="https://echoxlive.com/echodrop.webp" />
+    <meta name="twitter:site" content="@echoxera" />
+
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      href="https://echoxlive.com/echodrop.webp"
+      type="image/webp"
+    />
+
+    <!-- onchain matterjs -->
+    <script src="https://plugins.whatsonchain.com/api/plugin/main/b31497a752772a8f9fdfab066fd0cdb0980a1e1150221e1b8ee4e88427f2e16b"></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+
+      #app {
+        text-align: center;
+        width: 80%;
+      }
+
+      #game-container {
+        margin: 20px auto;
+        position: relative;
+        width: 500px;
+        height: 700px;
+        border: 1px solid #36464e;
+      }
+
+      #plinko-board {
+        width: 100%;
+        height: 100%;
+      }
+
+      button {
+        padding: 10px 20px;
+        font-size: 18px;
+        background-color: #36464e;
+        color: white;
+        border: none;
+        cursor: pointer;
+        margin: 10px;
+      }
+
+      button:hover {
+        background-color: #57c1a5;
+      }
+
+      #scoreboard {
+        margin-top: 20px;
+        font-size: 24px;
+      }
+
+      #baskets {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 20px;
+      }
+
+      .basket {
+        width: 80px;
+        height: 40px;
+        background-color: #57c1a5;
+        border-radius: 20px;
+        text-align: center;
+        line-height: 40px;
+        color: white;
+      }
+
+      .confetti {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: red;
+        animation: confetti 1s linear infinite;
+      }
+
+      @keyframes confetti {
+        0% {
+          transform: translateY(0) translateX(0);
+        }
+        100% {
+          transform: translateY(200px) translateX(200px);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <header>
+        <h1>EchoDrop Game</h1>
+      </header>
+      <main>
+        <div id="game-container">
+          <canvas id="plinko-board"></canvas>
+        </div>
+        <button id="drop-ball">Drop Ball</button>
+        <button id="multi-drop">Drop 5 Balls</button>
+        <div id="scoreboard">Score: 0</div>
+        <div id="baskets">
+          <div class="basket" id="basket1">Prize 1</div>
+          <div class="basket" id="basket2">Prize 2</div>
+          <div class="basket" id="basket3">Prize 3</div>
+          <div class="basket" id="basket4">Prize 4</div>
+          <div class="basket" id="basket5">Prize 5</div>
+        </div>
+      </main>
+    </div>
+    <script>
+      // Set up Matter.js module aliases
+      const Engine = Matter.Engine,
+        Render = Matter.Render,
+        Runner = Matter.Runner,
+        Bodies = Matter.Bodies,
+        Composite = Matter.Composite,
+        Mouse = Matter.Mouse,
+        MouseConstraint = Matter.MouseConstraint,
+        Events = Matter.Events;
+
+      let score = 0;
+
+      // Function to update score
+      const updateScore = (points) => {
+        score += points;
+        document.getElementById("scoreboard").innerText = `Score: ${score}`;
+        if (score >= 100) {
+          // Trigger confetti explosion
+          triggerConfetti();
+        }
+      };
+
+      const triggerConfetti = () => {
+        for (let i = 0; i < 100; i++) {
+          const confetti = document.createElement("div");
+          confetti.classList.add("confetti");
+          confetti.style.left = Math.random() * window.innerWidth + "px";
+          confetti.style.top = Math.random() * window.innerHeight + "px";
+          document.body.appendChild(confetti);
+
+          setTimeout(() => {
+            confetti.remove();
+          }, 2000);
+        }
+      };
+
+      // Add sound effect function
+      const playSound = (url) => {
+        const audio = new Audio(url);
+        audio.play();
+      };
+
+      // Create an engine
+      const engine = Engine.create();
+      const world = engine.world;
+
+      // Create renderer
+      const canvas = document.getElementById("plinko-board");
+      const render = Render.create({
+        canvas: canvas,
+        engine: engine,
+        options: {
+          width: 500,
+          height: 700,
+          wireframes: false,
+          background: "#f4f4f4",
+        },
+      });
+
+      Render.run(render);
+      const runner = Runner.create();
+      Runner.run(runner, engine);
+
+      // Add static ground and walls
+      const ground = Bodies.rectangle(250, 690, 500, 20, { isStatic: true });
+      const leftWall = Bodies.rectangle(5, 350, 10, 700, { isStatic: true });
+      const rightWall = Bodies.rectangle(495, 350, 10, 700, { isStatic: true });
+      Composite.add(world, [ground, leftWall, rightWall]);
+
+      // Create baskets (scoring zones) with random multipliers
+      const createScoringZones = () => {
+        const zoneWidth = 100;
+        const baskets = document.querySelectorAll(".basket");
+
+        baskets.forEach((basket, index) => {
+          const xPosition = 50 + index * 100;
+          const zone = Bodies.rectangle(xPosition, 670, zoneWidth, 20, {
+            isStatic: true,
+            render: { fillStyle: "#ccc" },
+          });
+          Composite.add(world, zone);
+
+          // Assign points based on position
+          const points = (index + 1) * 10;
+
+          Events.on(engine, "collisionStart", (event) => {
+            event.pairs.forEach((pair) => {
+              if (pair.bodyB === zone || pair.bodyA === zone) {
+                updateScore(points);
+                basket.innerText = `Won Prize ${index + 1}`;
+                playSound(
+                  "https://www.soundjay.com/button/sounds/button-09.mp3"
+                ); // Play sound on collision
+              }
+            });
+          });
+        });
+      };
+
+      // Create pegs for the plinko board with staggered rows
+      const createPegs = () => {
+        const pegRadius = 10;
+        const pegRows = 10;
+        const pegCols = 11;
+        const offsetY = 80;
+
+        for (let row = 0; row < pegRows; row++) {
+          for (let col = 0; col < pegCols; col++) {
+            const x = (row % 2 === 0 ? 25 : 50) + col * 45; // Shift odd rows by 25px
+            const y = offsetY + row * 60;
+            const peg = Bodies.circle(x, y, pegRadius, {
+              isStatic: true,
+              render: { fillStyle: "#333" },
+            });
+            Composite.add(world, peg);
+          }
+        }
+      };
+
+      // Add pegs to the board
+      createPegs();
+
+      // Add scoring zones (baskets)
+      createScoringZones();
+
+      // Ball drop logic
+      const dropBall = () => {
+        const randomOffset = Math.random() * 60 - 30; // Random offset between -30 and +30
+        const ball = Bodies.circle(250 + randomOffset, 50, 10, {
+          restitution: 0.6,
+          render: { fillStyle: getRandomColor() },
+        });
+        Composite.add(world, ball);
+      };
+
+      // Drop Ball Logic with Random Offset
+      document.getElementById("drop-ball").addEventListener("click", () => {
+        dropBall();
+      });
+
+      // Multi-ball drop
+      document.getElementById("multi-drop").addEventListener("click", () => {
+        for (let i = 0; i < 5; i++) {
+          setTimeout(() => dropBall(), i * 200); // Drop 5 balls with 200ms intervals
+        }
+      });
+
+      // Add mouse control for interactivity
+      const mouse = Mouse.create(render.canvas);
+      const mouseConstraint = MouseConstraint.create(engine, {
+        mouse: mouse,
+        constraint: {
+          stiffness: 0.2,
+          render: {
+            visible: false,
+          },
+        },
+      });
+      Composite.add(world, mouseConstraint);
+
+      // Generate a random color for each ball drop
+      const getRandomColor = () => {
+        const letters = "0123456789ABCDEF";
+        let color = "#";
+        for (let i = 0; i < 6; i++) {
+          color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+      };
+
+      // Keep the canvas responsive
+      window.addEventListener("resize", () => {
+        render.canvas.width = canvas.clientWidth;
+        render.canvas.height = canvas.clientHeight;
+      });
+    </script>
+  </body>
+</html>

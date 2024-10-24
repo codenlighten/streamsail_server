@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EchoX Spins - Multiple Game Manager</title>
+    <style>
+      /* Global Styles */
+      body {
+        font-family: "Arial", sans-serif;
+        background-color: #f1f3f6;
+        margin: 0;
+        padding: 20px;
+        color: #333;
+        min-height: 100vh;
+      }
+
+      /* Grid Layout */
+      #app {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto auto 1fr;
+        gap: 20px;
+        max-width: 1200px;
+        margin: auto;
+        margin-top: 150px;
+      }
+
+      /* Header Section */
+      #header-section {
+        grid-column: 1 / -1;
+        text-align: center;
+        padding: 20px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      #title {
+        font-size: 2.5rem;
+        font-weight: 900;
+        text-transform: uppercase;
+        margin-bottom: 15px;
+        color: #36464e;
+      }
+
+      /* Game Selection Section */
+      #game-selection {
+        grid-column: 1 / -1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      #game-selector {
+        padding: 10px;
+        font-size: 1.1rem;
+        border: 2px solid #57c1a5;
+        border-radius: 5px;
+      }
+
+      /* Left Column - Player Management */
+      #player-management {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      #input-container {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+
+      #name-input {
+        flex: 1;
+        padding: 10px;
+        font-size: 1rem;
+        border: 2px solid #57c1a5;
+        border-radius: 5px;
+      }
+
+      /* Right Column - Leaderboard */
+      #leaderboard-section {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        font-weight: bold;
+        font-size: 2rem;
+      }
+
+      /* Buttons */
+      button {
+        background-color: #36464e;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: background-color 0.3s ease;
+      }
+
+      button:hover {
+        background-color: #57c1a5;
+      }
+
+      .win-button {
+        background-color: #57c1a5;
+        padding: 8px 15px;
+        font-size: 0.9rem;
+        margin-left: 10px;
+      }
+
+      /* Lists */
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        margin-bottom: 8px;
+        background-color: #f8f9fa;
+        border-radius: 5px;
+        transition: transform 0.2s ease;
+      }
+
+      li:hover {
+        transform: translateY(-2px);
+      }
+
+      /* Status Messages */
+      #result {
+        font-size: 1.2rem;
+        font-style: italic;
+        color: #36464e;
+        margin-bottom: 15px;
+      }
+
+      #feedback {
+        color: #57c1a5;
+        font-size: 0.9rem;
+        height: 20px;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        #app {
+          grid-template-columns: 1fr;
+        }
+
+        #input-container {
+          flex-direction: column;
+        }
+
+        .win-button {
+          margin-left: 0;
+          margin-top: 5px;
+        }
+      }
+    </style>
+    <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <!-- Header Section -->
+      <div id="header-section">
+        <div id="title"></div>
+        <div id="result">Choose a game and add players!</div>
+      </div>
+
+      <!-- Game Selection Section -->
+      <div id="game-selection">
+        <label for="game-selector">Choose a game:</label>
+        <select id="game-selector">
+          <option value="mysterypull">Mystery Pull</option>
+          <option value="dumpsterdive">Dumpster Dive</option>
+          <option value="echodrop">Echo Drop</option>
+          <option value="emojiracer">Emoji Racer</option>
+          <option value="echospins">Echo Spins</option>
+        </select>
+      </div>
+
+      <!-- Player Management Section -->
+      <div id="player-management">
+        <h3>Add Participants</h3>
+        <div id="input-container">
+          <input
+            type="text"
+            id="name-input"
+            placeholder="Enter participant name"
+          />
+          <button id="add-button">Add Name</button>
+        </div>
+        <div id="feedback"></div>
+        <h3>Current Participants</h3>
+        <ul id="participant-list"></ul>
+      </div>
+
+      <!-- Leaderboard Section -->
+      <div id="leaderboard-section">
+        <h3>Leaderboard</h3>
+        <ul id="leaderboard"></ul>
+        <button id="reset-leaderboard">Reset All Data</button>
+      </div>
+    </div>
+
+    <script>
+      const socket = io();
+      let sessionId = null;
+
+      // State management
+      let participants = {
+        mysterypull: [],
+        echospins: [],
+        echodrop: [],
+        emojiracer: [],
+        dumpsterdive: [],
+      };
+      let leaderboard = {};
+
+      // DOM elements
+      const leaderboardElement = document.getElementById("leaderboard");
+      const participantList = document.getElementById("participant-list");
+      const feedback = document.getElementById("feedback");
+      const addButton = document.getElementById("add-button");
+      const nameInput = document.getElementById("name-input");
+      const gameSelector = document.getElementById("game-selector");
+      const resetButton = document.getElementById("reset-leaderboard");
+
+      // Socket event handlers
+      socket.on("sessionInitialized", ({ sessionId: newSessionId, state }) => {
+        sessionId = newSessionId;
+        participants = state;
+        updateParticipantList();
+        updateLeaderboard();
+
+        // Update URL with session ID
+        const url = new URL(window.location);
+        url.searchParams.set("session", sessionId);
+        window.history.pushState({}, "", url);
+      });
+
+      socket.on(
+        "participantsUpdated",
+        ({ game, participants: newParticipants }) => {
+          participants[game].participants = newParticipants;
+          if (gameSelector.value === game) {
+            updateParticipantList();
+          }
+        }
+      );
+
+      socket.on(
+        "leaderboardUpdated",
+        ({ game, leaderboard: newLeaderboard }) => {
+          if (game === gameSelector.value) {
+            leaderboard = newLeaderboard;
+            updateLeaderboard();
+            triggerConfetti();
+          }
+        }
+      );
+
+      socket.on("stateReset", (newState) => {
+        participants = newState;
+        leaderboard = {};
+        document.getElementById("title").innerText = "";
+        updateParticipantList();
+        updateLeaderboard();
+      });
+
+      function updateParticipantList() {
+        participantList.innerHTML = "";
+        const currentGame = gameSelector.value;
+        const gameParticipants = participants[currentGame]?.participants || [];
+
+        gameParticipants.forEach((participant) => {
+          const li = document.createElement("li");
+          const nameSpan = document.createElement("span");
+          const button = document.createElement("button");
+
+          nameSpan.textContent = participant.toUpperCase();
+
+          button.classList.add("win-button");
+          button.textContent = "Add Win";
+          button.addEventListener("click", () => {
+            socket.emit("addWin", {
+              sessionId,
+              game: currentGame,
+              participant,
+            });
+            updateURLWithParams(currentGame, participant);
+          });
+
+          li.appendChild(nameSpan);
+          li.appendChild(button);
+          participantList.appendChild(li);
+        });
+      }
+
+      function updateLeaderboard() {
+        leaderboardElement.innerHTML = "";
+
+        const sortedParticipants = Object.entries(leaderboard).sort(
+          ([, a], [, b]) => b - a
+        );
+
+        sortedParticipants.forEach(([participant, wins]) => {
+          const li = document.createElement("li");
+          li.textContent = `@${participant.toUpperCase()}: ${wins} WIN${
+            wins !== 1 ? "S" : ""
+          }`;
+          leaderboardElement.appendChild(li);
+        });
+      }
+
+      gameSelector.addEventListener("change", () => {
+        const currentGame = gameSelector.value;
+        updateParticipantList();
+
+        // Update title
+        const capitalizeGame =
+          currentGame.charAt(0).toUpperCase() + currentGame.slice(1);
+        document.getElementById("title").innerText = capitalizeGame;
+
+        // Fetch game-specific leaderboard
+        socket.emit("getGameLeaderboard", {
+          sessionId,
+          game: currentGame,
+        });
+      });
+
+      addButton.addEventListener("click", () => {
+        const newName = nameInput.value.trim();
+        const currentGame = gameSelector.value;
+
+        if (newName && sessionId) {
+          socket.emit("addParticipant", {
+            sessionId,
+            game: currentGame,
+            name: newName,
+          });
+          nameInput.value = "";
+          feedback.textContent = `${newName} added to ${currentGame}!`;
+          setTimeout(() => (feedback.textContent = ""), 2000);
+        }
+      });
+
+      resetButton.addEventListener("click", () => {
+        if (
+          confirm(
+            "Are you sure you want to reset all data? This cannot be undone."
+          )
+        ) {
+          socket.emit("resetData", { sessionId });
+        }
+      });
+
+      function triggerConfetti() {
+        confetti({
+          particleCount: 150,
+          spread: 70,
+          origin: { y: 0.6 },
+        });
+      }
+
+      function updateURLWithParams(game, name) {
+        const url = new URL(window.location);
+        url.searchParams.set("game", game);
+        url.searchParams.set("name", name);
+        url.searchParams.set("session", sessionId);
+        window.history.pushState({}, "", url);
+      }
+
+      function checkURLParams() {
+        const params = new URLSearchParams(window.location.search);
+        const game = params.get("game");
+        const name = params.get("name");
+        const session = params.get("session");
+
+        if (session) {
+          sessionId = session;
+        }
+
+        if (sessionId && game && name) {
+          socket.emit("addWin", {
+            sessionId,
+            game,
+            participant: name,
+          });
+        }
+      }
+
+      // Initialize
+      const capitalizeGame =
+        gameSelector.value.charAt(0).toUpperCase() +
+        gameSelector.value.slice(1);
+      document.getElementById("title").innerText = capitalizeGame;
+
+      nameInput.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") {
+          addButton.click();
+        }
+      });
+
+      // Try to recover session from URL
+      const params = new URLSearchParams(window.location.search);
+      const savedSession = params.get("session");
+      if (savedSession) {
+        socket.emit("recoverSession", { sessionId: savedSession });
+      }
+
+      // Check URL parameters on load
+      checkURLParams();
+    </script>
+  </body>
+</html>

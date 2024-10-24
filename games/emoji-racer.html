@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Basic Meta Tags -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Play the Emoji Race Game! Pick your favorite emoji and race to victory in this fun, fast-paced online game. Who will cross the finish line first? Join the excitement now!"
+    />
+    <meta
+      name="keywords"
+      content="Emoji race, online game, race game, emoji game, casino theme, fun games, interactive games, multiplayer race"
+    />
+    <meta name="author" content="Your Name" />
+
+    <!-- SEO Meta Tags -->
+    <meta name="robots" content="index, follow" />
+    <meta name="googlebot" content="index, follow" />
+    <link rel="canonical" href="https://web3winner.com" />
+
+    <!-- Open Graph Meta Tags for Social Media (Facebook, LinkedIn, etc.) -->
+    <meta property="og:title" content="Emoji Race Game - Join the Fun!" />
+    <meta
+      property="og:description"
+      content="Get ready for a thrilling race! Choose your emoji and compete with others in this fast-paced, casino-themed race game. Perfect for friends and family."
+    />
+    <meta property="og:image" content="./logoracer.webp" />
+    <meta property="og:url" content="https://web3winner.com" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Emoji Race Game - Who Will Win?" />
+    <meta
+      name="twitter:description"
+      content="Race your favorite emoji and beat your friends in this exciting online game! Perfect for quick, fun competition."
+    />
+    <meta
+      name="twitter:image"
+      content="https://plugins.whatsonchain.com/api/plugin/main/915b1510ef9ae326212a83871949279df504e7dc66fc19c6f608feef2ca64eb4"
+    />
+    <meta name="twitter:site" content="@yourTwitterHandle" />
+
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      href="https://plugins.whatsonchain.com/api/plugin/main/915b1510ef9ae326212a83871949279df504e7dc66fc19c6f608feef2ca64eb4"
+      type="image/x-icon"
+    />
+
+    <!-- Mobile App Capabilities (PWA-like Experience) -->
+    <meta name="theme-color" content="#0bb28a" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <style>
+      /* Global Styles */
+      body {
+        font-family: "Arial", sans-serif;
+        background-color: #f1f3f6;
+        margin: 0;
+        padding: 0;
+        color: #333;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+
+      /* Main content container */
+      .container {
+        width: 90%;
+        max-width: 800px;
+        padding: 20px;
+        box-sizing: border-box;
+        text-align: center;
+        background-color: #fff;
+        box-shadow: 0 0 20px rgba(87, 193, 165, 0.7);
+        border-radius: 10px;
+        margin: auto;
+      }
+
+      /* Centered heading styles */
+      h1,
+      h2,
+      h3 {
+        color: #333;
+        padding: 10px 0;
+      }
+
+      /* Button Styles */
+      .button {
+        background-color: #36464e;
+        color: white;
+        border-radius: 5px;
+        padding: 10px 20px;
+        font-size: 1rem;
+        font-weight: bold;
+        border: 2px solid white;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      .button:hover {
+        background-color: #57c1a5;
+      }
+
+      /* Input Field Styles */
+      input {
+        width: 100%;
+        padding: 10px;
+        font-size: 1rem;
+        border-radius: 5px;
+        border: 2px solid white;
+        margin-bottom: 20px;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(87, 193, 165, 0.7);
+        outline: none;
+      }
+
+      /* User controls positioned at the bottom */
+      .user-controls {
+        position: absolute;
+        bottom: 20px;
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: center;
+        padding: 0 20px;
+      }
+
+      /* Card Design */
+      .card {
+        background-color: #f1f3f6;
+        border: 1px solid #36464e;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+      }
+
+      /* Consistent padding and margin for all sections */
+      section,
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      /* Leaderboard and other sections */
+      .leaderboard h2,
+      .leaderboard ul {
+        color: #333;
+        text-align: center;
+      }
+
+      .leaderboard ul {
+        list-style-type: none;
+        padding: 0;
+      }
+
+      .leaderboard li {
+        font-size: 1.5rem;
+        margin: 10px 0;
+        color: #333;
+      }
+      /* Track Line Styles */
+      .track-line {
+        display: block;
+        width: 100%;
+        height: 8px;
+        background-color: #d1d3d4; /* Lighter gray for the track to contrast the progress */
+        position: relative;
+        margin-left: 15px;
+        border-radius: 4px;
+        overflow: hidden;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Subtle shadow for better visibility */
+      }
+
+      /* Progress Bar Styles */
+      .progress {
+        background-color: #57c1a5; /* Accent color for progress */
+        height: 100%;
+        position: absolute;
+        transition: width 0.3s ease;
+        box-shadow: 0 0 15px rgba(87, 193, 165, 0.7); /* Glowing progress effect */
+        border-radius: 4px;
+      }
+      #title {
+        font-size: 3rem;
+        font-weight: 900;
+        text-transform: uppercase;
+        margin-bottom: 15px;
+        color: #36464e;
+      }
+      .emoji {
+        font-size: 2rem;
+        margin-right: 10px;
+      }
+      /* Adjust media queries for responsiveness */
+      @media (max-width: 768px) {
+        h1 {
+          font-size: 2.5rem;
+        }
+
+        .button {
+          padding: 12px 24px;
+          font-size: 1.2rem;
+        }
+
+        input {
+          padding: 8px;
+          font-size: 0.9rem;
+        }
+      }
+
+      /* Ensure the main content is centered vertically and horizontally */
+      .container,
+      .card {
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 id="title">Emoji Race Game</h1>
+    <div id="playerForm">
+      <input type="text" id="playerName" placeholder="Enter player name" />
+      <button id="addPlayer">Add Player</button>
+    </div>
+
+    <div id="trackContainer"></div>
+
+    <button id="startRace" disabled>Start Race</button>
+
+    <div class="leaderboard" id="leaderboard"></div>
+    <div id="hashes"></div>
+    <script
+      id="sl"
+      src="https://plugins.whatsonchain.com/api/plugin/main/168d796a870dec5cc241dacf140fdbbc2212c9e1ca83614e82914fc42c6d1052"
+    ></script>
+    <script
+      id="gamelogic"
+      src="https://plugins.whatsonchain.com/api/plugin/main/de113965208e0a4a1ff7313c4f108884748021756d73a3a3d5e5f4d2dfa42e01"
+    ></script>
+    <script src="https://plugins.whatsonchain.com/api/plugin/main/d9353da42470bf0888079f3452e70387a0cd55e93a627d86fa3a3db38bfbef92"></script>
+  </body>
+</html>
