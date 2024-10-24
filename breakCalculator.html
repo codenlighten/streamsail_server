@@ -250,100 +250,67 @@
     </div>
 
     <script>
-      function validateInputs() {
-        let isValid = true;
+      // Function to calculate the break-even point, or the price for each slot for breaker to make expected percentage profit
 
-        // Validate COGS
-        const cogs = document.getElementById("cogs").value;
-        if (cogs === "" || parseFloat(cogs) <= 0) {
-          document.getElementById("cogsError").style.display = "block";
-          isValid = false;
+      function calculate() {
+        // Get the form inputs
+        const cogs = parseFloat(document.getElementById("cogs").value);
+        const spots = parseInt(document.getElementById("spots").value);
+        const shipping = parseFloat(document.getElementById("shipping").value);
+        const platform = parseFloat(document.getElementById("platform").value);
+        const profit = parseFloat(document.getElementById("profit").value);
+
+        // Get the error elements
+        const cogsError = document.getElementById("cogsError");
+        const spotsError = document.getElementById("spotsError");
+        const profitError = document.getElementById("profitError");
+
+        // Validate the form inputs
+        let hasErrors = false;
+
+        if (isNaN(cogs) || cogs <= 0) {
+          cogsError.style.display = "block";
+          hasErrors = true;
         } else {
-          document.getElementById("cogsError").style.display = "none";
+          cogsError.style.display = "none";
         }
 
-        // Validate Number of Spots
-        const spots = document.getElementById("spots").value;
-        if (spots === "" || parseInt(spots) <= 0) {
-          document.getElementById("spotsError").style.display = "block";
-          isValid = false;
+        if (isNaN(spots) || spots <= 0) {
+          spotsError.style.display = "block";
+          hasErrors = true;
         } else {
-          document.getElementById("spotsError").style.display = "none";
+          spotsError.style.display = "none";
         }
 
-        // Validate Desired Profit
-        const profit = document.getElementById("profit").value;
-        if (
-          profit === "" ||
-          parseFloat(profit) < 0 ||
-          parseFloat(profit) > 100
-        ) {
-          document.getElementById("profitError").style.display = "block";
-          isValid = false;
+        if (isNaN(profit) || profit < 0 || profit > 100) {
+          profitError.style.display = "block";
+          hasErrors = true;
         } else {
-          document.getElementById("profitError").style.display = "none";
+          profitError.style.display = "none";
         }
 
-        return isValid;
+        if (hasErrors) {
+          return;
+        }
+
+        // Calculate the spot price
+        const totalCost = cogs + shipping * spots + platform;
+        const totalProfit = totalCost * (profit / 100);
+        const totalRevenue = totalCost + totalProfit;
+        const spotPrice = totalRevenue / spots;
+
+        // Display the results
+        document.getElementById("spotPrice").value = spotPrice.toFixed(2);
+        document.getElementById("totalRevenue").value = totalRevenue.toFixed(2);
+        document.getElementById("estimatedProfit").value =
+          totalProfit.toFixed(2);
       }
 
+      // Function to clear the results
       function clearResults() {
         document.getElementById("spotPrice").value = "";
         document.getElementById("totalRevenue").value = "";
         document.getElementById("estimatedProfit").value = "";
-
-        // Hide all error messages
-        const errors = document.getElementsByClassName("error");
-        for (const error of errors) {
-          error.style.display = "none";
-        }
-      }
-
-      function calculate() {
-        if (!validateInputs()) {
-          return;
-        }
-
-        // Get the input values
-        const cogs = parseFloat(document.getElementById("cogs").value);
-        const spots = parseInt(document.getElementById("spots").value);
-        const shippingPerSpot = parseFloat(
-          document.getElementById("shipping").value
-        );
-        const platformFeeTotal = parseFloat(
-          document.getElementById("platform").value
-        );
-        const desiredProfit = parseFloat(
-          document.getElementById("profit").value
-        );
-
-        // Calculate total shipping cost
-        const totalShipping = shippingPerSpot * spots;
-
-        // Calculate the required spot price to achieve the desired profit
-        const spotPrice =
-          (cogs + totalShipping + platformFeeTotal + desiredProfit) / spots;
-
-        // Calculate total revenue
-        const totalRevenue = spotPrice * spots;
-
-        // Calculate the estimated profit
-        const estimatedProfit =
-          totalRevenue - cogs - totalShipping - platformFeeTotal;
-
-        // Format currency values
-        const formatter = new Intl.NumberFormat("en-US", {
-          style: "currency",
-          currency: "USD",
-        });
-
-        // Display the results
-        document.getElementById("spotPrice").value =
-          formatter.format(spotPrice);
-        document.getElementById("totalRevenue").value =
-          formatter.format(totalRevenue);
-        document.getElementById("estimatedProfit").value =
-          formatter.format(estimatedProfit);
       }
     </script>
   </body>
