@@ -451,8 +451,3 @@ async function main(topic) {
   await runConversation(topic);
   console.log("\n=== Conversation Complete ===\n");
 }
-
-// Run the conversation
-main(
-  "generate most amount of money on fanduel and draftkings consistently"
-).catch(console.error);

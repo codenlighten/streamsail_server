@@ -112,7 +112,57 @@ app.post("/api/logout", (req, res) => {
     res.json({ success: true });
   });
 });
+app.get("/dashboard", (req, res) => {
+  res.sendFile(path.join(__dirname, "dashboard.html"));
+});
+app.get("/games/mystery-pullbox", (req, res) => {
+  res.sendFile(path.join(__dirname, "games", "mystery-pullbox.html"));
+});
 
+app.get("/games/randomizer-wheel", (req, res) => {
+  res.sendFile(path.join(__dirname, "games", "randomizer-wheel.html"));
+});
+
+app.get("/games/sports-showdown", (req, res) => {
+  res.sendFile(path.join(__dirname, "games", "sports-showdown.html"));
+});
+
+app.get("/games/gpk-showdown", (req, res) => {
+  res.sendFile(path.join(__dirname, "games", "gpk-showdown.html"));
+});
+
+app.get("/games/emoji-racer", (req, res) => {
+  res.sendFile(path.join(__dirname, "games", "emoji-racer.html"));
+});
+
+// Tool routes
+app.get("/tools/leaderboard", (req, res) => {
+  res.sendFile(path.join(__dirname, "tools", "leaderboard.html"));
+});
+
+app.get("/tools/break-calculator", (req, res) => {
+  res.sendFile(path.join(__dirname, "tools", "break-calculator.html"));
+});
+
+app.get("/tools/talk-flare", (req, res) => {
+  res.sendFile(path.join(__dirname, "tools", "talk-flare.html"));
+});
+
+app.get("/tools/auto-host", (req, res) => {
+  res.sendFile(path.join(__dirname, "tools", "auto-host.html"));
+});
+
+app.get("/tools/countdown", (req, res) => {
+  res.sendFile(path.join(__dirname, "tools", "countdown.html"));
+});
+
+app.get("/tools/animation", (req, res) => {
+  res.sendFile(path.join(__dirname, "tools", "animation.html"));
+});
+
+app.get("/tools/qr-codes", (req, res) => {
+  res.sendFile(path.join(__dirname, "tools", "qr-codes.html"));
+});
 // Protected routes
 app.get("/dashboard", requireAuth, (req, res) => {
   res.sendFile(path.join(__dirname, "public", "dashboard.html"));
