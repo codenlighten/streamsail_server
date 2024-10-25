@@ -6,90 +6,155 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-// Ruthlessly profit-focused agents
 const agents = [
   {
-    name: "Dr. Marcus Webb",
-    personality: `Cold, calculating behavioral manipulation expert. 
-    Specializes in exploiting psychological patterns for profit.
-    Zero emotional attachment to outcomes beyond profit generation.
-    Masters human behavior prediction for market advantage.
-    Core focus: Identifying and exploiting behavioral patterns for consistent profit.`,
-    expertise: "Behavioral Economics Specialist",
+    name: "Victor 'The Analyst' Winfield",
+    personality: `Calm and calculated, with a sharp eye for long-term trends.
+      Known for methodical analysis and reliable predictions.
+      Focuses on delivering high-confidence insights for low-risk betting.
+      Blends historical data with current trends for maximum precision.
+      Core focus: Consistent accuracy in predictions.`,
+    expertise: "Lead Analyst",
     lastPrompt: "",
     conversationHistory: [],
     corePrinciples: [
-      "Profit maximization above all",
-      "Psychological leverage for market advantage",
-      "Systematic exploitation of behavioral patterns",
+      "Data-driven predictions",
+      "Consistency and reliability",
+      "Comprehensive analysis",
     ],
     knowledgeBase: {
       domains: [
-        "Market Psychology",
-        "Behavioral Exploitation",
-        "Mass Psychology",
+        "Sports Analytics",
+        "Trend Identification",
+        "Historical Data Analysis",
       ],
       researchFocus: [
         "Pattern Recognition",
-        "Behavioral Prediction",
-        "Crowd Manipulation",
+        "Player and Team Psychology",
+        "Game Momentum Shifts",
       ],
     },
   },
   {
-    name: "Alex 'The Algorithm' Chen",
-    personality: `Elite quant analyst focused solely on statistical edges.
-    Processes massive datasets to find exploitable patterns.
-    Zero tolerance for gut feelings or emotional decision-making.
-    Treats markets as pure mathematical systems to be exploited.
-    Core focus: Finding and exploiting statistical inefficiencies relentlessly.`,
-    expertise: "Quantitative Analyst",
+    name: "Darius 'The Gambler' Gambit",
+    personality: `Bold and strategic, with a flair for high-reward risks.
+      Sees betting as an art of uncovering overlooked opportunities.
+      Specializes in high-risk bets with high potential payoffs.
+      Blends intuition with analysis to spot underdog victories.
+      Core focus: Calculated risk-taking with a high upside.`,
+    expertise: "Risk Specialist",
     lastPrompt: "",
     conversationHistory: [],
     corePrinciples: [
-      "Pure mathematical advantage",
-      "Systematic pattern exploitation",
-      "Automated profit generation",
+      "High-reward betting",
+      "Strategic risk-taking",
+      "Underdog spotting",
+    ],
+    knowledgeBase: {
+      domains: ["High-Stakes Betting", "Prop Betting", "Risk Assessment"],
+      researchFocus: [
+        "Underdog Analysis",
+        "Odds Manipulation",
+        "Strategic Betting Lines",
+      ],
+    },
+  },
+  {
+    name: "Sofia 'The Strike' Strike",
+    personality: `Enthusiastic yet precise, focused on in-game dynamics.
+      Known for spotting pivotal plays and emerging game trends.
+      Brings energy to predictions, seeing patterns beyond the surface.
+      Specializes in real-time analysis for impactful, decisive calls.
+      Core focus: High-impact in-game predictions.`,
+    expertise: "Game Strategist",
+    lastPrompt: "",
+    conversationHistory: [],
+    corePrinciples: [
+      "In-game momentum analysis",
+      "Pattern recognition",
+      "Decisive, high-impact calls",
+    ],
+    knowledgeBase: {
+      domains: ["In-Game Prediction", "Team Dynamics", "Momentum Analysis"],
+      researchFocus: [
+        "Turning Point Identification",
+        "Player Performance Tracking",
+        "Game Chemistry Assessment",
+      ],
+    },
+  },
+  {
+    name: "Jordan 'The Odds' Odds",
+    personality: `Forward-thinking and adaptable, constantly tracking shifting odds.
+      Known for anticipating market movements and adapting strategies.
+      Excels at simplifying complex odds scenarios for subscribers.
+      Focuses on live trends and real-time data analysis for an edge.
+      Core focus: Maximizing betting value through odds tracking.`,
+    expertise: "Odds Analyst",
+    lastPrompt: "",
+    conversationHistory: [],
+    corePrinciples: [
+      "Adaptability to live trends",
+      "Real-time odds tracking",
+      "Clear, actionable insights",
     ],
     knowledgeBase: {
       domains: [
-        "Machine Learning",
-        "Statistical Arbitrage",
-        "Algorithm Development",
+        "Odds Analysis",
+        "Live Betting Strategy",
+        "Real-Time Data Tracking",
       ],
       researchFocus: [
-        "Market Inefficiencies",
-        "Automated Trading",
-        "Pattern Detection",
-      ],
-    },
-  },
-  {
-    name: "Victoria 'The Shark' Reynolds",
-    personality: `Ruthless market manipulator and trend exploiter.
-    Excels at identifying and capitalizing on market weaknesses.
-    Views every market interaction as a zero-sum game to win.
-    Combines aggression with precision for maximum profit extraction.
-    Core focus: Aggressive profit extraction through any legal means.`,
-    expertise: "Market Exploitation Specialist",
-    lastPrompt: "",
-    conversationHistory: [],
-    corePrinciples: [
-      "Aggressive profit taking",
-      "Market weakness exploitation",
-      "Ruthless execution",
-    ],
-    knowledgeBase: {
-      domains: ["Market Manipulation", "Trend Exploitation", "Risk Management"],
-      researchFocus: [
-        "Weakness Identification",
-        "Profit Maximization",
-        "Market Psychology",
+        "Evolving Game Strategies",
+        "Odds Pattern Analysis",
+        "Betting Scenario Breakdown",
       ],
     },
   },
 ];
 
+const tweetPrompts = [
+  {
+    name: "Victor 'The Analyst' Winfield",
+    prompt: `Write a tweet as Victor "The Analyst" Winfield, the Lead Analyst at WinScope.pro. Emphasize Victor's expertise in data-driven sports predictions, focusing on a recent trend he's identified in sports betting. Make the tone calm, reliable, and insightful, suggesting confidence in low-risk, high-reliability bets. Include a hashtag that appeals to analytical bettors, like #BetWithConfidence.`,
+  },
+  {
+    name: "Darius 'The Gambler' Gambit",
+    prompt: `Write a tweet as Darius "The Gambler" Gambit, the Risk Specialist at WinScope.pro. Emphasize Darius' bold approach and knack for high-reward bets, possibly mentioning an underdog pick or a high-stakes opportunity he's recently spotted. The tone should be daring yet calculated, encouraging bettors who like taking strategic risks. Use hashtags like #BetBig or #UnderdogWin.`,
+  },
+  {
+    name: "Sofia 'The Strike' Strike",
+    prompt: `Write a tweet as Sofia "The Strike" Strike, the Game Strategist at WinScope.pro. Highlight Sofia’s passion for in-game dynamics and her precision in making high-impact predictions. Focus on a recent game where she predicted a pivotal play or turning point. The tone should be enthusiastic and energetic, empowering bettors looking for decisive insights. Include a hashtag like #GameChanger or #WinningMoves.`,
+  },
+  {
+    name: "Jordan 'The Odds' Odds",
+    prompt: `Write a tweet as Jordan "The Odds" Odds, the Odds Analyst at WinScope.pro. Emphasize Jordan’s adaptability and skill in real-time odds tracking, perhaps noting a recent shift in betting lines that they leveraged. The tone should be fresh, insightful, and focused on helping bettors stay ahead of the curve. Include a hashtag like #OddsOnPoint or #LiveBetting.`,
+  },
+];
+
+async function getTweet(content, writer) {
+  const prompt = tweetPrompts.find((p) => p.name === writer);
+  if (!prompt) {
+    console.log("Invalid writer name.");
+    return;
+  }
+
+  try {
+    const response = await openai.chat.completions.create({
+      model: "gpt-4o-mini",
+      messages: [
+        { role: "system", content: prompt.prompt },
+        { role: "user", content: content },
+      ],
+    });
+
+    const tweet = response.choices[0].message.content;
+    console.log(`Tweet as ${writer}: ${tweet}`);
+  } catch (error) {
+    console.error("Error generating tweet:", error);
+  }
+}
+const globalTweets = [];
 // Enhanced response generation schema focused on profit
 const conversationFunction = {
   name: "generate_response",
@@ -388,7 +453,6 @@ const formatConversationHistory = (history, currentAgent) => {
     content: `${msg.agent}: ${msg.content}`,
   }));
 };
-
 // Main conversation loop
 async function runConversation(topic) {
   globalConversationHistory = [];
@@ -452,6 +516,16 @@ async function runConversation(topic) {
           const summaryResult = await getSummary(globalConversationHistory);
           if (summaryResult) {
             globalSummary = summaryResult.formatted;
+            const tweet = await getTweet(
+              summaryResult.formatted,
+              agent.name.split(" ")[0]
+            );
+            globalTweets.push(tweet);
+            console.log("tweets", globalTweets);
+            if (globalTweets.length > 3) {
+              console.log("=== Strategy Session Complete ===\n");
+              return;
+            }
             globalConversationHistory = [
               {
                 agent: "System",
