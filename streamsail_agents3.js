@@ -617,10 +617,10 @@ async function runConversation(topic, newPrompt) {
 }
 
 // Run the conversation on a chosen topic
-runConversation(
-  "Optimizing Live Streaming for Viewer Engagement",
-  streamSailPrompt
-);
+// runConversation(
+//   "Optimizing Live Streaming for Viewer Engagement",
+//   streamSailPrompt
+// );
 
 async function getLatestTweets() {
   const email = process.env.STREAMSAIL_EMAIL;

@@ -173,9 +173,13 @@ app.get("/api/ai/query", requireAuth, async (req, res) => {
   const response = await handleAi(`streamsailquery ${question}`);
   res.json({ response });
 });
-app.get("/api/ai/tweet", requireAuth, async (req, res) => {
-  const { tweet } = req.query;
-  const response = await handleAi(`tweet ${tweet}`);
+app.get("/api/ai/tweet", async (req, res) => {
+  let { tweet } = req.query;
+  if (!tweet) {
+    tweet =
+      "StreamSail Pro is the best platform for live streaming and interactive features. Check it out now!";
+  }
+  const response = await handleAi.tweet(`tweet ${tweet}`);
   res.json({ response });
 });
 app.get("/api/ai/email", requireAuth, async (req, res) => {

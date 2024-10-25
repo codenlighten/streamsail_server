@@ -63,7 +63,7 @@ const query = (question) => chatWithOpenAi(streamSailPrompt, question);
 const tweet = (tweet) =>
   chatWithOpenAi(
     "You are about to write a tweet about StreamSail Pro. The goal is to craft a tweet that engages the audience, drives traffic to the platform, and showcases the unique features of StreamSail Pro.",
-    `Write a tweet about StreamSail Pro: ${tweet}`
+    `Write a tweet about StreamSail Pro: ${tweet}. For more information, visit ${WEBSITE_URL}. #StreamSailPro. ${streamSailPrompt}`
   );
 
 const email = (email) =>

@@ -806,7 +806,7 @@ async function main() {
 }
 
 // Run the main function
-main();
+// main();
 const latestTweets = await streamSailManager.getLatestTweets();
 // Export for external use
 export {
