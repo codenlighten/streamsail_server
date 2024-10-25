@@ -11,6 +11,8 @@ import bcrypt from "bcrypt";
 import rateLimit from "express-rate-limit";
 import { latestTweets } from "./streamsail_agents.js";
 import { handleAi } from "./simpleAi.js";
+// jwt
+import jwt from "jsonwebtoken";
 dotenv.config();
 
 const app = express();
@@ -102,12 +104,16 @@ app.post("/api/login", authLimiter, async (req, res) => {
     req.session.email = user.email;
     req.session.hasSubscription = user.activeSubscription;
     console.log("User logged in:", user.email);
+    const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET, {
+      expiresIn: "12h",
+    });
     res.json({
       success: true,
       user: {
         email: user.email,
         hasSubscription: user.activeSubscription,
       },
+      token,
     });
   } catch (error) {
     console.error("Login error:", error);

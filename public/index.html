@@ -253,6 +253,7 @@
           if (response.ok) {
             // Successful login
             sessionStorage.setItem("email", email);
+            sessionStorage.setItem("token", data.token);
             window.location.href = "/dashboard";
           } else {
             // Show error message from response

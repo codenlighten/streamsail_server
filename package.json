@@ -42,6 +42,7 @@
     "pdf-lib": "^1.17.1",
     "pdfjs-dist": "^4.6.82",
     "socket.io": "^4.7.5",
+    "sssa": "^0.4.1",
     "sssa-js": "^0.0.1",
     "stripe": "^16.1.0",
     "swagger-jsdoc": "^6.2.8",
