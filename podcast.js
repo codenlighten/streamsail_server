@@ -299,7 +299,4 @@ const generateAudioChunks = async (chunks, voice) => {
   return audioFiles;
 };
 
-// Call to generate audio from the given PDF file
-// generateAudioFromPdf("documents/equity.pdf");
-generateAudio("fed", "fed.txt", "onyx");
 export default textToMp3;

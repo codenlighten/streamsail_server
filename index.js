@@ -10,6 +10,7 @@ import session from "express-session";
 import bcrypt from "bcrypt";
 import rateLimit from "express-rate-limit";
 import { latestTweets } from "./streamsail_agents.js";
+import { handleAi } from "./simpleAi.js";
 dotenv.config();
 
 const app = express();
@@ -158,6 +159,23 @@ app.get("/dashboard", requireAuth, (req, res) => {
 
 app.get("/profile", requireAuth, (req, res) => {
   res.sendFile(path.join(__dirname, "public", "profile.html"));
+});
+
+//simpleAi.js simple.query simple.tweet simple.email simple.conversation
+app.get("/api/ai/query", requireAuth, async (req, res) => {
+  const { question } = req.query;
+  const response = await handleAi(`streamsailquery ${question}`);
+  res.json({ response });
+});
+app.get("/api/ai/tweet", requireAuth, async (req, res) => {
+  const { tweet } = req.query;
+  const response = await handleAi(`tweet ${tweet}`);
+  res.json({ response });
+});
+app.get("/api/ai/email", requireAuth, async (req, res) => {
+  const { email } = req.query;
+  const response = await handleAi(`email ${email}`);
+  res.json({ response });
 });
 
 app.get("/api/user", requireAuth, (req, res) => {

@@ -475,6 +475,6 @@ async function main(topic) {
 }
 
 // Run with profit-focused topic
-main(
-  "maximizing profits through market inefficiencies and pattern exploitation"
-).catch(console.error);
+// main(
+//   "maximizing profits through market inefficiencies and pattern exploitation"
+// ).catch(console.error);
