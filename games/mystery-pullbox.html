@@ -591,6 +591,11 @@
         document.getElementById("number-of-spots").value = "50";
         document.getElementById("start-game").click();
       });
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "h") {
+          window.location.href = "dashboard.html";
+        }
+      });
     </script>
   </body>
 </html>

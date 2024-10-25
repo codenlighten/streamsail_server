@@ -175,6 +175,7 @@ app.get("/api/ai/query", requireAuth, async (req, res) => {
 });
 app.get("/api/ai/tweet", async (req, res) => {
   let { tweet } = req.query;
+
   if (!tweet) {
     tweet =
       "StreamSail Pro is the best platform for live streaming and interactive features. Check it out now!";

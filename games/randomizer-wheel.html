@@ -371,6 +371,11 @@
 
       // Initialize the wheel with 8 sections
       updateWheel(8);
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "h") {
+          window.location.href = "dashboard.html";
+        }
+      });
     </script>
   </body>
 </html>

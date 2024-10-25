@@ -52,64 +52,456 @@
     <!-- smartledger tools -->
     <script src="https://plugins.whatsonchain.com/api/plugin/main/168d796a870dec5cc241dacf140fdbbc2212c9e1ca83614e82914fc42c6d1052"></script>
   </head>
-  <style>
-    /* Global Styles */
+  <!-- <style>
     body {
-      font-family: "Arial", sans-serif;
-      background-color: #f1f3f6;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #0b2a44;
       margin: 0;
       padding: 0;
-      color: #333;
       display: flex;
-      flex-direction: column;
       justify-content: center;
       align-items: center;
-      min-height: 100vh;
+      height: 100vh;
+      background-image: radial-gradient(circle, #0bb28a, #004d61);
+      background-size: cover;
+      color: white;
+      overflow: hidden;
     }
 
-    /* Container for centering content */
     #game-container {
-      max-width: 1200px;
-      width: 90%;
-      background-color: #ffffff;
-      padding: 20px;
-      padding-top: 250px;
-      border-radius: 10px;
-      border: 1px solid #36464e;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      min-height: 100vh;
-      box-sizing: border-box;
-      position: relative;
+      width: 80%;
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.2);
+      border: 5px solid #0bb28a;
+      backdrop-filter: blur(10px);
+      animation: pulse 2s infinite alternate;
     }
 
-    /* Header styles */
-    h1,
-    h2 {
-      text-align: center;
-      color: #333;
-      margin-bottom: 10px;
+    @keyframes pulse {
+      0% {
+        box-shadow: 0 0 10px rgba(11, 178, 138, 0.7);
+      }
+      100% {
+        box-shadow: 0 0 20px rgba(11, 178, 138, 0.9);
+      }
     }
 
     h1 {
-      font-size: 2rem;
-      color: #57c1a5;
+      text-align: center;
+      font-size: 3rem;
+      color: #004d61;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-shadow: 0 0 10px #0bb28a, 0 0 20px #00d4ff;
     }
 
     h2 {
-      font-size: 1.5rem;
+      text-align: center;
+      font-size: 2rem;
+      color: #fff;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      text-shadow: 0 0 10px #fff, 0 0 20px #ff00ff;
     }
 
-    /* Card Container */
+    #player-list,
+    #game-area,
+    #game-status {
+      margin-top: 20px;
+    }
+
+    #cards {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .card {
+      width: 160px;
+      height: 220px;
+      background-color: #088a6f;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s, box-shadow 0.3s;
+      transform-style: preserve-3d;
+      cursor: pointer;
+    }
+
+    .card:hover {
+      transform: scale(1.1);
+      box-shadow: 0 12px 25px rgba(255, 255, 255, 0.8);
+    }
+
+    .card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
+    }
+
+    .card.flip .card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .card-front,
+    .card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 12px;
+    }
+
+    .card-back {
+      transform: rotateY(180deg);
+    }
+
+    button {
+      padding: 15px 25px;
+      font-size: 1.1rem;
+      color: #fff;
+      background-color: #0bb28a;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    button:hover {
+      background-color: #088a6f;
+      box-shadow: 0 8px 15px rgba(0, 255, 255, 0.5);
+    }
+
+    #positive-effect {
+      display: none;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 3rem;
+      font-weight: bold;
+      color: #ffdd57;
+      text-shadow: 0 0 15px #ffdd57, 0 0 25px #ff00ff;
+      animation: fadeInOut 2s ease-in-out;
+    }
+
+    #logo {
+      width: 120px;
+      height: 120px;
+      border-radius: 20px;
+      box-shadow: 0 0 20px #0bb28a;
+      margin-bottom: 20px;
+      animation: rotate 5s linear infinite;
+    }
+    #hash {
+      font-size: 1.2rem;
+      color: #ffdd57;
+      margin-top: 20px;
+    }
+
+    #revealedOrder {
+      font-size: 1.2rem;
+      color: #ffdd57;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+
+    /* audio */
+    #audioDiv {
+      display: none;
+    }
+    #verified {
+      word-break: break-all;
+      margin-top: 20px;
+    }
+
+    #game-status {
+      max-height: 200px;
+      overflow-y: auto;
+    }
+    @keyframes fadeInOut {
+      0% {
+        opacity: 0;
+        transform: scale(0.8) translate(-50%, -50%);
+      }
+      50% {
+        opacity: 1;
+        transform: scale(1.2) translate(-50%, -50%);
+      }
+      100% {
+        opacity: 0;
+        transform: scale(0.8) translate(-50%, -50%);
+      }
+    }
+
+    @keyframes rotate {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: #ffdd57;
+      animation: confetti-fall 3s linear;
+    }
+
+    @keyframes confetti-fall {
+      0% {
+        transform: translateY(-100vh) rotate(0deg);
+      }
+      100% {
+        transform: translateY(100vh) rotate(360deg);
+      }
+    }
+
+    @media (max-width: 768px) {
+      #game-container {
+        width: 95%;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+      }
+
+      h2 {
+        font-size: 1.8rem;
+      }
+
+      .card {
+        width: 120px;
+        height: 180px;
+      }
+      .card-inner {
+        width: 100%;
+        height: 100%;
+      }
+
+      .card-front,
+      .card-back {
+        width: 100%;
+      }
+
+      /*card img */
+      .card img {
+        width: 100%;
+        height: 100%;
+      }
+      button {
+        font-size: 1rem;
+      }
+    }
+  </style> -->
+
+  <style>
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f0f8f8;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    #game-container {
+      width: 60%;
+      background-color: #ffffff;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+      border-top: 10px solid #0bb28a;
+      border-bottom: 5px solid #0bb28a;
+    }
+
+    h1 {
+      text-align: center;
+      color: #0bb28a;
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+      font-size: 1.8rem;
+      margin-bottom: 15px;
+    }
+
+    #player-list,
+    #game-area,
+    #game-status {
+      margin-top: 20px;
+    }
+
+    #host-input {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    #host-input input {
+      padding: 10px;
+      font-size: 1rem;
+      border: 2px solid #0bb28a;
+      border-radius: 5px;
+      margin-right: 10px;
+      width: 250px;
+      outline: none;
+    }
+
+    #host-input input:focus {
+      border-color: #0bb28a;
+    }
+
+    #host-input button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      background-color: #0bb28a;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    #host-input button:hover {
+      background-color: #088a6f;
+    }
+
     #cards {
       display: flex;
       justify-content: center;
       gap: 15px;
       margin-top: 20px;
-      flex-wrap: wrap;
     }
 
+    button {
+      padding: 15px 25px;
+      font-size: 1.1rem;
+      color: #fff;
+      background-color: #0bb28a;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      /* 1/5 width of #cards */
+      width: calc(20% - 15px);
+    }
+
+    button:hover {
+      background-color: #088a6f;
+    }
+
+    button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    li {
+      padding: 10px 0;
+      font-size: 1.2rem;
+      color: #444;
+      border-bottom: 1px solid #eee;
+    }
+    #players {
+      max-height: 200px;
+      overflow-y: auto;
+      /* border: 1px solid #eee; */
+      padding: 10px;
+      /* border-radius: 5px; */
+    }
+    #players li {
+      color: #0bb28a;
+      font-weight: bold;
+      width: 80%;
+      font-size: 2.5rem;
+      margin: 0 auto;
+    }
+
+    #game-status ul {
+      max-height: 200px;
+      overflow-y: auto;
+      /* border: 1px solid #eee; */
+      padding: 10px;
+      /* border-radius: 5px; */
+    }
+
+    #game-status ul li {
+      color: #555;
+      font-size: 1.2rem;
+    }
+    #logo {
+      display: block;
+      margin: 0 auto;
+      width: 100px;
+      height: 100px;
+      border-radius: 12%;
+    }
+    #verified {
+      width: 80%;
+      margin: 0 auto;
+      word-break: break-all;
+      margin-top: 20px;
+    }
+    /* Existing CSS */
+
+    #positive-effect {
+      display: none;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 3rem;
+      font-weight: bold;
+      color: #0bb28a;
+      text-shadow: 0 0 10px #0bb28a, 0 0 20px #0bb28a;
+      animation: fadeInOut 2s ease-in-out;
+    }
+
+    #audioDiv {
+      display: none;
+    }
+    /* volume */
+    #volumeAdjust {
+      display: flex;
+      align-items: left;
+      margin-top: 20px;
+      margin-bottom: 12px;
+    }
+    @keyframes fadeInOut {
+      0% {
+        opacity: 0;
+        transform: scale(0.8) translate(-50%, -50%);
+      }
+      50% {
+        opacity: 1;
+        transform: scale(1.2) translate(-50%, -50%);
+      }
+      100% {
+        opacity: 0;
+        transform: scale(0.8) translate(-50%, -50%);
+      }
+    }
+    /* CSS for the flip animation */
     .card {
       perspective: 1000px; /* Creates 3D space for the card */
       width: 150px;
@@ -141,43 +533,176 @@
       transform: rotateY(180deg); /* Back starts flipped */
     }
 
-    /* Button Styles */
-    .button {
-      background-color: #36464e;
-      color: white;
-      border-radius: 5px;
-      padding: 10px 20px;
-      text-align: center;
-      font-size: 0.9rem;
-      font-weight: bold;
-      border: 2px solid white;
+    .card-front img {
+      border: 3px solid black;
+    }
+    /* keep to left */
+    #resetButton {
+      width: 100%;
+      max-width: 150px;
+      padding: 15px 25px;
+      font-size: 1.1rem;
+      color: #fff;
+      background-color: #0bb28a;
+      border: none;
+      border-radius: 8px;
       cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    .button:hover {
-      background-color: #57c1a5;
-    }
-
-    /* playerlist */
-    #players {
-      display: flex;
-      justify-content: left;
-      gap: 10px;
+      transition: background-color 0.3s;
       margin-top: 20px;
+    }
+
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: #ffdd57;
+      animation: confetti-fall 3s linear;
+      opacity: 0.9;
+    }
+    #status {
+      max-height: 200px;
+      overflow-y: auto;
+      padding: 10px;
+      width: 80%;
+      margin: 0 auto;
+    }
+    #status li {
+      color: #555;
       font-size: 1.2rem;
       font-weight: bold;
     }
 
-    /* Responsive card layout */
-    @media (max-width: 768px) {
-      #cards {
-        flex-wrap: wrap;
-        gap: 10px;
-      }
+    #walkAwayUI {
+      display: none;
+      margin-top: 20px;
+    }
 
-      .card {
-        width: calc(33.33% - 10px);
+    .walkBtns {
+      padding: 10px 20px;
+      font-size: 1rem;
+      background-color: #0bb28a;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      margin-top: 10px;
+    }
+
+    .walkBtns:hover {
+      background-color: #088a6f;
+    }
+    #orderHash {
+      font-size: 1.2rem;
+      color: #0bb28a;
+      margin-top: 30px;
+    }
+    #revealedOrder {
+      font-size: 1.2rem;
+      color: #0bb28a;
+      margin-top: 20px;
+    }
+
+    #spacer {
+      margin-bottom: 20px;
+    }
+
+    #finalCard {
+      width: 100%;
+      max-width: 300px;
+      margin: 0 auto;
+      border-radius: 12px;
+    }
+
+    #simulationResults {
+      /* bottom */
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background-color: #0bb28a;
+      color: white;
+      padding: 20px;
+    }
+    #simulationResults h2 {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+    }
+    #simulationResults input {
+      padding: 5px;
+      font-size: 1rem;
+      border: 2px solid #fff;
+      border-radius: 5px;
+      margin-right: 10px;
+      width: 50px;
+      outline: none;
+    }
+    #simulationResults button {
+      padding: 5px 10px;
+      font-size: 1rem;
+      background-color: #0bb28a;
+      color: white;
+      border: 2px solid #fff;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    #simulationResults button:hover {
+      background-color: #088a6f;
+    }
+
+    @keyframes confetti-fall {
+      0% {
+        transform: translateY(-100vh) rotate(0deg); /* Start from top */
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh) rotate(360deg); /* Fall down rotating */
+        opacity: 0;
+      }
+    }
+    #chasing {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 20px;
+    }
+    /* CARDS */
+    #cards {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      padding: 30px;
+    }
+    .chasing-lights {
+      background: linear-gradient(
+        270deg,
+        #ff0000,
+        #ff7f00,
+        #ffff00,
+        #00ff00,
+        #0000ff,
+        #4b0082,
+        #8b00ff,
+        #ff0000
+      );
+      background-size: 1800% 1800%;
+      animation: chasing 10s ease infinite;
+    }
+    /* keyframes */
+    @keyframes chasing {
+      0% {
+        background-position: 0% 50%;
+      }
+      100% {
+        background-position: 100% 50%;
+      }
+    }
+
+    /* media */
+    @media (max-width: 768px) {
+      #game-container {
+        width: 90%;
       }
 
       h1 {
@@ -188,9 +713,22 @@
         font-size: 1.5rem;
       }
 
-      .button {
+      #host-input input {
+        width: 200px;
+      }
+
+      button {
         padding: 10px 20px;
         font-size: 1rem;
+      }
+
+      #cards {
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      button {
+        width: calc(33.33% - 10px);
       }
     }
   </style>
@@ -207,113 +745,115 @@
         <div id="spacer2"></div>
         <h1 style="display: none" id="playerUp">Player Up:</h1>
         <!-- <h2>CHOOSE A CARD</h2> -->
-        <div id="cards">
-          <!-- Card 1 -->
-          <div class="card" onclick="revealCard(0)">
-            <div class="card-inner">
-              <div class="card-front">
-                <img
-                  id="card-0-front"
-                  src=""
-                  alt="Card 1"
-                  style="width: 100%; height: auto"
-                />
-              </div>
-              <div class="card-back">
-                <img
-                  id="card-0-back"
-                  src=""
-                  alt="Card 1"
-                  style="width: 100%; height: auto"
-                />
-              </div>
-            </div>
-          </div>
-
-          <!-- Card 2 -->
-          <div class="card" onclick="revealCard(1)">
-            <div class="card-inner">
-              <div class="card-front">
-                <img
-                  id="card-1-front"
-                  src=""
-                  alt="Card 2"
-                  style="width: 100%; height: auto"
-                />
-              </div>
-              <div class="card-back">
-                <img
-                  id="card-1-back"
-                  src=""
-                  alt="Card 2"
-                  style="width: 100%; height: auto"
-                />
+        <div id="chasing" class="chasing-lights">
+          <div id="cards">
+            <!-- Card 1 -->
+            <div class="card" onclick="revealCard(0)">
+              <div class="card-inner">
+                <div class="card-front">
+                  <img
+                    id="card-0-front"
+                    src=""
+                    alt="Card 1"
+                    style="width: 100%; height: auto"
+                  />
+                </div>
+                <div class="card-back">
+                  <img
+                    id="card-0-back"
+                    src=""
+                    alt="Card 1"
+                    style="width: 100%; height: auto"
+                  />
+                </div>
               </div>
             </div>
-          </div>
 
-          <!-- Card 3 -->
-          <div class="card" onclick="revealCard(2)">
-            <div class="card-inner">
-              <div class="card-front">
-                <img
-                  id="card-2-front"
-                  src=""
-                  alt="Card 3"
-                  style="width: 100%; height: auto"
-                />
-              </div>
-              <div class="card-back">
-                <img
-                  id="card-2-back"
-                  src=""
-                  alt="Card 3"
-                  style="width: 100%; height: auto"
-                />
+            <!-- Card 2 -->
+            <div class="card" onclick="revealCard(1)">
+              <div class="card-inner">
+                <div class="card-front">
+                  <img
+                    id="card-1-front"
+                    src=""
+                    alt="Card 2"
+                    style="width: 100%; height: auto"
+                  />
+                </div>
+                <div class="card-back">
+                  <img
+                    id="card-1-back"
+                    src=""
+                    alt="Card 2"
+                    style="width: 100%; height: auto"
+                  />
+                </div>
               </div>
             </div>
-          </div>
 
-          <!-- Card 4 -->
-          <div class="card" onclick="revealCard(3)">
-            <div class="card-inner">
-              <div class="card-front">
-                <img
-                  id="card-3-front"
-                  src=""
-                  alt="Card 4"
-                  style="width: 100%; height: auto"
-                />
-              </div>
-              <div class="card-back">
-                <img
-                  id="card-3-back"
-                  src=""
-                  alt="Card 4"
-                  style="width: 100%; height: auto"
-                />
+            <!-- Card 3 -->
+            <div class="card" onclick="revealCard(2)">
+              <div class="card-inner">
+                <div class="card-front">
+                  <img
+                    id="card-2-front"
+                    src=""
+                    alt="Card 3"
+                    style="width: 100%; height: auto"
+                  />
+                </div>
+                <div class="card-back">
+                  <img
+                    id="card-2-back"
+                    src=""
+                    alt="Card 3"
+                    style="width: 100%; height: auto"
+                  />
+                </div>
               </div>
             </div>
-          </div>
 
-          <!-- Card 5 -->
-          <div class="card" onclick="revealCard(4)">
-            <div class="card-inner">
-              <div class="card-front">
-                <img
-                  id="card-4-front"
-                  src=""
-                  alt="Card 5"
-                  style="width: 100%; height: auto"
-                />
+            <!-- Card 4 -->
+            <div class="card" onclick="revealCard(3)">
+              <div class="card-inner">
+                <div class="card-front">
+                  <img
+                    id="card-3-front"
+                    src=""
+                    alt="Card 4"
+                    style="width: 100%; height: auto"
+                  />
+                </div>
+                <div class="card-back">
+                  <img
+                    id="card-3-back"
+                    src=""
+                    alt="Card 4"
+                    style="width: 100%; height: auto"
+                  />
+                </div>
               </div>
-              <div class="card-back">
-                <img
-                  id="card-4-back"
-                  src=""
-                  alt="Card 5"
-                  style="width: 100%; height: auto"
-                />
+            </div>
+
+            <!-- Card 5 -->
+            <div class="card" onclick="revealCard(4)">
+              <div class="card-inner">
+                <div class="card-front">
+                  <img
+                    id="card-4-front"
+                    src=""
+                    alt="Card 5"
+                    style="width: 100%; height: auto"
+                  />
+                </div>
+                <div class="card-back">
+                  <img
+                    id="card-4-back"
+                    src=""
+                    alt="Card 5"
+                    style="width: 100%; height: auto"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -432,7 +972,147 @@
       <!--reset button -->
       <button id="resetButton" onclick="resetAll()">Reset</button>
     </div>
-
+    <!-- <div id="odds-control-panel">
+      <h2>Adjust Game Odds</h2>
+      <div class="level-controls">
+        <h3>Level 0</h3>
+        <label
+          >Advance Level: <span id="level0-advance-display">33%</span></label
+        >
+        <input
+          type="range"
+          id="level0-advance"
+          min="0"
+          max="100"
+          value="33"
+          step="1"
+          oninput="updateOdds('level0', 'advance')"
+        />
+        <label>Remain: <span id="level0-remain-display">33%</span></label>
+        <input
+          type="range"
+          id="level0-remain"
+          min="0"
+          max="100"
+          value="33"
+          step="1"
+          oninput="updateOdds('level0', 'remain')"
+        />
+        <label>Game Over: <span id="level0-gameover-display">33%</span></label>
+        <input
+          type="range"
+          id="level0-gameover"
+          min="0"
+          max="100"
+          value="33"
+          step="1"
+          oninput="updateOdds('level0', 'gameover')"
+        />
+      </div>
+      <div class="level-controls">
+        <h3>Level 1</h3>
+        <label
+          >Advance Level: <span id="level1-advance-display">25%</span></label
+        >
+        <input
+          type="range"
+          id="level1-advance"
+          min="0"
+          max="100"
+          value="25"
+          step="1"
+          oninput="updateOdds('level1', 'advance')"
+        />
+        <label>Remain: <span id="level1-remain-display">25%</span></label>
+        <input
+          type="range"
+          id="level1-remain"
+          min="0"
+          max="100"
+          value="25"
+          step="1"
+          oninput="updateOdds('level1', 'remain')"
+        />
+        <label>Go Back: <span id="level1-goback-display">25%</span></label>
+        <input
+          type="range"
+          id="level1-goback"
+          min="0"
+          max="100"
+          value="25"
+          step="1"
+          oninput="updateOdds('level1', 'goback')"
+        />
+        <label>Game Over: <span id="level1-gameover-display">25%</span></label>
+        <input
+          type="range"
+          id="level1-gameover"
+          min="0"
+          max="100"
+          value="25"
+          step="1"
+          oninput="updateOdds('level1', 'gameover')"
+        />
+      </div>
+      <div class="level-controls">
+        <h3>Level 2</h3>
+        <label
+          >Advance Level: <span id="level2-advance-display">33%</span></label
+        >
+        <input
+          type="range"
+          id="level2-advance"
+          min="0"
+          max="100"
+          value="33"
+          step="1"
+          oninput="updateOdds('level2', 'advance')"
+        />
+        <label>Remain: <span id="level2-remain-display">33%</span></label>
+        <input
+          type="range"
+          id="level2-remain"
+          min="0"
+          max="100"
+          value="33"
+          step="1"
+          oninput="updateOdds('level2', 'remain')"
+        />
+        <label>Go Back: <span id="level2-goback-display">33%</span></label>
+        <input
+          type="range"
+          id="level2-goback"
+          min="0"
+          max="100"
+          value="33"
+          step="1"
+          oninput="updateOdds('level2', 'goback')"
+        />
+      </div>
+      <div class="level-controls">
+        <h3>Level 3</h3>
+        <label>Win All Prizes: <span id="level3-win-display">50%</span></label>
+        <input
+          type="range"
+          id="level3-win"
+          min="0"
+          max="100"
+          value="50"
+          step="1"
+          oninput="updateOdds('level3', 'win')"
+        />
+        <label>Game Over: <span id="level3-gameover-display">50%</span></label>
+        <input
+          type="range"
+          id="level3-gameover"
+          min="0"
+          max="100"
+          value="50"
+          step="1"
+          oninput="updateOdds('level3', 'gameover')"
+        />
+      </div>
+    </div> -->
     <div id="simulationResults" class="standalone">
       <h2>Simulation Results</h2>
       <!-- number of plays to simulate -->
@@ -872,7 +1552,7 @@
           if (playerName) {
             players.push({ name: playerName, lives: 1, level: 0 });
             if (players.length === 1) {
-              // displayCurrentPlayer(playerName);
+              displayCurrentPlayer(playerName);
             }
             updatePlayerList();
             document.getElementById("player-name").value = "";
@@ -889,11 +1569,8 @@
           const heartEmoji = "❤️";
           const lives = heartEmoji.repeat(player.lives); // Show lives as hearts
           const levelEmoji = "🏆";
-          let level = "0";
-          level = levelEmoji.repeat(player.level); // Show level as trophies
-          playerItem.textContent = `Lives: ${lives} |  Level: ${
-            player.level == 0 ? "0" : level
-          }`;
+          const level = levelEmoji.repeat(player.level + 1); // Show level as trophies
+          playerItem.textContent = `${player.name} - Lives: ${lives} |  Level: ${level}`;
           playerList.appendChild(playerItem);
         });
         if (players.length > 0) {
@@ -903,8 +1580,8 @@
       // Function to display the current player up
       function displayCurrentPlayer(playerName) {
         const playerUp = document.getElementById("playerUp");
-        // playerUp.textContent = `Step into the Spotlight: ${playerName}`;
-        // playerUp.style.display = "block";
+        playerUp.textContent = `Step into the Spotlight: ${playerName}`;
+        playerUp.style.display = "block";
       }
 
       function updateStatus(message) {
@@ -1137,13 +1814,17 @@
           cardInner.appendChild(cardFront);
           cardInner.appendChild(cardBack);
           cardDiv.appendChild(cardInner);
-
           cardContainer.appendChild(cardDiv);
         });
       }
 
       function flipAllCards(chosenIndex) {
         const cards = document.querySelectorAll(".card");
+        // get all img in .card-front
+        const img = document.querySelectorAll(".card-front img");
+        img.forEach((img) => {
+          img.style.display = "none";
+        });
         cards.forEach((card, index) => {
           card.classList.add("flip"); // Apply flip to all cards
           if (index === chosenIndex) {
@@ -1376,6 +2057,11 @@
       }
 
       resetAll();
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "h") {
+          window.location.href = "dashboard.html";
+        }
+      });
     </script>
   </body>
 </html>
