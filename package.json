@@ -9,7 +9,8 @@
     "typescript": "^5.0.0"
   },
   "scripts": {
-    "start": "node index.js"
+    "start": "bun index.js",
+    "run": "bun index.js"
   },
   "engines": {
     "node": ">=20.12.2"
