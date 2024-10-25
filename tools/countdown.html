@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Echo X Live - Countdown Timer</title>
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        background-color: #f1f3f6;
+        margin: 0;
+        padding: 0;
+        color: white;
+      }
+
+      .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f1f3f6;
+        flex-direction: column;
+      }
+
+      .title {
+        font-size: 2.5rem;
+        font-weight: 900;
+        text-transform: uppercase;
+        margin-bottom: 15px;
+        color: black;
+      }
+      .title span {
+        color: #fff;
+      }
+
+      .subtitle {
+        font-size: 1.5rem;
+        font-style: italic;
+        margin-bottom: 25px;
+        font-weight: bold;
+      }
+
+      .description {
+        font-size: 1.2rem;
+        line-height: 1.5;
+        margin-bottom: 40px;
+        font-weight: bold;
+        text-align: center;
+        max-width: 600px;
+      }
+
+      .timer-box {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 5rem;
+        font-weight: bold;
+        padding: 20px;
+        border-radius: 10px;
+        background-color: white;
+        color: black;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .sayings-box {
+        margin-top: 20px;
+        font-size: 1.8rem;
+        font-weight: bold;
+        text-align: center;
+        color: yellow;
+      }
+
+      .controls {
+        margin-top: 20px;
+      }
+
+      .button {
+        background-color: #36464e;
+        color: white;
+        border-radius: 5px;
+        padding: 15px;
+        margin-right: 15px;
+        text-align: center;
+        text-decoration: none;
+        font-size: 16px;
+        font-weight: bold;
+        border: 2px solid #fff;
+        cursor: pointer;
+      }
+
+      .button:hover {
+        background-color: #2c3a41;
+      }
+
+      /* input for seconds */
+      input[type="number"] {
+        padding: 10px;
+        font-size: 1.2rem;
+        border-radius: 5px;
+        border: 2px solid white;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+
+      .wrapper {
+        text-align: center;
+      }
+
+      .standalone {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="wrapper">
+        <div class="title">COUNTDOWN <span>TIMER</span></div>
+        <div class="subtitle">"Get ready for the big moment!"</div>
+        <div class="description">
+          Click the START button to begin the countdown. The timer will start at
+          60 seconds and count down to zero. Each second will display a
+          different saying to keep you engaged. Get ready for the big moment!
+        </div>
+      </div>
+      <div class="timer-box" id="timer">00:00</div>
+      <div class="wrapper">
+        <div class="sayings-box" id="saying">Get ready, it's coming!</div>
+      </div>
+      <div class="controls">
+        <input
+          value="60"
+          type="number"
+          id="countdownNumber"
+          placeholder="Enter seconds"
+          class="standalone"
+        />
+        <button class="button" onclick="startTimer()">START</button>
+        <button class="button" onclick="resetTimer()">RESET</button>
+      </div>
+    </div>
+
+    <script>
+      let countdown;
+      let isRunning = false;
+      let wrapperOff = false;
+      const countdownNumber = document.getElementById("countdownNumber");
+      let secondsLeft = parseInt(countdownNumber.value) || 60;
+
+      const sayings = [
+        "The countdown begins now!",
+        "Don’t blink, things are heating up!",
+        "Hold tight! The next move is near!",
+        "Stay ready! It's almost here!",
+        "The clock is ticking! Get prepared!",
+        "Anticipation is building! Get set!",
+        "Just seconds left! Can you feel it?",
+        "Things are moving fast! Stay tuned!",
+        "The final moments are here! Stay alert!",
+        "Get ready for the big reveal!",
+      ];
+
+      function startTimer() {
+        if (isRunning) return;
+        isRunning = true;
+        secondsLeft = parseInt(countdownNumber.value) || 60;
+
+        countdown = setInterval(() => {
+          secondsLeft--;
+          displayTime(secondsLeft);
+          updateSaying(secondsLeft);
+
+          if (secondsLeft <= 0) {
+            clearInterval(countdown);
+            isRunning = false;
+          }
+        }, 1000);
+      }
+
+      function resetTimer() {
+        clearInterval(countdown);
+        secondsLeft = 60;
+        displayTime(secondsLeft);
+        isRunning = false;
+        document.getElementById("saying").textContent = sayings[0]; // Reset to initial saying
+      }
+
+      function displayTime(seconds) {
+        const minutes = Math.floor(seconds / 60);
+        const remainderSeconds = seconds % 60;
+        const display = `${minutes < 10 ? "0" : ""}${minutes}:${
+          remainderSeconds < 10 ? "0" : ""
+        }${remainderSeconds}`;
+        document.getElementById("timer").textContent = display;
+      }
+
+      function updateSaying(seconds) {
+        let index;
+        if (seconds >= 50) index = 0;
+        else if (seconds >= 40) index = 1;
+        else if (seconds >= 30) index = 2;
+        else if (seconds >= 25) index = 3;
+        else if (seconds >= 20) index = 4;
+        else if (seconds >= 15) index = 5;
+        else if (seconds >= 10) index = 6;
+        else if (seconds >= 5) index = 7;
+        else if (seconds >= 1) index = 8;
+        else index = 9;
+
+        document.getElementById("saying").textContent = sayings[index];
+      }
+
+      // Toggle standalone mode by hiding unnecessary elements
+      function toggleStandaloneMode() {
+        const elementsToHide = document.querySelectorAll(".wrapper");
+        wrapperOff = !wrapperOff;
+
+        elementsToHide.forEach((element) => {
+          element.style.display = wrapperOff ? "none" : "block";
+        });
+      }
+
+      document.body.onkeyup = function (e) {
+        if (e.keyCode === 32) startTimer(); // Start timer on spacebar
+        if (e.keyCode === 13) resetTimer(); // Reset timer on enter
+        if (e.keyCode === 83) toggleStandaloneMode(); // Toggle standalone mode on 'S'
+      };
+
+      displayTime(secondsLeft); // Initial display
+      // start stand alone mode
+      toggleStandaloneMode();
+    </script>
+  </body>
+</html>

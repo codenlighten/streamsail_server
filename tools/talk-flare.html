@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="TalkFlare - Room Interaction Assistant" />
+    <meta
+      name="description"
+      content="TalkFlare is your ultimate Room Interaction Assistant for live chats, audio responses, and dynamic interaction through the power of AI."
+    />
+    <meta
+      name="keywords"
+      content="TalkFlare, Room Interaction Assistant, AI, GPT, voice assistant, interactive chat, live streaming, audio chat, automation"
+    />
+    <meta name="author" content="Codenlighten" />
+    <meta name="robots" content="index, follow" />
+    <meta name="language" content="English" />
+    <meta name="revisit-after" content="7 days" />
+    <meta name="rating" content="General" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://yourwebsite.com" />
+    <meta
+      property="og:title"
+      content="TalkFlare - Room Interaction Assistant"
+    />
+    <meta
+      property="og:description"
+      content="Engage your audience with TalkFlare, the Room Interaction Assistant that adds voice, dynamic templates, and AI-driven conversations to your live streams."
+    />
+    <meta
+      property="og:image"
+      content="https://yourwebsite.com/images/mypage-thumbnail.jpg"
+    />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://yourwebsite.com" />
+    <meta
+      property="twitter:title"
+      content="TalkFlare - Room Interaction Assistant"
+    />
+    <meta
+      property="twitter:description"
+      content="Take your live stream engagement to the next level with TalkFlare, the ultimate Room Interaction Assistant featuring voice responses and AI interactions."
+    />
+    <meta property="twitter:image" content="https://yourwebsite.com/" />
+
+    <!-- Favicon and Web App Icons -->
+    <link
+      rel="icon"
+      type="image/png"
+      href="https://yourwebsite.com/favicon.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      href="https://yourwebsite.com/apple-icon.png"
+    />
+
+    <!-- Misc Meta -->
+    <meta name="theme-color" content="#0bb28a" />
+    <meta name="msapplication-TileColor" content="#0bb28a" />
+    <meta
+      name="msapplication-TileImage"
+      content="https://yourwebsite.com/ms-icon.png"
+    />
+    <meta name="application-name" content="TalkFlare" />
+
+    <title>TalkFlare - Room Interaction Assistant</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      /* Global Styles */
+      body {
+        font-family: "Arial", sans-serif;
+        background-color: #f1f3f6;
+        margin: 0;
+        padding: 0;
+        color: #333;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        position: relative; /* Ensure the body can position children correctly */
+      }
+
+      /* Container to center content */
+      .container {
+        width: 90%;
+        max-width: 800px;
+        padding: 20px;
+        box-sizing: border-box;
+        text-align: center;
+        background-color: #fff;
+        border-radius: 10px;
+        border: 2px solid black;
+        box-shadow: 0 0 10px rgba(87, 193, 165, 0.5);
+      }
+
+      /* User controls positioned at the bottom of the screen */
+      .user-controls {
+        position: fixed; /* Changed to fixed */
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%); /* Center horizontally */
+        width: auto; /* Set width to auto for better alignment */
+        display: flex;
+        justify-content: center;
+        gap: 10px; /* Add some space between buttons */
+      }
+
+      /* Primary Button Style */
+      .btn {
+        background-color: #36464e;
+        color: white;
+        border-radius: 5px;
+        padding: 10px 20px;
+        text-align: center;
+        font-size: 0.9rem;
+        font-weight: bold;
+        border: 2px solid white;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      .btn:hover {
+        background-color: #57c1a5;
+      }
+
+      /* Input Field Style */
+      input[type="text"],
+      input[type="password"],
+      textarea,
+      select {
+        width: 100%;
+        padding: 10px;
+        font-size: 0.9rem;
+        border-radius: 5px;
+        border: 2px solid white;
+        margin-bottom: 20px;
+      }
+
+      /* Card Design */
+      .card {
+        background-color: #fff;
+        box-shadow: 0 0 20px rgba(87, 193, 165, 0.7);
+        border-radius: 10px;
+        padding: 20px;
+      }
+
+      /* Consistent padding and margin for all sections */
+      section,
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      /* Ensure consistency for text and elements */
+      h1,
+      h2,
+      h3,
+      p {
+        margin: 0;
+        padding: 10px 0;
+        color: #333;
+      }
+    </style>
+  </head>
+  <body class="p-4">
+    <div class="container mx-auto">
+      <header class="text-center mb-12">
+        <h1 class="text-5xl font-bold mb-4">TalkFlare</h1>
+        <p id="roomtheme" class="text-xl text-gray-600 italic"></p>
+      </header>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="card p-6">
+          <h2 class="text-2xl font-semibold mb-6">Chat Interface</h2>
+          <div class="mb-6">
+            <label
+              for="template"
+              class="block text-sm font-medium text-gray-700 mb-2"
+              >Choose a template</label
+            >
+            <select id="template" class="w-full">
+              <option value="">Select a template</option>
+              <option value="general">General</option>
+              <option value="cardOfThrones">Card of Thrones</option>
+              <option value="championshipSeriesGameScript">
+                Championship Series Game Script
+              </option>
+              <option value="championshipPitches">Championship Pitches</option>
+            </select>
+          </div>
+          <div class="mb-6">
+            <label
+              for="userInput"
+              class="block text-sm font-medium text-gray-700 mb-2"
+              >Enter your message</label
+            >
+            <textarea
+              id="userInput"
+              rows="4"
+              placeholder="Type your message here..."
+            ></textarea>
+          </div>
+        </div>
+
+        <div class="card p-6">
+          <h2 class="text-2xl font-semibold mb-6">Response</h2>
+          <textarea id="transcription" rows="12" readonly></textarea>
+        </div>
+      </div>
+
+      <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="card p-6">
+          <h2 class="text-2xl font-semibold mb-6">Audio Settings</h2>
+          <div class="flex items-center mb-6">
+            <input
+              type="checkbox"
+              id="audioResponse"
+              class="mr-3 h-5 w-5 text-purple-600"
+            />
+            <label for="audioResponse" class="text-lg text-gray-700"
+              >Enable Audio Response</label
+            >
+          </div>
+          <div class="mb-6">
+            <label
+              for="speaker"
+              class="block text-sm font-medium text-gray-700 mb-2"
+              >Choose Speaker</label
+            >
+            <select id="speaker" class="w-full">
+              <option value="echo">Echo</option>
+              <option value="alloy">Alloy</option>
+              <option value="shimmer">Shimmer</option>
+            </select>
+          </div>
+          <div class="mb-6">
+            <label
+              for="audioSource"
+              class="block text-sm font-medium text-gray-700 mb-2"
+              >Choose Audio Source</label
+            >
+            <select id="audioSource" class="w-full">
+              <option value="gpt">GPT</option>
+              <option value="user">User</option>
+            </select>
+          </div>
+          <div class="mb-6">
+            <label
+              for="audioMp3"
+              class="block text-sm font-medium text-gray-700 mb-2"
+              >Choose Audio File</label
+            >
+            <select id="audioMp3" class="w-full">
+              <option value="">Select an audio file</option>
+            </select>
+          </div>
+          <audio id="mp3" class="w-full mt-4" controls></audio>
+        </div>
+
+        <div class="card p-6">
+          <h2 class="text-2xl font-semibold mb-6">Settings</h2>
+          <div class="mb-6">
+            <label
+              for="apiKey"
+              class="block text-sm font-medium text-gray-700 mb-2"
+              >OpenAI API Key</label
+            >
+            <input
+              type="password"
+              id="apiKey"
+              placeholder="Enter your OpenAI API key"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="user-controls">
+        <button id="sendMessage" class="btn">Send</button>
+        <button id="saveApiKey" class="btn">Save API Key</button>
+        <button id="saveRoomTheme" class="btn">Save Room Theme</button>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        let isFetching = false;
+        let memory = [];
+        let roomTheme = localStorage.getItem("roomTheme") || "";
+        let audioResponse = false;
+        let speaker = "echo";
+        let audioSource = "gpt";
+
+        // Speech templates
+        const speechTemplates = {
+          general: [
+            "Yo, what’s good, fam?! Welcome back to Echo X Live, your number one spot on Whatnot for non-stop excitement! We’re about to crack open packs, pull some heat, and make legends outta YOU tonight! Jerseys, cards, collectibles—every drop is 🔥! If you haven’t locked in your spot yet, swipe up, grab it NOW, and let’s get this party started! Hit that follow, ‘cause this stream is only going UP! Let’s GO! 🚀🔥🎉",
+
+            "What’s up, Echo X crew?! It’s time to turn up the heat right here, right now! We’re live on Whatnot, ready to bring you the biggest hits, the wildest breaks, and some INSANE pulls! This is where legends are made, and tonight could be YOUR night! Collectibles, cards, and exclusive surprises are just around the corner! Swipe up, grab your spot, and let’s make some history! Hit that follow button ‘cause we’re just gettin’ started! Let’s GO! 🎉💥🔥",
+
+            "Echo X Live family, what’s goin’ on?! The HYPE is real, and we’re coming at you with fire! Welcome to the stream that brings the action, the thrill, and those insane pack pulls! You already know we’ve got jerseys, cards, and EXCLUSIVE drops lined up, so if you want in, swipe up NOW and claim your spot! Every pack is an adventure, and tonight’s gonna be EPIC! Hit that follow button, ‘cause we’re here for the long haul! Let’s GO! 🚀🔥🎊",
+
+            "Yo, Echo X fam, are you READY?! We’re live, we’re hyped, and the packs are HOT tonight! You know the deal—this is where the magic happens, where legends are pulled, and champions are made! Jerseys, cards, collectibles—tonight’s lineup is STACKED! If you haven’t grabbed your spot, swipe up and get in the game! Smash that follow button, ‘cause Echo X Live is bringing the heat all night long! Let’s GO! 🎉🔥💪",
+
+            "Echo X squad, let’s TURN IT UP! Welcome to the stream where every pack is a potential game-changer, and every pull could be LEGENDARY! We’re live on Whatnot, rippin’ packs and hittin’ breaks like never before! The heat is on—jerseys, cards, collectibles—it’s ALL here, and it could be YOURS tonight! Don’t miss out—swipe up, grab a spot, and let’s make some magic happen! Hit that follow and buckle up, ‘cause we’re in for a wild ride! Let’s GO! 🚀💥🎉",
+
+            "Yo, Echo X family, what’s poppin’?! We’re live and ready to rock the house! You already know this is where the biggest pulls, the hottest breaks, and the craziest surprises happen! We’ve got jerseys, cards, and collectibles up for grabs—so if you haven’t grabbed your spot yet, now’s the time! Swipe up, lock it in, and get ready for the hype! Smash that follow button, because we’re just getting warmed up! Let’s GO! 🔥🎉🚀",
+
+            "Echo X fam, are you FEELING the energy?! We are live on Whatnot, and the stakes are HIGH tonight! Packs are ready to be ripped, heat’s about to drop, and YOU could be walking away with something legendary! From exclusive cards to rare jerseys, we’ve got it all, and it’s coming YOUR way! If you haven’t snagged a spot yet, swipe up NOW and get in on the action! Don’t forget to hit follow, ‘cause this stream is only going UP! Let’s GO! 🚀🔥🎊",
+
+            "What’s goin’ on, Echo X crew?! We’re live, we’re pumped, and we’ve got the BIGGEST pulls of the night ready to drop! This is the place where champions are made and legends are pulled! Jerseys, cards, and EPIC collectibles are just waiting to be claimed! Haven’t grabbed your spot yet? No worries—swipe up, lock it down, and join the hype! Smash that follow button ‘cause we’re not slowing down! Let’s GO! 🎉💥🔥",
+
+            "Echo X squad, let’s light it UP! We are live and ready to bring you non-stop action, fire pulls, and surprises around every corner! This is the stream where you go big or go home, and trust me—you don’t want to miss out! Cards, jerseys, collectibles—it’s all up for grabs! If you haven’t jumped in yet, swipe up, grab your spot, and let’s get to work! Hit that follow button and let’s make some magic happen tonight! Let’s GO! 🚀🔥🎉",
+
+            "Yo, Echo X fam, it’s go time! We’re live, and the packs are HOT! This is where legends get pulled, and YOU could be next! Jerseys, cards, and collectibles are just waiting to be claimed, and every pack could be a game-changer! Haven’t secured your spot? No problem—swipe up now, grab it, and join the action! Smash that follow button, ‘cause Echo X is live and bringing the heat all night long! Let’s GO! 🎉💥🔥",
+          ],
+
+          cardOfThrones: [
+            "Welcome to *Card of Thrones*, where only the bold make it to the top! Your journey starts at Training Camp, but can you survive the Regular Season and the Playoffs to claim the ultimate prize? That $250 signed Silverback Jersey is on the line, and it’s waiting for a true champion! Do you have what it takes to go all the way to the Championship Game, or will you play it safe and settle for a smaller prize? The stakes are high, and the thrill is REAL—let’s see who rises to the top! 🎉🔥👑",
+          ],
+        };
+
+        const championshipSeriesGameScript = {
+          openingShow: [
+            "Welcome, everyone, to the Championship Series Game! I’m [your name], and tonight you’ve got the chance to walk away with some amazing prizes, including our grand prize—a $250 Silverback Signed & Authenticated Jersey!",
+
+            "If you’re new here, let me tell you how it works. For just $25, you can buy a spot in the game and have the chance to win big as you move through each level—Training Camp, Regular Season, Playoffs, and the Championship Game. Each level has bigger and better prizes, but there’s a twist—you’ve got to decide whether to take the prize or risk it all for more!",
+          ],
+
+          gameRules: [
+            "Here’s how the game works. Once you’ve bought your spot, we’ll randomly select a player to start the game. You’ll begin at Training Camp, and your goal is to make it all the way to the Championship Game where you can win that signed Silverback Jersey!",
+
+            "Training Camp (Level 0): You start here and try to advance to the next level.",
+
+            "Regular Season (Level 1): Make it to Regular Season, and you can win a prize worth $10-$20—or you can risk it and push forward to the Playoffs.",
+
+            "Playoffs (Level 2): In the Playoffs, the stakes are higher—you can win $30-$50, but if you’re feeling lucky, you can risk it all for the Championship Game!",
+
+            "Championship Game (Level 3): This is it—the grand prize! Win the $250 Silverback Signed Jersey or risk everything for a chance to win every prize we’ve got!",
+          ],
+
+          excitementUrgency: [
+            "Let me tell you—this isn’t just any prize. That Championship Jersey is $250 worth of authenticated sports history, and it could be yours tonight! But the question is: do you play it safe and walk away with a smaller prize, or do you risk it all and go for the Championship?",
+
+            "Spots are limited, so grab yours now before they’re gone! Who’s ready to take on the challenge and walk away with the grand prize tonight?",
+          ],
+
+          inGameAnnouncements: [
+            "Alright, our next player is [name]! Let’s see if you’ve got what it takes to make it through the levels. We’re starting you off at Training Camp—will you advance to Regular Season?",
+
+            "Ooooh, this is where the game gets tricky! You’ve made it to the Playoffs—you’ve got a prize worth $30-$50 on the line. Do you take it, or are you risking it all to reach the Championship?",
+
+            "What do you all think? Should they take the Playoffs prize or go for the grand prize? Let me hear it in the chat—what’s the smart move here?",
+          ],
+
+          playerDecisions: [
+            "Playing it safe! [Player name] is walking away with the $30-$50 Playoffs prize. Smart move! But don’t worry—there’s always another chance to go for the Championship.",
+
+            "Whoa, [player name] is going for it! They’re risking everything to reach the Championship Game. Let’s see if they’ve got what it takes to win the $250 Jersey!",
+          ],
+
+          winLossHandling: [
+            "We’ve got a winner! [Player name] just walked away with the $250 Silverback Signed Jersey! Huge congrats! That’s what I’m talking about—going big pays off!",
+
+            "Tough break, but hey—that’s the name of the game! Don’t worry, you can jump back in for the next round and try again. There are plenty more prizes up for grabs.",
+          ],
+
+          closingShow: [
+            "That was an incredible round! Huge congrats to our winners—tonight’s been full of big plays and smart moves. If you didn’t win this time, don’t worry—we’ve got another Championship Series Game coming up soon.",
+
+            "Make sure to follow us so you don’t miss the next game—we’ll have even more prizes, more excitement, and another shot at the grand prize. Thanks to everyone who played tonight—you guys were amazing!",
+          ],
+        };
+
+        const championshipPitches = [
+          "Alright, everyone, this is your chance! For just $25, you can get in on the Championship Series Game and compete for some incredible prizes. We’re talking about a $250 Silverback Signed & Authenticated Jersey waiting for the winner! But here’s the twist—you’ve got to decide at each level whether to take your prize or risk it all for more. Spots are limited and they’re going fast, so grab yours now before someone else takes it. Don’t miss out on your shot to win big—jump in the game right now! 🎉🔥🏆",
+          "Alright, folks, listen up! For just $25, you could be walking away with some serious bragging rights—oh, and did I mention a $250 Silverback Signed & Authenticated Jersey? That’s right, you could win a piece of sports history while I sit here just trying to make sure my mic doesn’t cut out. But here’s where it gets interesting. At every level, you’ve got to make the big call—do you take the prize in hand and walk away like a champ, or do you throw caution to the wind and risk it all for the big one? Don’t worry, we won’t judge… much. Spots are limited, so grab yours now before someone else snatches it up! Jump in, grab your spot, and let’s see who’s brave enough to go all the way. Because hey, if you’re not risking it, are you even living? 🎤🔥🏅",
+          "Okay, folks, let’s cut to the chase—you could spend $25 on a boring dinner you’ll forget about tomorrow, OR you could drop it here and get a shot at walking away with a $250 Silverback Signed & Authenticated Jersey. And let’s be real—this jersey is going to look way better hanging in your house than that weird painting your aunt gave you. Not only can you win that sweet, sweet jersey, but along the way, you’ll have a chance at smaller prizes—$10, $20, $50. It’s like a buffet of prizes, but without that post-buffet regret. Here’s the catch—you’ve got to decide: do you take the prize in hand, or do you go full-on adrenaline junkie and risk it all for the big win? YOLO, right? Spots are limited—and when I say limited, I mean faster than your last relationship limited. So jump in, grab your spot, and let’s see if you’ve got the guts to go all the way. Because, honestly, who needs a safety net when you’ve got a chance to be a LEGEND?! 🎉🔥💪",
+          "Hey everyone, if you’ve been on Whatnot for a while, you know there’s nothing like this Championship Series Game out there! This isn’t your typical break or auction—it’s an adrenaline-pumping, multi-level game where every decision you make could take you closer to the ultimate prize. Here’s how it’s different: You start at Training Camp and as you level up, you’re faced with choices at every step—do you take the guaranteed prize or risk it all to get to the Championship? And if you make it there, you’re looking at a $250 Silverback Signed & Authenticated Jersey! You won’t find that kind of action anywhere else on Whatnot. Most shows you see are either quick hits or team breaks, but here, every move is up to YOU. This is what makes it unique—you’re in control, you decide how far you want to go, and there’s no other game where you can walk away with such incredible prizes for just $25. So if you want something that’s not like anything else out there, now’s the time to jump in, secure your spot, and play for that grand prize. Let’s show everyone what makes this game so special! 🚀🔥🏆",
+          "Alright, folks, let me tell you something—you’ve seen a lot of breaks, auctions, and raffles on Whatnot, but this Championship Series Game? This is next-level. This isn’t just your typical show where you buy a spot, sit back, and hope you win something. No, no—this is all about you making the big plays. Here’s how it works—you buy a spot for just $25, and you’re in the game. Each level you pass, you’ve got a decision to make: do you lock in the prize and play it safe, or do you take the risk and go for more? And let me tell you, that risk is worth it, because we’re talking about a chance to win a $250 Silverback Signed & Authenticated Jersey. How often do you get to control your own destiny in a game like this? And let me be straight with you—you’re not going to find this kind of game anywhere else on Whatnot. Other shows are about luck, but this one? It’s about guts. It’s about making the moves and going all the way. That’s why this is the game everyone’s talking about. So if you want in, now’s the time to grab your spot. Spots are flying fast, and once they’re gone, they’re gone. Don’t be the one watching from the sidelines while someone else takes that grand prize home. Get in the game now, and let’s see if you’ve got what it takes! 🎉🔥🏅",
+          "Alright, folks, I know things are moving a little slow, but let me tell you—this is the calm before the storm! We’re about to heat things up with the Championship Series Game, and trust me, you don’t want to be sitting on the sidelines when it happens! For just $25, you’re stepping into a game where every decision could lead you to a $250 Silverback Signed & Authenticated Jersey. This is a one-of-a-kind shot, and the stakes? They’re REAL. I get it—sometimes we hesitate, but here’s the deal: the spots are still open, and that means YOUR chance to get in and take control of the game is still alive! Think about it—right now, you have the chance to lock in a spot and maybe even fly under the radar to snag that prize. This isn’t just another break or raffle. This is the game where YOU make the choices. You’ve got the power to walk away with a prize or go big for the Championship. So don’t let a slow start fool you—once these spots start moving, they’ll be gone before you know it. So here’s what you need to do—take advantage of this moment, grab your spot, and be ready to jump into the game when things kick off. Trust me, you don’t want to be the one who missed out when the prizes start rolling in. Let’s make it happen!",
+        ];
+
+        const listAllTemplates = () => {
+          const allTemplates = [
+            ...speechTemplates.general,
+            ...speechTemplates.cardOfThrones,
+            ...championshipSeriesGameScript.openingShow,
+            ...championshipPitches,
+          ];
+          console.log(allTemplates);
+          return allTemplates;
+        };
+        listAllTemplates();
+
+        // Check if audio response is enabled
+        document
+          .getElementById("audioResponse")
+          .addEventListener("change", () => {
+            audioResponse = !audioResponse;
+          });
+
+        // Check whether GPT or user text should be played
+        document
+          .getElementById("audioSource")
+          .addEventListener("change", () => {
+            audioSource = document.getElementById("audioSource").value;
+          });
+
+        document.getElementById(
+          "roomtheme"
+        ).textContent = `Room Theme: ${roomTheme}`;
+
+        document.getElementById("saveApiKey").addEventListener("click", () => {
+          const apiKeyInput = document.getElementById("apiKey").value;
+          if (!apiKeyInput) {
+            alert("Please enter an API key.");
+            return;
+          }
+          localStorage.setItem("apiKey", apiKeyInput);
+          alert("API key saved successfully.");
+        });
+
+        document
+          .getElementById("saveRoomTheme")
+          .addEventListener("click", () => {
+            const roomThemeInput = document.getElementById("roomTheme").value;
+            if (!roomThemeInput) {
+              alert("Please enter a room theme.");
+              return;
+            }
+            roomTheme = roomThemeInput;
+            document.getElementById(
+              "roomtheme"
+            ).textContent = `Room Theme: ${roomTheme}`;
+            localStorage.setItem("roomTheme", roomTheme);
+            alert("Room theme saved successfully.");
+          });
+
+        document.getElementById("template").addEventListener("change", () => {
+          const template = document.getElementById("template").value;
+
+          let speechTemplate = null;
+
+          // Check which template category is selected
+          if (template === "general") {
+            speechTemplate = speechTemplates.general;
+          } else if (template === "cardOfThrones") {
+            speechTemplate = speechTemplates.cardOfThrones;
+          } else if (template === "championshipSeriesGameScript") {
+            // Example, you could randomize or specify sub-category
+            speechTemplate = championshipSeriesGameScript.openingShow;
+          } else if (template === "championshipPitches") {
+            speechTemplate = championshipPitches;
+          }
+
+          if (speechTemplate) {
+            const randomIndex = Math.floor(
+              Math.random() * speechTemplate.length
+            );
+            document.getElementById("userInput").value =
+              speechTemplate[randomIndex];
+          } else {
+            document.getElementById("userInput").value = "";
+          }
+        });
+
+        document.getElementById("template").value = "";
+        document
+          .getElementById("sendMessage")
+          .addEventListener("click", async () => {
+            const userInput = document.getElementById("userInput").value;
+            const audioResponseCheck =
+              document.getElementById("audioResponse").checked;
+            if (!userInput) {
+              alert("Please enter a message.");
+              return;
+            }
+            const source = document.getElementById("audioSource").value;
+            if (source === "user") {
+              getAudio(userInput);
+              document.getElementById("userInput").value = ""; // Clear input after sending
+              return;
+            }
+            const textResponse = await sendTextToGPT(userInput);
+            if (audioResponseCheck) getAudio(textResponse);
+            document.getElementById("userInput").value = ""; // Clear input after sending
+          });
+
+        async function getAudio(text) {
+          try {
+            const speaker = document.getElementById("speaker").value;
+            const response = await fetch(
+              "https://api.openai.com/v1/audio/speech",
+              {
+                method: "POST",
+                headers: {
+                  Authorization: `Bearer ${localStorage.getItem("apiKey")}`,
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  model: "tts-1",
+                  input: text,
+                  voice: speaker,
+                }),
+              }
+            );
+
+            if (!response.ok)
+              throw new Error(`HTTP error! status: ${response.status}`);
+
+            const blob = await response.blob();
+            const audio = document.getElementById("mp3");
+            audio.src = URL.createObjectURL(blob);
+            audio.play();
+          } catch (error) {
+            console.error("Error generating speech:", error);
+          }
+        }
+
+        async function sendTextToGPT(userMessage) {
+          try {
+            isFetching = true;
+            const response = await fetch(
+              "https://api.openai.com/v1/chat/completions",
+              {
+                method: "POST",
+                headers: {
+                  Authorization: `Bearer ${localStorage.getItem("apiKey")}`,
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  model: "gpt-4o-mini",
+                  messages: [
+                    {
+                      role: "system",
+                      content: `You are a part of the ${roomTheme} live chat room. Talk like you are from the ${roomTheme} community.`,
+                    },
+                    {
+                      role: "user",
+                      content: userMessage,
+                    },
+                  ],
+                }),
+              }
+            );
+
+            if (!response.ok)
+              throw new Error(`HTTP error! status: ${response.status}`);
+
+            const result = await response.json();
+            const gptResponse = result.choices[0].message.content;
+            document.getElementById(
+              "transcription"
+            ).value += `\nUser: ${userMessage}\nGPT: ${gptResponse}\n`;
+            memory.push(userMessage, gptResponse);
+            if (memory.length > 10) memory.splice(0, memory.length - 10);
+            return gptResponse;
+          } catch (error) {
+            console.error("Error sending text to GPT:", error);
+            alert("There was a problem with the GPT API request.");
+          } finally {
+            isFetching = false;
+          }
+        }
+
+        // Audio sources
+        const audioMp3 = document.getElementById("audioMp3");
+        const mp3 = document.getElementById("mp3");
+
+        const generalAudio = [
+          "./general_audio/general1.mp3",
+          "./general_audio/general2.mp3",
+          "./general_audio/general3.mp3",
+          "./general_audio/general4.mp3",
+          "./general_audio/general5.mp3",
+          "./general_audio/general6.mp3",
+          "./general_audio/general7.mp3",
+          "./general_audio/general8.mp3",
+          "./general_audio/general9.mp3",
+          "./general_audio/general9a.mp3",
+          "./general_audio/general9b.mp3",
+          "./general_audio/general9c.mp3",
+          "./general_audio/general9d.mp3",
+          "./general_audio/general9e.mp3",
+          "./general_audio/general9f.mp3",
+          "./general_audio/general9g.mp3",
+          "./general_audio/general9h.mp3",
+        ];
+        const thrones = [
+          "./thrones_audio/thrones1.mp3",
+          "./thrones_audio/thrones2.mp3",
+          "./thrones_audio/thrones3.mp3",
+          "./thrones_audio/thrones4.mp3",
+          "./thrones_audio/thrones5.mp3",
+          "./thrones_audio/thrones6.mp3",
+        ];
+        const champions = [
+          "./championship_audio/champion1.mp3",
+          "./championship_audio/champion2.mp3",
+          "./championship_audio/champion3.mp3",
+          "./championship_audio/champion4.mp3",
+          "./championship_audio/champion5.mp3",
+          "./championship_audio/champion6.mp3",
+          "./championship_audio/champion-slow.mp3",
+        ];
+        const purchase = [
+          "./purchase_spot_audio/purchase1.mp3",
+          "./purchase_spot_audio/purchase2.mp3",
+          "./purchase_spot_audio/purchase3.mp3",
+          "./purchase_spot_audio/purchase4.mp3",
+          "./purchase_spot_audio/purchase5.mp3",
+        ];
+        const winner = [
+          "./winner_audio/winner1.mp3",
+          "./winner_audio/winner2.mp3",
+          "./winner_audio/winner3.mp3",
+          "./winner_audio/winner4.mp3",
+          "./winner_audio/winner5.mp3",
+          "./winner_audio/winner6.mp3",
+        ];
+
+        const populateAudio = (audioArray, category) => {
+          audioArray.forEach((audio, index) => {
+            const option = document.createElement("option");
+            option.value = index;
+            option.textContent = `${category} ${index + 1}`;
+            audioMp3.appendChild(option);
+          });
+        };
+
+        populateAudio(generalAudio, "general");
+        populateAudio(thrones, "thrones");
+        populateAudio(champions, "champions");
+        populateAudio(purchase, "purchase");
+        populateAudio(winner, "winner");
+
+        audioMp3.addEventListener("change", () => {
+          const audioIndex = audioMp3.value;
+          mp3.src = generalAudio[audioIndex];
+          mp3.play();
+        });
+      })();
+    </script>
+  </body>
+</html>
