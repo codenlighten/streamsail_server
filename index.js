@@ -11,6 +11,7 @@ import bcrypt from "bcrypt";
 import rateLimit from "express-rate-limit";
 import { latestTweets } from "./streamsail_agents.js";
 import { handleAi } from "./simpleAi.js";
+import { generateBook } from "./book.js";
 // jwt
 import jwt from "jsonwebtoken";
 dotenv.config();

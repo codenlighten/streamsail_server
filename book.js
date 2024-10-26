@@ -288,7 +288,7 @@ class StructuredBookCreator {
       JSON.stringify(progress, null, 2)
     );
   }
-  async createBook(topic, theme, notifyEmail = null, style = "documentary") {
+  async createBook(topic, theme, style = "documentary", notifyEmail = null) {
     try {
       this.setStyle(style);
 
@@ -364,12 +364,12 @@ const main = () => {
 // }
 
 //test
-async function generateBook(topic, theme, email, style = "documentary") {
+async function generateBook(topic, theme, style = "documentary", email = null) {
   const bookCreator = new StructuredBookCreator();
   bookCreator.progress.on("status", (status) => console.log(status));
   bookCreator.progress.on("error", (error) => console.error(error));
 
-  const book = await bookCreator.createBook(topic, theme, email, style);
+  const book = await bookCreator.createBook(topic, theme, style, email);
   console.log("Book created:", book.title);
   return book;
 }
