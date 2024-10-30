@@ -1,25 +1,21 @@
 import OpenAI from "openai";
 import dotenv from "dotenv";
 import winston from "winston";
-import fs from "fs";
-import path from "path"; // For cross-platform path handling
-import os from "os"; // To resolve home directory
-import { sendMessage } from "./nodemail"; // Assuming this is defined elsewhere
-import axios from "axios"; // For web content fetching
+import fs from "fs/promises";
+import path from "path";
+import os from "os";
+import { sendMessage } from "./nodemail";
+import axios from "axios";
 
-// Initialize environment variables
 dotenv.config();
 
-// Constants
-const OPENAI_MODEL = process.env.OPENAI_MODEL || "gpt-4o-mini";
-const sandboxDir = path.join(os.homedir(), "ai_thinktank_sandbox");
+const OPENAI_MODEL = process.env.OPENAI_MODEL || "gpt-4-turbo-preview";
+const SANDBOX_DIR = path.join(os.homedir(), "ai_thinktank_sandbox");
 
-// Initialize the OpenAI API client with API Key
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-// Logger setup
 const logger = winston.createLogger({
   level: "info",
   format: winston.format.combine(
@@ -32,16 +28,22 @@ const logger = winston.createLogger({
   ],
 });
 
-// Ensure sandbox directory exists
-if (!fs.existsSync(sandboxDir)) {
-  fs.mkdirSync(sandboxDir, { recursive: true });
-  logger.info(`Created sandbox directory at ${sandboxDir}`);
+async function initializeSandbox() {
+  try {
+    await fs.mkdir(SANDBOX_DIR, { recursive: true });
+    logger.info(`Initialized sandbox directory at ${SANDBOX_DIR}`);
+  } catch (error) {
+    logger.error(`Failed to initialize sandbox: ${error.message}`);
+    throw error;
+  }
 }
 
-// Fetch content from a web URL
 async function fetchFromWeb(url) {
   try {
-    const response = await axios.get(url);
+    const response = await axios.get(url, {
+      timeout: 5000,
+      validateStatus: (status) => status === 200,
+    });
     logger.info(`Fetched data from ${url}`);
     return response.data;
   } catch (error) {
@@ -50,11 +52,8 @@ async function fetchFromWeb(url) {
   }
 }
 
-// Get a list of function tasks from OpenAI
 async function getFunctionTaskList() {
   try {
-    const prompt = `You are an AI assistant tasked with planning the development of a software project. Provide a list of functions that need to be created. Each function should be responsible for one specific task in the main application. Return the list in JSON format as an array of objects with "fileName" and "taskDescription".`;
-
     const response = await openai.chat.completions.create({
       model: OPENAI_MODEL,
       messages: [
@@ -65,60 +64,59 @@ async function getFunctionTaskList() {
         },
         {
           role: "user",
-          content: prompt,
+          content: `Provide a list of functions that need to be created. Each function should be responsible for one specific task. Return as JSON array with "fileName" and "taskDescription".`,
         },
       ],
+      response_format: { type: "json_object" },
+      temperature: 0.7,
     });
 
     const content = response.choices[0]?.message?.content;
-    const functionTasks = JSON.parse(content);
+    if (!content) throw new Error("No content received from OpenAI");
 
-    logger.info(`Received function task list from OpenAI.`);
-    return functionTasks;
+    const functionTasks = JSON.parse(content);
+    logger.info("Received function task list from OpenAI");
+    return functionTasks.tasks || [];
   } catch (error) {
     logger.error(`Error getting function task list: ${error.message}`);
-    return [];
+    throw error;
   }
 }
 
-// Recursive function creation
-async function recursiveFunctionCreation(task) {
-  let currentTask = task;
-
-  while (currentTask) {
-    const functionDefinition = await createOpenAIFunctionDefinition(
-      currentTask.taskDescription
-    );
-
-    if (functionDefinition) {
-      logger.info(
-        `Generated function for task: ${currentTask.taskDescription}`
-      );
-
-      // Create the function file
-      createFile(`${currentTask.fileName}.js`, functionDefinition);
-    }
-
-    // Decide on the next task based on current files
-    currentTask = await thinkTankDecision();
+async function recursiveFunctionCreation(task, visitedTasks = new Set()) {
+  if (!task || visitedTasks.has(task.fileName)) {
+    return;
   }
-}
+  visitedTasks.add(task.fileName);
 
-// Decide the next task based on current files
-async function thinkTankDecision() {
   try {
-    // Read all files in the sandbox directory
-    const files = fs.readdirSync(sandboxDir);
-    let fileContents = "";
-
-    for (const file of files) {
-      if (file.endsWith(".js")) {
-        const content = readFile(file);
-        fileContents += `\nFile: ${file}\n${content}\n`;
+    const functionDefinition = await createOpenAIFunctionDefinition(
+      task.taskDescription
+    );
+    if (functionDefinition) {
+      await createFile(`${task.fileName}.js`, functionDefinition);
+      const nextTask = await thinkTankDecision(visitedTasks);
+      if (nextTask) {
+        await recursiveFunctionCreation(nextTask, visitedTasks);
       }
     }
+  } catch (error) {
+    logger.error(`Error in recursive function creation: ${error.message}`);
+    throw error;
+  }
+}
 
-    const prompt = `Given the current set of function files:\n${fileContents}\nDetermine if there are any additional functions needed to complete the project. If so, provide the next task with "fileName" and "taskDescription" in JSON format. If not, respond with "null".`;
+async function thinkTankDecision(visitedTasks) {
+  try {
+    const files = await fs.readdir(SANDBOX_DIR);
+    const fileContents = await Promise.all(
+      files
+        .filter((file) => file.endsWith(".js"))
+        .map(async (file) => {
+          const content = await readFile(file);
+          return `File: ${file}\n${content}\n`;
+        })
+    );
 
     const response = await openai.chat.completions.create({
       model: OPENAI_MODEL,
@@ -130,56 +128,54 @@ async function thinkTankDecision() {
         },
         {
           role: "user",
-          content: prompt,
+          content: `Given the current files:\n${fileContents.join(
+            "\n"
+          )}\nDetermine if additional functions are needed. If so, provide next task as JSON with "fileName" and "taskDescription". If not, respond with "null".`,
         },
       ],
+      response_format: { type: "json_object" },
+      temperature: 0.7,
     });
 
     const content = response.choices[0]?.message?.content;
-
-    if (content.trim().toLowerCase() === "null") {
+    if (!content || content.trim().toLowerCase() === "null") {
       return null;
     }
 
     const nextTask = JSON.parse(content);
-    return nextTask;
+    return nextTask.task;
   } catch (error) {
-    logger.error(`Error making decision: ${error.message}`);
-    return null;
+    logger.error(`Error in think tank decision: ${error.message}`);
+    throw error;
   }
 }
 
-// Create a file in the sandbox
-function createFile(filename, content) {
-  const fullPath = path.join(sandboxDir, filename);
+async function createFile(filename, content) {
+  const fullPath = path.join(SANDBOX_DIR, filename);
   try {
-    fs.writeFileSync(fullPath, content);
-    logger.info(`File ${fullPath} has been created.`);
-  } catch (err) {
-    logger.error(`Error creating file: ${err.message}`);
+    await fs.writeFile(fullPath, content);
+    logger.info(`Created file ${fullPath}`);
+  } catch (error) {
+    logger.error(`Error creating file: ${error.message}`);
+    throw error;
   }
 }
 
-// Read a file from the sandbox
-function readFile(filename) {
-  const fullPath = path.join(sandboxDir, filename);
+async function readFile(filename) {
+  const fullPath = path.join(SANDBOX_DIR, filename);
   try {
-    const content = fs.readFileSync(fullPath, "utf-8");
-    return content;
-  } catch (err) {
-    logger.error(`Error reading file: ${err.message}`);
-    return null;
+    return await fs.readFile(fullPath, "utf-8");
+  } catch (error) {
+    logger.error(`Error reading file: ${error.message}`);
+    throw error;
   }
 }
 
-// Generate an OpenAI function definition based on the task
 async function createOpenAIFunctionDefinition(
   taskDescription,
   additionalRequirements = ""
 ) {
   try {
-    const functionPrompt = `You are an AI tasked with creating a JavaScript function. Here is what the function needs to do: ${taskDescription}. The function should be written in camelCase, and it should accept parameters as an object. ${additionalRequirements} Provide the complete code including any necessary imports or exports.`;
-
     const response = await openai.chat.completions.create({
       model: OPENAI_MODEL,
       messages: [
@@ -190,13 +186,16 @@ async function createOpenAIFunctionDefinition(
         },
         {
           role: "user",
-          content: functionPrompt,
+          content: `Create a JavaScript function that: ${taskDescription}. Use camelCase, accept parameters as an object. ${additionalRequirements} Include necessary imports/exports.`,
         },
       ],
+      temperature: 0.7,
     });
 
     const functionDefinition = response.choices[0]?.message?.content;
-    logger.info(`Generated function definition for task: ${taskDescription}`);
+    if (!functionDefinition) throw new Error("No function definition received");
+
+    logger.info(`Generated function definition for: ${taskDescription}`);
     return functionDefinition;
   } catch (error) {
     logger.error(`Error generating function definition: ${error.message}`);
@@ -204,27 +203,37 @@ async function createOpenAIFunctionDefinition(
   }
 }
 
-// Run automated AI to build functions with access to the internet, the file system, and email
 async function runAI() {
   try {
-    // Step 1: Get the list of function tasks
+    await initializeSandbox();
     const functionTasks = await getFunctionTaskList();
 
-    // Step 2: Iterate over each task and create the function file
     for (const task of functionTasks) {
-      await recursiveFunctionCreation(task);
+      await recursiveFunctionCreation(task, new Set());
     }
 
-    // Optionally, send an email notification
-    sendMessage(
-      "codenlighten1@gmail.com",
-      "The AI has successfully built the functions."
+    await sendMessage(
+      process.env.NOTIFICATION_EMAIL || "codenlighten1@gmail.com",
+      "AI function building process completed successfully."
     );
+
+    logger.info("AI process completed successfully");
   } catch (error) {
     logger.error(`AI process failed: ${error.message}`);
-  } finally {
-    logger.info("AI process completed.");
+    throw error;
   }
 }
 
-// runAI();
+export {
+  runAI,
+  getFunctionTaskList,
+  createOpenAIFunctionDefinition,
+  fetchFromWeb,
+};
+
+if (require.main === module) {
+  runAI().catch((error) => {
+    logger.error("Fatal error:", error);
+    process.exit(1);
+  });
+}
