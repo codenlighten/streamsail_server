@@ -9,7 +9,6 @@ import { members, leaderboard, gamestate, tweets } from "./mongo.js";
 import session from "express-session";
 import bcrypt from "bcrypt";
 import rateLimit from "express-rate-limit";
-import { latestTweets } from "./streamsail_agents.js";
 import { handleAi } from "./simpleAi.js";
 // jwt
 import jwt from "jsonwebtoken";

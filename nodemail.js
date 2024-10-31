@@ -38,6 +38,7 @@ export const sendMessage = (
   subject = "SmartAlerts Notification",
   html = false
 ) => {
+  console.log("Sending email to: " + recipientEmail, message);
   const mailOptions = {
     from: "info@smartalerts.org",
     to: recipientEmail,
